@@ -1,0 +1,44 @@
+{
+  "collapse-filter": false,
+  "search": "",
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": false,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    {
+      "query": "tag:#SKILL  ",
+      "color": {
+        "a": 1,
+        "rgb": 8181340
+      }
+    },
+    {
+      "query": "tag:#wiki  ",
+      "color": {
+        "a": 1,
+        "rgb": 14069084
+      }
+    },
+    {
+      "query": "tag:#日志  ",
+      "color": {
+        "a": 1,
+        "rgb": 14048348
+      }
+    }
+  ],
+  "collapse-display": false,
+  "showArrow": true,
+  "textFadeMultiplier": -1.9,
+  "nodeSizeMultiplier": 2.26927083333333,
+  "lineSizeMultiplier": 2.0140625,
+  "collapse-forces": false,
+  "centerStrength": 0.526041666666667,
+  "repelStrength": 11.9791666666667,
+  "linkStrength": 0.515625,
+  "linkDistance": 267,
+  "scale": 0.32133638605035725,
+  "close": false
+}
