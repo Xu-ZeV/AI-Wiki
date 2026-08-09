@@ -10,13 +10,13 @@ tags:
 - 操作模型：GPT-5 Codex
 - 操作类型：Ingest, Iteration
 - 操作范围：
-  - [[wiki/litellm/index|LiteLLM 教学索引]]
-  - [[wiki/litellm/litellm-basic|LiteLLM 基础教学]]
-  - [[wiki/litellm/litellm-advanced|LiteLLM 进阶教学]]
-  - [[wiki/litellm/litellm-interview-questions|LiteLLM 面试问题]]
+  - [[wiki/skills/index|技能索引]]
+  - [[wiki/skills/litellm-basic|LiteLLM 基础教学]]
+  - [[wiki/skills/litellm-advanced|LiteLLM 进阶教学]]
+  - [[wiki/skills/litellm-interview-questions|LiteLLM 面试问题]]
   - [[wiki/index|Wiki 索引]]
-- 操作摘要：浏览 LiteLLM 官方文档后，新增基础、进阶、面试问题三份中文教学文档，并新增 LiteLLM 教学索引；同步更新顶层 Wiki 索引入口。
-- 检查目的：确认新增 LiteLLM 教学内容具有清晰学习层级、保留官方来源链接，并确保新增目录的 `index.md` 已同步维护。
+- 操作摘要：浏览 LiteLLM 官方文档后，新增基础、进阶、面试问题三份中文教学文档；后续已按 wiki-ingest / llm-wiki 规则迁入标准技能分类并同步更新顶层 Wiki 索引入口。
+- 检查目的：确认新增 LiteLLM 教学内容具有清晰学习层级、保留官方来源链接，并确保标准分类 `index.md` 已同步维护。
 - 下次迭代方向：后续可继续补充 LiteLLM Proxy 的生产部署示例、Docker Compose 配置、数据库持久化、团队预算演练和常见供应商配置模板。
 
 ## 2026-06-03 15:46:54 +08:00

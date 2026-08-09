@@ -4,22 +4,113 @@
     "type": "split",
     "children": [
       {
-        "id": "8ff4f20e5eb0a3c4",
+        "id": "67b24d45bc6c142d",
         "type": "tabs",
         "children": [
           {
-            "id": "3ad262aad538af3e",
+            "id": "43f95dd7e11ea3fc",
+            "type": "leaf",
+            "state": {
+              "type": "localgraph",
+              "state": {
+                "file": "wiki/SkillHub/index.md",
+                "options": {
+                  "collapse-filter": true,
+                  "search": "",
+                  "localJumps": 1,
+                  "localBacklinks": true,
+                  "localForelinks": true,
+                  "localInterlinks": false,
+                  "showTags": false,
+                  "showAttachments": false,
+                  "hideUnresolved": false,
+                  "collapse-color-groups": false,
+                  "colorGroups": [
+                    {
+                      "query": "tag:#SKILL",
+                      "color": {
+                        "a": 1,
+                        "rgb": 14048348
+                      }
+                    }
+                  ],
+                  "collapse-display": true,
+                  "showArrow": true,
+                  "textFadeMultiplier": 0,
+                  "nodeSizeMultiplier": 1,
+                  "lineSizeMultiplier": 1,
+                  "collapse-forces": false,
+                  "centerStrength": 0.518713248970312,
+                  "repelStrength": 10,
+                  "linkStrength": 1,
+                  "linkDistance": 250,
+                  "scale": 1.4019828977761006,
+                  "close": false
+                }
+              },
+              "icon": "lucide-git-fork",
+              "title": "index 的关系图"
+            }
+          },
+          {
+            "id": "15910319a3dc6564",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "wiki/litellm/litellm-ui.md",
+                "file": "wiki/SkillHub/index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "litellm-ui"
-            }
+              "title": "index"
+            },
+            "group": "7f45370059354e6d"
+          }
+        ],
+        "currentTab": 1
+      },
+      {
+        "id": "da138bbc0a6dd56b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fe7b5efe0ad74559",
+            "type": "leaf",
+            "state": {
+              "type": "localgraph",
+              "state": {
+                "file": "wiki/SkillHub/index.md",
+                "options": {
+                  "collapse-filter": false,
+                  "search": "",
+                  "localJumps": 1,
+                  "localBacklinks": true,
+                  "localForelinks": true,
+                  "localInterlinks": false,
+                  "showTags": false,
+                  "showAttachments": false,
+                  "hideUnresolved": false,
+                  "collapse-color-groups": true,
+                  "colorGroups": [],
+                  "collapse-display": true,
+                  "showArrow": false,
+                  "textFadeMultiplier": 0,
+                  "nodeSizeMultiplier": 1,
+                  "lineSizeMultiplier": 1,
+                  "collapse-forces": true,
+                  "centerStrength": 0.518713248970312,
+                  "repelStrength": 10,
+                  "linkStrength": 1,
+                  "linkDistance": 250,
+                  "scale": 1,
+                  "close": false
+                }
+              },
+              "icon": "lucide-git-fork",
+              "title": "index 的关系图"
+            },
+            "group": "7f45370059354e6d"
           }
         ]
       }
@@ -113,12 +204,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "wiki/SkillHub/index.md",
+                "file": "raw/interview/metalim-interview-prep.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "index 的出链列表"
+              "title": "metalim-interview-prep 的出链列表"
             }
           },
           {
@@ -184,43 +275,55 @@
       "bases:新建数据库": false
     }
   },
-  "active": "3ad262aad538af3e",
+  "active": "15910319a3dc6564",
   "lastOpenFiles": [
-    "wiki/litellm/index.md",
-    "wiki/index.md",
-    "wiki/litellm/litellm-basic.md",
-    "log/2026/06/03/1600-litellm-ui.md",
-    "wiki/litellm/litellm-ui.md",
-    "wiki/entities/index.md",
-    "wiki/entities/andrej-karpathy.md",
-    "wiki/SkillHub/index.md",
-    "wiki/litellm/litellm-advanced.md",
-    "wiki/references/karpathy-llm-wiki-gist.md",
-    "log/2026-05-26-1106-log-directory-convention.md",
-    "wiki/SkillHub/skills/wiki-ingest.md",
-    "wiki/SkillHub/categories/skill-dev.md",
-    "wiki/SkillHub/skills/skill-creator.md",
-    "log/2026-05-25-1539-skillhub-index-table.md",
-    "log/2026-05-26-0844-karpathy-wiki-docs.md",
-    "wiki/concepts/llm-wiki.md",
-    "wiki/SkillHub/categories/setup-automation.md",
+    "log/2026/06/07/1900-langchain-wiki.md",
+    "wiki/entities/langchain.md",
+    "wiki/concepts/langchain-agent-harness.md",
     "wiki/concepts/index.md",
-    "wiki/synthesis/karpathy-wiki-layering-for-ainote.md",
-    "wiki/synthesis/index.md",
-    "wiki/SkillHub/categories/retrieval-context.md",
-    "wiki/SkillHub/categories/maintenance-governance.md",
-    "wiki/references/index.md",
-    "wiki/SkillHub/categories/visualization-export.md",
-    "wiki/SkillHub/categories/content-ingest.md",
-    "wiki/synthesis",
-    "wiki/references",
-    "wiki/entities",
-    "wiki/concepts",
-    "raw/SkillHub/obsidian-wiki/skills/skill-creator/scripts/__init__.py",
-    "raw/SkillHub/obsidian-wiki/skills/skill-creator/scripts/utils.py",
-    "raw/SkillHub/obsidian-wiki/skills/skill-creator/scripts/run_loop.py",
-    "raw/SkillHub/obsidian-wiki/skills/skill-creator/scripts/quick_validate.py",
-    "raw/SkillHub/obsidian-wiki/skills/skill-creator/scripts/run_eval.py",
-    "raw/SkillHub/obsidian-wiki/skills/skill-creator/scripts/package_skill.py"
+    "wiki/index.md",
+    "wiki/references/langgraph-official-documentation.md",
+    "wiki/concepts/context-engineering.md",
+    "raw/interview/mysql-interview.md",
+    "raw/interview/metalim-interview-prep.md",
+    "AGENTS.md",
+    "wiki/concepts/agent-memory.md",
+    "raw/interview/agent-interview.md",
+    "raw/interview/rag-interview.md",
+    "raw/interview/redis-interview-common-questions.md",
+    "wiki/skills/index.md",
+    "未命名.canvas",
+    "wiki/SkillHub/index.md",
+    "raw/SkillHub/zh/vuejs-ai-skills/skills/vue-debug-guides/reference/sfc-scoped-css-dynamic-content.md",
+    "raw/SkillHub/zh/vuejs-ai-skills/skills/vue-debug-guides/reference/rendering-render-function-slots-as-functions.md",
+    "raw/SkillHub/zh/taste-skills/skills/minimalist-skill/SKILL.md",
+    "raw/SkillHub/zh/vuejs-ai-skills/AGENTS.md",
+    "raw/SkillHub/zh/vuejs-ai-skills/skills/vue-debug-guides/reference/watch-reactive-property-getter.md",
+    "raw/SkillHub/zh/obsidian-wiki/skills/memory-bridge/SKILL.md",
+    "raw/SkillHub/zh/obsidian-wiki/skills/openclaw-history-ingest/references/openclaw-data-format.md",
+    "raw/SkillHub/zh/vuejs-ai-skills/skills/vue-debug-guides/reference/transition-group-flip-inline-elements.md",
+    "raw/SkillHub/zh/vuejs-ai-skills/skills/vue-debug-guides/reference/ssr-platform-specific-apis.md",
+    "raw/SkillHub/zh/impeccable/reference/layout.md",
+    "raw/SkillHub/zh/vuejs-ai-skills/skills/vue-testing-best-practices/reference",
+    "raw/SkillHub/zh/vuejs-ai-skills/skills/vue-testing-best-practices",
+    "raw/SkillHub/zh/vuejs-ai-skills/skills/vue-router-best-practices/reference",
+    "raw/SkillHub/zh/vuejs-ai-skills/skills/vue-router-best-practices",
+    "raw/SkillHub/zh/vuejs-ai-skills/skills/vue-pinia-best-practices/reference",
+    "raw/SkillHub/zh/vuejs-ai-skills/skills/vue-pinia-best-practices",
+    "raw/SkillHub/zh/vuejs-ai-skills/skills/vue-options-api-best-practices/reference",
+    "raw/SkillHub/zh/vuejs-ai-skills/skills/vue-options-api-best-practices",
+    "raw/SkillHub/zh/vuejs-ai-skills/skills/vue-jsx-best-practices/reference",
+    "raw/SkillHub/zh/vuejs-ai-skills/skills/vue-jsx-best-practices",
+    "raw/SkillHub/zh/ui-ux-pro-max-skill/screenshots/website.png",
+    "raw/SkillHub/zh/taste-skills/examples/floria-full.webp",
+    "raw/SkillHub/zh/taste-skills/examples/floria-top.webp",
+    "raw/SkillHub/zh/taste-skills/examples/floria-bottom.webp",
+    "raw/SkillHub/zh/taste-skills/assets/taste-skill-logo.webp",
+    "raw/SkillHub/zh/taste-skills/assets/readme-banner.png",
+    "raw/SkillHub/ui-ux-pro-max-skill/screenshots/website.png",
+    "raw/SkillHub/taste-skills/examples/floria-top.webp",
+    "raw/SkillHub/taste-skills/examples/floria-full.webp",
+    "raw/SkillHub/taste-skills/examples/floria-bottom.webp",
+    "未命名 1.canvas"
   ]
 }

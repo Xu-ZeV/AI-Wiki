@@ -1,0 +1,41 @@
+---
+name: "Obsidian Wiki"
+activation: "always-on"
+---
+
+# Obsidian Wiki — 代理上下文
+
+该项目是一个用于构建和维护Obsidian知识库的**基于技能的框架**。
+
+## 快速定位
+
+1. 阅读 `.env` 来获取 `OBSIDIAN_VAULT_PATH` — 这是 wiki 所在的位置。
+2. 读取vault根目录处的 `.manifest.json` 以查看已摄取的内容。
+3.技能位于`.skills/`（也位于`.windsurf/skills/`）。每个子文件夹都有一个 `SKILL.md`。
+
+## 何时使用技能
+
+|用户说类似... |阅读此技能 |
+|---|---|
+| “设置我的维基”/“初始化”| `.skills/wiki-setup/SKILL.md` |
+| “摄取”/“将其添加到维基”| `.skills/wiki-ingest/SKILL.md` |
+| “/wiki-history-ingest 克劳德”/“/wiki-history-ingest 法典”/“/wiki-history-ingest pi”| `.skills/wiki-history-ingest/SKILL.md` |
+| “导入我的克劳德历史” | `.skills/claude-history-ingest/SKILL.md` |
+| “导入我的 Codex 历史记录”| `.skills/codex-history-ingest/SKILL.md` |
+| “导入我的 Pi 历史记录” | `.skills/pi-history-ingest/SKILL.md` |
+| “处理此导出”/“摄取此数据”| `.skills/data-ingest/SKILL.md` |
+| “状态是什么”/“显示增量”| `.skills/wiki-status/SKILL.md` |
+| “我对 X 了解多少”/任何问题 | `.skills/wiki-query/SKILL.md` |
+| “审核”/“lint”/“查找损坏的链接”| `.skills/wiki-lint/SKILL.md` |
+| “重建”/“重新开始”/“存档”| `.skills/wiki-rebuild/SKILL.md` |
+| “链接我的页面”/“交叉引用”| `.skills/cross-linker/SKILL.md` |
+| “修复我的标签”/“标准化标签”| `.skills/tag-taxonomy/SKILL.md` |
+| “创造一项新技能” | `.skills/skill-creator/SKILL.md` |
+
+## 关键规则
+
+- **编译，不检索。**更新现有页面，而不仅仅是追加。
+- **摄取后始终更新 `.manifest.json`**。
+- **任何操作后始终更新 `index.md` 和 `log.md`**。
+- **使用`[[wikilinks]]`**连接相关页面。
+- **每个 wiki 页面都需要 Frontmatter**。

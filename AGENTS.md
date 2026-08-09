@@ -4,48 +4,18 @@
 
 - 始终使用简体中文回复。
 
-## SkillHub Wiki 分层链接准则
+## SkillHub 维护准则
 
-生成或维护 `wiki/SkillHub` 文档时，必须遵守分层链接边界：
-
-- `wiki/SkillHub/index.md` 只作为顶层索引，只链接 `wiki/SkillHub/categories/*` 分类页。
-- `wiki/SkillHub/categories/*.md` 只作为分类聚合页，只正向链接 skill 中文 wiki 页；Skill 列表第一列必须使用短 wikilink `[[skill-slug]]`，例如 `[[wiki-setup]]`，不要写成 `[[wiki/SkillHub/skills/wiki-setup|Obsidian Wiki 初始化]]`。
-- `wiki/SkillHub/skills/*.md` 才能链接对应的原始 `raw/SkillHub/**/SKILL.md` 文件。
-- `wiki/SkillHub/skills/*.md` 不应反向链接 `wiki/SkillHub/categories/*`；分类归属保留为 frontmatter 字段或纯文本，例如 `category: 配置、自动化与多库管理`、`功能分类：配置、自动化与多库管理`。
-- 原始 skill 来源、原始路径、原始 `SKILL.md` 链接只应出现在具体 skill 详情页中。
-- `skills/*.md` 可以保留同级 skill 之间的“相关 Skill”横向链接；这属于 wiki 内部交叉引用，不违反分层规则。
+- SkillHub 的分层链接、标签、设计理念和维护检查规则已迁入 `wiki/SkillHub/index.md`。
+- 生成或维护 `wiki/SkillHub` 文档时，必须先遵守该索引页中的维护准则。
 
 ## 标签准则
 
 生成或维护项目 Markdown frontmatter 时，必须遵守标签命名：
 
 - 所有 `index.md` 索引文件必须包含 `索引` 标签。
-- `wiki/SkillHub` 下所有页面使用 `SKILL` 作为主标签，不使用 `skillhub`。
-- `wiki/SkillHub` 下的分类标签使用 `SKILL/<分类>` 形式，例如 `SKILL/content-ingest`。
-- `wiki/SkillHub/categories/*.md` 作为分类页时，使用 `SKILL/category` 标签。
 - `log/YYYY/MM/DD/*.md` 日志文件必须包含 `日志` 标签。
 - 后续新增或批量生成文档后，应检查是否残留旧标签 `skillhub` 或英文 `index` 标签。
-
-## 设计理念
-
-该规则符合 `llm-wiki` 的三层架构：
-
-- `raw/SkillHub/**/SKILL.md` 是 raw source 层，作为权威来源保留，不在高层索引中直接展开。
-- `wiki/SkillHub/categories/*` 和 `wiki/SkillHub/skills/*` 是 wiki 层，承载蒸馏后的中文说明与导航。
-- 分层索引让 Obsidian 图谱更清晰，也避免总索引和分类页混入过多原始来源边。
-
-## 维护检查
-
-更新 SkillHub wiki 后，应检查：
-
-- 若某个目录下存在 `index.md`，并且该目录或其子目录内容发生新增、删除、重命名、分类调整或导航相关改动，必须检查该 `index.md` 是否需要同步更新；如本次操作产生项目文件修改，应在日志中说明已检查及是否更新。
-- `index.md` 不直接链接 `wiki/SkillHub/skills/*`。
-- `index.md` 不直接链接 `raw/SkillHub/*`。
-- `categories/*.md` 不直接链接 `raw/SkillHub/*`。
-- `categories/*.md` 的内部 skill wikilink 必须使用短链接 `[[skill-slug]]`，并且该短链接在当前 vault 中必须唯一解析到 `wiki/SkillHub/skills/skill-slug.md`。
-- `skills/*.md` 不应包含指向 `wiki/SkillHub/categories/*` 的 wikilink，避免产生 skill 到分类页的反向连接。
-- `skills/*.md` 中的原始来源链接必须指向实际存在的 `raw/SkillHub/**/SKILL.md`。
-- 所有 Obsidian wikilink 都应能解析到已存在的 wiki 页面，示例或占位符链接应写成代码文本，避免产生虚假图谱节点。
 
 ## Agent 操作日志准则
 
