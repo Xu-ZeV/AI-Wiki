@@ -8,7 +8,7 @@ tags:
 
 本索引是 SkillHub 中文 wiki 的顶层入口，只链接功能分类页。具体 skill 入口在各分类页中，原始 SKILL.md 来源只保留在具体 skill 详情页。
 
-生成日期：2026-06-18
+生成日期：2026-08-09
 
 ## 维护准则
 
@@ -56,16 +56,17 @@ tags:
 
 围绕 Obsidian vault、wiki 知识库导入、检索、维护、治理、导出和 SkillHub 自身开发的能力。
 
-| 分类 | 数量 | 功能范围 |
-| --- | ---: | --- |
-| [[wiki/SkillHub/categories/obsidian-basic\|Obsidian 基础能力与文件格式]] | 4 | 面向 Obsidian 笔记、CLI、Bases 数据视图和 JSON Canvas 文件的基础操作能力。 |
-| [[wiki/SkillHub/categories/content-ingest\|内容采集与导入]] | 8 | 把网页、文档、原始文本、当前会话或项目知识蒸馏进 Obsidian wiki。 |
-| [[wiki/SkillHub/categories/agent-history\|AI 会话历史导入]] | 8 | 从 Claude、Codex、Copilot、Hermes、OpenClaw、Pi 等工具历史中挖掘可复用知识。 |
-| [[wiki/SkillHub/categories/retrieval-context\|知识检索与上下文复用]] | 4 | 围绕已编译 wiki 做问答、上下文打包、跨工具记忆比较和知识库架构理解。 |
-| [[wiki/SkillHub/categories/maintenance-governance\|维护、治理与知识质量]] | 8 | 维护 wiki 健康度，处理链接、标签、重复页、合成页、状态审计和重建流程。 |
-| [[wiki/SkillHub/categories/visualization-export\|可视化、仪表盘与导出]] | 4 | 生成动态图表视图、知识摘要、图谱配色和外部工具可用的知识图谱导出。 |
-| [[wiki/SkillHub/categories/setup-automation\|配置、自动化与多库管理]] | 3 | 初始化 vault、切换多 wiki 配置，以及审核并提交 staged wiki 写入。 |
-| [[wiki/SkillHub/categories/skill-dev\|Skill 开发与验证]] | 2 | 创建、优化、评估 skill，并对实现结果做结构化质量验证。 |
+| 分类                                                              |  数量 | 功能范围                                                     |
+| --------------------------------------------------------------- | --: | -------------------------------------------------------- |
+| [[wiki/SkillHub/categories/obsidian-basic\|Obsidian 基础能力与文件格式]] |   4 | 面向 Obsidian 笔记、CLI、Bases 数据视图和 JSON Canvas 文件的基础操作能力。    |
+| [[wiki/SkillHub/categories/content-ingest\|内容采集与导入]]            |   8 | 把网页、文档、原始文本、当前会话或项目知识蒸馏进 Obsidian wiki。                  |
+| [[wiki/SkillHub/categories/agent-history\|AI 会话历史导入]]           |   8 | 从 Claude、Codex、Copilot、Hermes、OpenClaw、Pi 等工具历史中挖掘可复用知识。 |
+| [[wiki/SkillHub/categories/retrieval-context\|知识检索与上下文复用]]      |   4 | 围绕已编译 wiki 做问答、上下文打包、跨工具记忆比较和知识库架构理解。                    |
+| [[wiki/SkillHub/categories/maintenance-governance\|维护、治理与知识质量]] |   8 | 维护 wiki 健康度，处理链接、标签、重复页、合成页、状态审计和重建流程。                   |
+| [[wiki/SkillHub/categories/visualization-export\|可视化、仪表盘与导出]]   |   4 | 生成动态图表视图、知识摘要、图谱配色和外部工具可用的知识图谱导出。                        |
+| [[wiki/SkillHub/categories/setup-automation\|配置、自动化与多库管理]]      |   3 | 初始化 vault、切换多 wiki 配置，以及审核并提交 staged wiki 写入。            |
+| [[wiki/SkillHub/categories/skill-dev\|Skill 开发与验证]]             |   2 | 创建、优化、评估 skill，并对实现结果做结构化质量验证。                           |
+|                                                                 |     |                                                          |
 
 ### 前端设计、工程与视觉生成
 
@@ -73,10 +74,11 @@ tags:
 
 | 分类 | 数量 | 功能范围 |
 | --- | ---: | --- |
-| [[wiki/SkillHub/categories/frontend-ui-design\|高级前端 UI 设计与重构]] | 8 | 生成或改造高质量网站、产品界面、落地页和实验性前端视觉风格。 |
+| [[wiki/SkillHub/categories/frontend-ui-design\|高级前端 UI 设计与重构]] | 9 | 生成或改造高质量网站、产品界面、落地页和实验性前端视觉风格。 |
 | [[wiki/SkillHub/categories/vue-engineering\|Vue 3 工程实践]] | 8 | 面向 Vue 3、Composition API、Options API、Router、Pinia、测试、JSX、调试和 composable 的工程实践。 |
 | [[wiki/SkillHub/categories/visual-reference-generation\|视觉参考图与品牌生成]] | 3 | 生成网站分区参考图、移动端多屏流程图和品牌视觉系统板。 |
 | [[wiki/SkillHub/categories/design-delivery-governance\|设计交付、系统化与输出约束]] | 2 | 生成设计系统交付文档，约束完整输出，减少占位符和半成品交付。 |
+| [[wiki/SkillHub/categories/presentation-web-slides\|演示文稿与网页幻灯片]] | 1 | 生成 HTML 原生演示文稿，提供视觉风格系统、演讲者工具、浏览器交付和质量校验。 |
 
 ## 使用路径
 
@@ -90,7 +92,8 @@ tags:
 
 ### 前端设计、工程与视觉生成
 
-- 生成或改造前端界面：从 [[wiki/SkillHub/categories/frontend-ui-design|高级前端 UI 设计与重构]] 开始。
+- 生成或改造前端界面，或用 HTML 统一交付原型、幻灯片与动画：从 [[wiki/SkillHub/categories/frontend-ui-design|高级前端 UI 设计与重构]] 开始。
 - 处理 Vue 3 工程实现、状态、路由、测试或调试：从 [[wiki/SkillHub/categories/vue-engineering|Vue 3 工程实践]] 开始。
 - 生成视觉参考图或品牌板：从 [[wiki/SkillHub/categories/visual-reference-generation|视觉参考图与品牌生成]] 开始。
 - 需要设计系统交付或完整输出约束：从 [[wiki/SkillHub/categories/design-delivery-governance|设计交付、系统化与输出约束]] 开始。
+- 制作单文件 HTML PPT 或带演讲者模式的网页幻灯片：从 [[wiki/SkillHub/categories/presentation-web-slides|演示文稿与网页幻灯片]] 开始。
