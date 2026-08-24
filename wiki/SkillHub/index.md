@@ -8,7 +8,7 @@ tags:
 
 本索引是 SkillHub 中文 wiki 的顶层入口，只链接功能分类页。具体 skill 入口在各分类页中，原始 SKILL.md 来源只保留在具体 skill 详情页。
 
-生成日期：2026-08-09
+生成日期：2026-08-18
 
 ## 维护准则
 
@@ -78,7 +78,7 @@ tags:
 | [[wiki/SkillHub/categories/vue-engineering\|Vue 3 工程实践]] | 8 | 面向 Vue 3、Composition API、Options API、Router、Pinia、测试、JSX、调试和 composable 的工程实践。 |
 | [[wiki/SkillHub/categories/visual-reference-generation\|视觉参考图与品牌生成]] | 3 | 生成网站分区参考图、移动端多屏流程图和品牌视觉系统板。 |
 | [[wiki/SkillHub/categories/design-delivery-governance\|设计交付、系统化与输出约束]] | 2 | 生成设计系统交付文档，约束完整输出，减少占位符和半成品交付。 |
-| [[wiki/SkillHub/categories/presentation-web-slides\|演示文稿与网页幻灯片]] | 1 | 生成 HTML 原生演示文稿，提供视觉风格系统、演讲者工具、浏览器交付和质量校验。 |
+| [[wiki/SkillHub/categories/presentation-web-slides\|演示文稿与网页幻灯片]] | 2 | 生成 HTML 原生演示文稿，提供主题模板、视觉风格系统、演讲者工具、浏览器交付和质量校验。 |
 
 ## 使用路径
 
