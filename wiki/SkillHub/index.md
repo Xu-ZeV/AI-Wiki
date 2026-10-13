@@ -79,7 +79,7 @@ tags:
 
 | 分类 | 数量 | 功能范围 |
 | --- | ---: | --- |
-| [[wiki/SkillHub/categories/frontend-ui-design\|高级前端 UI 设计与重构]] | 9 | 生成或改造高质量网站、产品界面、落地页和实验性前端视觉风格。 |
+| [[wiki/SkillHub/categories/frontend-ui-design\|高级前端 UI 设计与重构]] | 10 | 生成或改造高质量网站、产品界面、落地页和实验性前端视觉风格。 |
 | [[wiki/SkillHub/categories/vue-engineering\|Vue 3 工程实践]] | 8 | 面向 Vue 3、Composition API、Options API、Router、Pinia、测试、JSX、调试和 composable 的工程实践。 |
 | [[wiki/SkillHub/categories/visual-reference-generation\|视觉参考图与品牌生成]] | 3 | 生成网站分区参考图、移动端多屏流程图和品牌视觉系统板。 |
 | [[wiki/SkillHub/categories/design-delivery-governance\|设计交付、系统化与输出约束]] | 2 | 生成设计系统交付文档，约束完整输出，减少占位符和半成品交付。 |

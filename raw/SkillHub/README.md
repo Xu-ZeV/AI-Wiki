@@ -44,3 +44,4 @@
 - 新增或调整分类目录后，同步更新本 README 的分类表，以及 `../../wiki/SkillHub/index.md` 与对应分类页。
 - 上游框架专有 skill 若需中文留存：逐段全译存 `zh/<仓库名>/skills/<slug>/SKILL.md`，压缩归纳存 `zh/<仓库名>/<slug>.md`，两者职责分开。
 - 不再指向 `raw/SkillHub/agents/`；历史安装布局已按功能迁入 `categories/`。
+- `taste-skills/` 与 `vuejs-ai-skills/` 已从上游子模块改为随本仓库一起提交的普通目录：`.gitmodules` 中的原仓库链接与嵌套 `.git` 均已移除，内容直接纳入主仓库版本管理，更新时需手动复制覆盖，不能再靠 `git submodule update` 拉取。

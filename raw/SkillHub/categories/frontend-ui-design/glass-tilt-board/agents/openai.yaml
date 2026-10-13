@@ -1,0 +1,4 @@
+interface:
+  display_name: "玻璃画板倾斜"
+  short_description: "几十块玻璃面板跟随鼠标倾斜、点击空白切下一张的单文件画板"
+  default_prompt: "用 $glass-tilt-board 做一块鼠标驱动的玻璃倾斜画板：复制模板资产、换图片文件夹、跑 CDP 断言验证。"

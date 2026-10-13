@@ -4,13 +4,6 @@
 [submodule "raw/SkillHub/obsidian-wiki"]
 	path = raw/SkillHub/obsidian-wiki
 	url = https://github.com/Ar9av/obsidian-wiki.git
-[submodule "raw/SkillHub/taste-skills"]
-	path = raw/SkillHub/taste-skills
-	url = https://github.com/tasteskill/tasteskill
 [submodule "raw/SkillHub/ui-ux-pro-max-skill"]
 	path = raw/SkillHub/ui-ux-pro-max-skill
 	url = https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git
-[submodule "raw/SkillHub/vuejs-ai-skills"]
-	path = raw/SkillHub/vuejs-ai-skills
-	url = https://github.com/vuejs-ai/skills.git
-

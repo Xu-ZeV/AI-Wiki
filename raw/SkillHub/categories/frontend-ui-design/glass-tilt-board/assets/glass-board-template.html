@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>玻璃画板 · 鼠标驱动倾斜</title>
+<style>
+/* ============================================================================
+   设计备忘（避免重踩以前踩过的坑）
+
+   ✓ 倾斜 = 只改 transform（translate3d / rotateX / rotateY / scale）。
+     所有面板都是合成层位移，不触发重排、不重绘。
+   ✓ 玻璃感 = 渐变 + inset 阴影，绝不使用 backdrop-filter。
+     25+ 个 backdrop-filter 面板 = 每帧全屏重算，静止也卡（已踩过）。
+   ✓ 背景虚化 = 只给"静止的背景层"加一次 filter: blur()，
+     换图时重算一次，结果被合成器缓存；运动的面板层完全不参与。
+   ✓ 切图 = 面板整体翻出 → 换 --img 变量 → 波浪式翻入，错峰 9ms/块。
+   ============================================================================ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #eef2fb;
+  --ink-dim: rgba(238, 242, 251, 0.62);
+  --ink-faint: rgba(238, 242, 251, 0.38);
+  --accent: #ffb454;
+  --glass-bg: linear-gradient(150deg, rgba(255,255,255,0.14), rgba(255,255,255,0.045) 42%, rgba(255,255,255,0.09));
+  --glass-line: rgba(255, 255, 255, 0.22);
+  --zone: clamp(168px, 21vw, 320px);
+  --gap: 9px;
+  --radius: 20px;
+}
+
+html, body { height: 100%; }
+
+body {
+  background: #03050a;
+  color: var(--ink);
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI",
+               "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- 画板 ---------- */
+.board {
+  position: fixed;
+  inset: 14px;
+  overflow: hidden;
+  border-radius: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--zone);
+  background: #05070d;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 70px 140px -70px #000, 0 0 0 1px rgba(0, 0, 0, 0.6);
+  perspective: 1000px;
+}
+
+/* 背景：当前图的超柔虚化，静止层，只在换图时重算一次 */
+.ambient {
+  position: absolute;
+  inset: -7%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  filter: blur(42px) brightness(0.45) saturate(1.12);
+  transform: scale(1.06);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  will-change: opacity;
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(130% 110% at 26% -10%, rgba(255,255,255,0.06), transparent 55%),
+    radial-gradient(120% 100% at 50% 120%, rgba(0,0,0,0.62), transparent 60%),
+    linear-gradient(180deg, rgba(3,5,10,0.42), rgba(3,5,10,0.66));
+}
+
+/* ---------- 左：画布 ---------- */
+.canvas {
+  position: relative;
+  grid-column: 1;
+  display: grid;
+  place-items: center;
+  padding: clamp(20px, 4.2vh, 56px) clamp(20px, 3.2vw, 58px);
+}
+
+.stage { position: relative; transform-style: preserve-3d; }
+
+.glass-frame {
+  position: absolute;
+  inset: -10px;
+  border-radius: calc(var(--radius) + 8px);
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(155deg, rgba(255,255,255,0.10), rgba(255,255,255,0.015) 38%, rgba(255,255,255,0.06));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.16), 0 50px 110px -60px rgba(0,0,0,0.95);
+}
+
+/* ---------- 玻璃面板阵 ---------- */
+.mosaic {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(var(--cols, 6), 1fr);
+  grid-template-rows: repeat(var(--rows, 4), 1fr);
+}
+
+.tile {
+  position: relative;
+  perspective: 1400px;
+  opacity: 0;
+  transform: rotateY(-58deg) scale(0.92);
+  transition: opacity 0.34s ease, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc((var(--n, 24) - var(--i, 0)) * 5ms);
+}
+
+.tile.in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.16, 0.78, 0.22, 1);
+  transition-delay: calc(var(--i, 0) * 9ms);
+}
+
+/* 玻璃本体：图片切片 + 高光 + 反光，只有 transform 在动 */
+.tilt {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.09),
+    0 14px 26px -16px rgba(0, 0, 0, 0.9),
+    0 2px 6px -3px rgba(0, 0, 0, 0.6);
+}
+
+.slice {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--sw, 100%);
+  height: var(--sh, 100%);
+  background-image: var(--img, none);
+  background-size: var(--sw, 100%) var(--sh, 100%);
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+
+.sheen {
+  position: absolute;
+  inset: -40%;
+  pointer-events: none;
+  opacity: 0.7;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  background: radial-gradient(closest-side, rgba(255,255,255,0.34), rgba(255,255,255,0.10) 45%, transparent 72%);
+}
+
+.gloss {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(148deg,
+    rgba(255,255,255,0.2), rgba(255,255,255,0.02) 34%,
+    rgba(255,255,255,0) 58%, rgba(255,255,255,0.07) 78%, rgba(0,0,0,0.1));
+}
+
+.tile[data-corner="tl"] .tilt { border-top-left-radius: var(--radius); }
+.tile[data-corner="tr"] .tilt { border-top-right-radius: var(--radius); }
+.tile[data-corner="bl"] .tilt { border-bottom-left-radius: var(--radius); }
+.tile[data-corner="br"] .tilt { border-bottom-right-radius: var(--radius); }
+
+/* ---------- 右：空白切换区 ---------- */
+.advance {
+  position: relative;
+  grid-area: 1 / 2 / 2 / 3;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: clamp(14px, 2vh, 26px) clamp(12px, 1.4vw, 22px);
+  perspective: 1000px;
+  border-left: 1px solid rgba(255, 255, 255, 0.07);
+  transition: background 0.4s ease;
+}
+
+.advance::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+  background: linear-gradient(90deg, rgba(6, 9, 16, 0.55), rgba(6, 9, 16, 0.12));
+}
+
+.advance:hover::before { opacity: 0; }
+.advance:hover { background: linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); }
+.advance:focus-visible { outline: 1px solid rgba(255, 180, 84, 0.7); outline-offset: -6px; }
+
+.progress {
+  position: absolute;
+  left: clamp(14px, 1.4vw, 22px);
+  right: clamp(14px, 1.4vw, 22px);
+  top: clamp(20px, 3.4vh, 44px);
+  pointer-events: none;
+}
+
+.progress-track {
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.5), var(--accent));
+  transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.progress-label {
+  margin-top: 8px;
+  font-size: 11px;
+  text-align: right;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.hint-chip {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  text-align: center;
+  padding: 18px 16px;
+  max-width: min(190px, 100%);
+  border-radius: 18px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-line);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 26px 50px -30px rgba(0,0,0,0.9);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.advance:hover .hint-chip {
+  border-color: rgba(255, 180, 84, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 30px 60px -30px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,180,84,0.16);
+}
+
+.hint-arrow {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 15px;
+  color: var(--accent);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.advance:hover .hint-arrow { transform: translateX(4px); }
+
+.hint-text { font-size: 13px; font-weight: 600; }
+
+.hint-sub {
+  display: block;
+  margin-top: 5px;
+  font-size: 11px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.6;
+  color: var(--ink-faint);
+}
+
+/* ---------- 玻璃信息块（也会跟着鼠标倾斜） ---------- */
+.meta {
+  position: absolute;
+  left: clamp(20px, 3.2vw, 58px);
+  top: clamp(20px, 3.4vh, 44px);
+  z-index: 5;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-line);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.28), 0 30px 60px -34px rgba(0,0,0,0.9);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.meta-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink-dim);
+}
+
+.meta-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(255, 180, 84, 0.8);
+}
+
+.meta-name {
+  margin-top: 9px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.meta-index {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.meta-index b { color: var(--accent); font-weight: 600; }
+
+.pick-chip {
+  position: absolute;
+  left: clamp(20px, 3.2vw, 58px);
+  bottom: clamp(20px, 3.4vh, 44px);
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.board:hover .pick-chip { opacity: 1; pointer-events: auto; }
+
+.pick {
+  display: inline-block;
+  padding: 10px 15px;
+  border-radius: 14px;
+  font-size: 12px;
+  color: var(--ink-dim);
+  cursor: pointer;
+  background: var(--glass-bg);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.24);
+  transform: translate3d(0, 0, 0);
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.pick:hover { color: var(--ink); border-color: rgba(255, 255, 255, 0.32); }
+.pick input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+/* ---------- 空状态 / 拖放 ---------- */
+.empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.empty[hidden] { display: none; }
+
+.empty-card {
+  max-width: 420px;
+  padding: 28px 26px;
+  border-radius: 20px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-line);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.28), 0 40px 80px -50px rgba(0,0,0,0.95);
+}
+
+.empty-card h2 { font-size: 17px; font-weight: 600; }
+
+.empty-card p {
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-dim);
+}
+
+.empty-card code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.empty-card .pick { margin-top: 18px; }
+
+.drop {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  color: var(--ink);
+  border: 1px dashed rgba(255, 180, 84, 0.7);
+  border-radius: 24px;
+  background: rgba(5, 8, 14, 0.72);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+.drop.on { opacity: 1; }
+
+/* ---------- 窄屏 ---------- */
+@media (max-width: 880px) {
+  :root { --gap: 6px; --radius: 14px; --strip: clamp(116px, 20vh, 156px); }
+
+  /* 竖屏：切换区从右边移到下面，把整幅画面让给图片 */
+  .board {
+    inset: 8px;
+    border-radius: 18px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) var(--strip);
+  }
+
+  .advance {
+    grid-area: 2 / 1 / 3 / 2;
+    padding: 14px clamp(16px, 5vw, 30px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .advance::before {
+    background: linear-gradient(180deg, rgba(6, 9, 16, 0.5), rgba(6, 9, 16, 0.1));
+  }
+
+  .hint-chip {
+    grid-auto-flow: column;
+    align-items: center;
+    justify-items: start;
+    gap: 12px;
+    max-width: none;
+    padding: 12px 18px;
+    text-align: left;
+  }
+
+  .hint-sub { display: none; }
+  .progress { left: clamp(16px, 5vw, 30px); right: clamp(16px, 5vw, 30px); top: 13px; }
+
+  .meta { padding: 11px 13px; }
+  .meta-name { font-size: 13px; }
+
+  /* 触屏没有 hover，把「更换图片文件夹」放到右上角常驻 */
+  .pick-chip {
+    left: auto;
+    right: clamp(12px, 4vw, 24px);
+    top: clamp(12px, 3vh, 24px);
+    bottom: auto;
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile { transition: none; opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+<div class="board" id="board">
+  <div class="ambient" id="ambientA" style="opacity:1"></div>
+  <div class="ambient" id="ambientB"></div>
+  <div class="veil" aria-hidden="true"></div>
+
+  <div class="canvas" id="canvas">
+    <div class="stage" id="stage">
+      <div class="mosaic" id="mosaic" aria-hidden="true"></div>
+      <div class="glass-frame" aria-hidden="true"></div>
+    </div>
+
+    <div class="empty" id="empty" hidden>
+      <div class="empty-card">
+        <h2>这个画板还没有图片</h2>
+        <p>把图片放进 <code>images/</code>，再跑一次 <code>update-images.ps1</code>；<br />或者直接把文件夹拖进这里。</p>
+        <label class="pick">选择图片文件夹<input type="file" id="pickDir" webkitdirectory multiple accept="image/*" /></label>
+      </div>
+    </div>
+  </div>
+
+  <button class="advance" id="advance" type="button" aria-label="下一张">
+    <span class="progress" aria-hidden="true">
+      <span class="progress-track"><span class="progress-fill" id="progressFill"></span></span>
+      <span class="progress-label" id="progressLabel">— / —</span>
+    </span>
+    <span class="hint-chip" id="hintChip" data-tilt="1.25" data-z="16">
+      <span class="hint-arrow" aria-hidden="true">→</span>
+      <span class="hint-text">下一张
+        <i class="hint-sub">点击右侧空白处<br />或按 → / 空格</i>
+      </span>
+    </span>
+  </button>
+
+  <div class="meta" id="meta" data-tilt="1.05" data-z="14">
+    <div class="meta-title"><span class="meta-dot"></span>玻璃画板</div>
+    <div class="meta-name" id="metaName" aria-live="polite">载入中…</div>
+    <div class="meta-index"><b id="metaNow">00</b> / <span id="metaTotal">00</span> · 移动鼠标让面板倾斜</div>
+  </div>
+
+  <div class="pick-chip" id="pickChip" data-tilt="1.1" data-z="10">
+    <label class="pick">更换图片文件夹<input type="file" id="pickDir2" webkitdirectory multiple accept="image/*" /></label>
+  </div>
+
+  <div class="drop" id="drop" aria-hidden="true">松手放入图片</div>
+</div>
+
+<script src="images.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var board = document.getElementById('board');
+  var canvas = document.getElementById('canvas');
+  var stage = document.getElementById('stage');
+  var mosaic = document.getElementById('mosaic');
+  var ambientA = document.getElementById('ambientA');
+  var ambientB = document.getElementById('ambientB');
+  var metaName = document.getElementById('metaName');
+  var metaNow = document.getElementById('metaNow');
+  var metaTotal = document.getElementById('metaTotal');
+  var progressFill = document.getElementById('progressFill');
+  var progressLabel = document.getElementById('progressLabel');
+  var advance = document.getElementById('advance');
+  var empty = document.getElementById('empty');
+  var drop = document.getElementById('drop');
+  var pickers = [document.getElementById('pickDir'), document.getElementById('pickDir2')];
+
+  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var IMG_RE = /\.(jpe?g|png|webp|avif|gif|bmp|svg)$/i;
+
+  var items = [];          // { src, name, ar }
+  var index = 0;
+  var cols = 6, rows = 4;
+  var tiles = [];
+  var chips = [];
+  var busy = false;
+  var raf = 0;
+  var stageRect = { left: 0, top: 0, width: 0, height: 0 };
+  var frontAmbient = ambientA, backAmbient = ambientB;
+  var pointer = { x: 0, y: 0, has: false, moved: 0 };
+  var cache = {};
+
+  function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function mod(n, m) { return ((n % m) + m) % m; }
+
+  /* ------------------------------------------------------------------ 数据 */
+
+  function encodePath(p) {
+    return String(p).split('/').map(encodeURIComponent).join('/');
+  }
+
+  function buildItems() {
+    var cfg = window.GLASS_BOARD_IMAGES || {};
+    var dir = (typeof cfg.folder === 'string' && cfg.folder) ? cfg.folder : 'images';
+    var files = Array.isArray(cfg.files) ? cfg.files : [];
+    var prefix = encodePath(dir.replace(/\/+$/, '')) + '/';
+
+    items = files.map(function (f) {
+      var file = (typeof f === 'string') ? f : (f && f.file) || '';
+      if (!file) return null;
+      return {
+        src: prefix + encodePath(file),
+        name: file.split('/').pop().replace(/\.[^.]+$/, ''),
+        ar: 0
+      };
+    }).filter(Boolean);
+
+    empty.hidden = items.length > 0;
+  }
+
+  function loadImage(src) {
+    if (cache[src]) return cache[src];
+    var p = new Promise(function (resolve, reject) {
+      var img = new Image();
+      img.onload = function () { resolve(img); };
+      img.onerror = function () { reject(new Error('cannot load ' + src)); };
+      img.src = src;
+      if (img.decode) img.decode().then(function () { resolve(img); }, function () {});
+    });
+    cache[src] = p;
+    return p;
+  }
+
+  // 面板数保持 24~30，格子接近正方形
+  function dims(ar) {
+    var c = clamp(Math.round(Math.sqrt(26 * ar)), 3, 7);
+    var r = clamp(Math.round(c / ar), 3, 7);
+    return [c, r];
+  }
+
+  /* ------------------------------------------------------------ 玻璃面板阵 */
+
+  function buildTiles() {
+    mosaic.textContent = '';
+    mosaic.style.setProperty('--cols', cols);
+    mosaic.style.setProperty('--rows', rows);
+    mosaic.style.setProperty('--n', cols * rows);
+    tiles = [];
+
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        var i = r * cols + c;
+
+        var el = document.createElement('div');
+        el.className = 'tile';
+        el.style.setProperty('--i', i);
+        if (r === 0 && c === 0) el.dataset.corner = 'tl';
+        if (r === 0 && c === cols - 1) el.dataset.corner = 'tr';
+        if (r === rows - 1 && c === 0) el.dataset.corner = 'bl';
+        if (r === rows - 1 && c === cols - 1) el.dataset.corner = 'br';
+
+        var tilt = document.createElement('div');
+        tilt.className = 'tilt';
+        var slice = document.createElement('div');
+        slice.className = 'slice';
+        var sheen = document.createElement('div');
+        sheen.className = 'sheen';
+        var gloss = document.createElement('div');
+        gloss.className = 'gloss';
+        tilt.appendChild(slice);
+        tilt.appendChild(sheen);
+        tilt.appendChild(gloss);
+        el.appendChild(tilt);
+        mosaic.appendChild(el);
+
+        tiles.push({
+          el: el, tilt: tilt, slice: slice, sheen: sheen,
+          // 棋盘格深度：相邻面板一前一后，倾斜时像碎开的玻璃
+          checker: (r + c) % 2 === 0 ? 1 : -1,
+          k: 0.82 + ((r * 3 + c * 5) % 7) * 0.06,
+          ox: 0, oy: 0, w: 1, h: 1, cx: 0, cy: 0
+        });
+      }
+    }
+  }
+
+  /* -------------------------------------------------------------- 尺寸测量 */
+
+  function layout() {
+    var item = items[index];
+    if (!item || !tiles.length) return;
+
+    var ar = item.ar || (16 / 9);
+    var box = canvas.getBoundingClientRect();
+    var padX = clamp(box.width * 0.05, 18, 64);
+    var padY = clamp(box.height * 0.06, 18, 64);
+    var w = box.width - padX * 2;
+    var h = w / ar;
+    var maxH = box.height - padY * 2;
+    if (h > maxH) { h = maxH; w = h * ar; }
+    if (w < 80 || h < 80) return;
+
+    stage.style.width = w + 'px';
+    stage.style.height = h + 'px';
+    mosaic.style.setProperty('--sw', w + 'px');
+    mosaic.style.setProperty('--sh', h + 'px');
+
+    stageRect = stage.getBoundingClientRect();
+
+    for (var i = 0; i < tiles.length; i++) {
+      var t = tiles[i];
+      // offsetLeft/Top 与 transform 无关，翻出动画进行中量也准
+      t.ox = t.el.offsetLeft;
+      t.oy = t.el.offsetTop;
+      t.w = t.el.offsetWidth;
+      t.h = t.el.offsetHeight;
+      t.cx = stageRect.left + t.ox + t.w / 2;
+      t.cy = stageRect.top + t.oy + t.h / 2;
+      t.slice.style.transform = 'translate3d(' + (-t.ox) + 'px,' + (-t.oy) + 'px,0)';
+    }
+
+    chips.forEach(function (ch) {
+      var r = ch.el.getBoundingClientRect();
+      ch.cx = r.left + r.width / 2;
+      ch.cy = r.top + r.height / 2;
+    });
+
+    scheduleTilt();
+  }
+
+  /* ---------------------------------------------------------------- 倾斜 */
+
+  function applyTilt(px, py) {
+    var W = window.innerWidth, H = window.innerHeight;
+    var gx = clamp((px / W - 0.5) * 2, -1.25, 1.25);
+    var gy = clamp((py / H - 0.5) * 2, -1.25, 1.25);
+
+    var hw = Math.max(1, stageRect.width / 2);
+    var hh = Math.max(1, stageRect.height / 2);
+    var sx = clamp((px - (stageRect.left + hw)) / hw, -1.5, 1.5);
+    var sy = clamp((py - (stageRect.top + hh)) / hh, -1.5, 1.5);
+    var amt = Math.min(1, Math.sqrt(sx * sx + sy * sy) / 1.15);
+
+    for (var i = 0; i < tiles.length; i++) {
+      var t = tiles[i];
+      var lx = clamp((px - t.cx) / (t.w * 0.5), -1, 1);
+      var ly = clamp((py - t.cy) / (t.h * 0.5), -1, 1);
+      var rx = clamp((-sy * 3.4 - ly * 2.3) * t.k, -10, 10);
+      var ry = clamp((sx * 4.2 + lx * 2.9) * t.k, -10, 10);
+      var z = t.checker * (2 + 9 * amt) * t.k;
+      var s = 1 + 0.006 * amt;
+
+      t.tilt.style.transform =
+        'translate3d(0,0,' + z.toFixed(2) + 'px)' +
+        ' rotateX(' + rx.toFixed(2) + 'deg)' +
+        ' rotateY(' + ry.toFixed(2) + 'deg)' +
+        ' scale(' + s.toFixed(3) + ')';
+
+      t.sheen.style.transform = 'translate3d(' +
+        (lx * t.w * 0.22).toFixed(1) + 'px,' + (ly * t.h * 0.22).toFixed(1) + 'px,0)';
+    }
+
+    for (var c = 0; c < chips.length; c++) {
+      var ch = chips[c];
+      var crx = clamp(-gy * 5.6 * ch.k, -9, 9);
+      var cry = clamp(gx * 7.2 * ch.k, -11, 11);
+      ch.el.style.transform =
+        'translate3d(0,0,' + (ch.z * ch.k).toFixed(0) + 'px)' +
+        ' rotateX(' + crx.toFixed(2) + 'deg)' +
+        ' rotateY(' + cry.toFixed(2) + 'deg)';
+    }
+  }
+
+  function scheduleTilt() {
+    if (!raf) raf = window.requestAnimationFrame(frame);
+  }
+
+  function frame(now) {
+    raf = 0;
+    var idle = !pointer.has || (now - pointer.moved > 3000);
+    var px = pointer.x, py = pointer.y;
+    var keepLoop = false;
+
+    if (idle && !REDUCED) {
+      // 鼠标静止时画板自己轻轻呼吸，一动鼠标就让位
+      var s = now / 1000;
+      px = window.innerWidth * 0.5 + Math.sin(s / 2.9) * window.innerWidth * 0.24;
+      py = window.innerHeight * 0.5 + Math.cos(s / 3.7) * window.innerHeight * 0.18;
+      keepLoop = true;
+    }
+
+    applyTilt(px, py);
+    if (keepLoop) raf = window.requestAnimationFrame(frame);
+  }
+
+  /* -------------------------------------------------------------- 换图流程 */
+
+  function setAmbient(src) {
+    backAmbient.style.backgroundImage = 'url("' + src + '")';
+    backAmbient.style.opacity = '1';
+    frontAmbient.style.opacity = '0';
+    var tmp = frontAmbient;
+    frontAmbient = backAmbient;
+    backAmbient = tmp;
+  }
+
+  function preload(i) {
+    var it = items[mod(i, items.length)];
+    if (!it) return;
+    loadImage(it.src).then(function (img) {
+      if (!it.ar) it.ar = (img.naturalWidth / img.naturalHeight) || (16 / 9);
+    }, function () {});
+  }
+
+  function render(i, withOut) {
+    if (!items.length) { empty.hidden = false; return; }
+    busy = true;
+
+    var item = items[i];
+    loadImage(item.src).then(function (img) {
+      if (!item.ar) item.ar = (img.naturalWidth / img.naturalHeight) || (16 / 9);
+
+      var d = dims(item.ar);
+      var nextCols = d[0], nextRows = d[1];
+
+      if (withOut) {
+        tiles.forEach(function (t) { t.el.classList.remove('in'); });
+      }
+
+      window.setTimeout(function () {
+        index = i;
+        if (nextCols !== cols || nextRows !== rows || !tiles.length) {
+          cols = nextCols;
+          rows = nextRows;
+          buildTiles();
+        }
+
+        mosaic.style.setProperty('--img', 'url("' + item.src + '")');
+        setAmbient(item.src);
+        layout();
+
+        metaName.textContent = item.name;
+        metaNow.textContent = pad2(i + 1);
+        metaTotal.textContent = pad2(items.length);
+        progressFill.style.width = (((i + 1) / items.length) * 100).toFixed(2) + '%';
+        progressLabel.textContent = (i + 1) + ' / ' + items.length;
+
+        window.requestAnimationFrame(function () {
+          tiles.forEach(function (t) { t.el.classList.add('in'); });
+        });
+
+        preload(i + 1);
+        window.setTimeout(function () { busy = false; }, 640);
+      }, (withOut && !REDUCED) ? 260 : 0);
+    }, function () {
+      // 这张读不出来就跳过，别把画板卡死
+      busy = false;
+      if (items.length > 1) {
+        items.splice(i, 1);
+        render(mod(i, items.length), false);
+      } else {
+        items = [];
+        empty.hidden = false;
+      }
+    });
+  }
+
+  function go(delta) {
+    if (busy || items.length < 2) return;
+    render(mod(index + delta, items.length), true);
+  }
+
+  /* -------------------------------------------------------------- 换成别的图 */
+
+  function useFiles(list) {
+    var files = Array.prototype.filter.call(list, function (f) {
+      return (f.type && f.type.indexOf('image/') === 0) || IMG_RE.test(f.name);
+    });
+    if (!files.length) return;
+
+    files.sort(function (a, b) {
+      return String(a.webkitRelativePath || a.name)
+        .localeCompare(String(b.webkitRelativePath || b.name), 'zh-Hans-CN');
+    });
+
+    items.forEach(function (it) { if (it.blob) URL.revokeObjectURL(it.src); });
+    items = files.map(function (f) {
+      return {
+        src: URL.createObjectURL(f),
+        name: f.name.replace(/\.[^.]+$/, ''),
+        ar: 0,
+        blob: true
+      };
+    });
+
+    empty.hidden = true;
+    cols = 0; rows = 0;     // 强制按新图重建面板阵
+    tiles = [];
+    index = 0;
+    render(0, false);
+  }
+
+  function hasFiles(e) {
+    var t = e.dataTransfer && e.dataTransfer.types;
+    return !!t && Array.prototype.indexOf.call(t, 'Files') >= 0;
+  }
+
+  var dragDepth = 0;
+  window.addEventListener('dragenter', function (e) {
+    if (!hasFiles(e)) return;
+    e.preventDefault();
+    dragDepth++;
+    drop.classList.add('on');
+  });
+  window.addEventListener('dragover', function (e) {
+    if (!hasFiles(e)) return;
+    e.preventDefault();
+    if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
+  });
+  window.addEventListener('dragleave', function () {
+    dragDepth = Math.max(0, dragDepth - 1);
+    if (!dragDepth) drop.classList.remove('on');
+  });
+  window.addEventListener('drop', function (e) {
+    if (!hasFiles(e)) return;
+    e.preventDefault();
+    dragDepth = 0;
+    drop.classList.remove('on');
+    useFiles(e.dataTransfer.files);
+  });
+
+  pickers.forEach(function (input) {
+    if (!input) return;
+    input.addEventListener('change', function () { useFiles(input.files); });
+  });
+
+  /* ------------------------------------------------------------------ 交互 */
+
+  advance.addEventListener('click', function (e) {
+    e.stopPropagation();
+    go(1);
+  });
+
+  board.addEventListener('click', function (e) {
+    var t = e.target;
+    if (!t || !t.closest) return;
+    if (t.closest('.advance, .pick-chip, .empty, .meta')) return;
+    if (t.closest('.mosaic')) return;   // 点到画上不算
+    go(1);                              // 右侧/其它空白处 → 下一张
+  });
+
+  window.addEventListener('pointermove', function (e) {
+    pointer.x = e.clientX;
+    pointer.y = e.clientY;
+    pointer.has = true;
+    pointer.moved = performance.now();
+    scheduleTilt();
+  }, { passive: true });
+
+  window.addEventListener('pointerdown', function (e) {
+    pointer.x = e.clientX;
+    pointer.y = e.clientY;
+    pointer.has = true;
+    pointer.moved = performance.now();
+    scheduleTilt();
+  }, { passive: true });
+
+  document.addEventListener('pointerleave', function () {
+    pointer.has = false;
+    scheduleTilt();
+  });
+
+  window.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault();
+      go(1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault();
+      go(-1);
+    }
+  });
+
+  var touchX = 0, touchY = 0, touching = false;
+  board.addEventListener('touchstart', function (e) {
+    var t = e.touches[0];
+    touchX = t.clientX; touchY = t.clientY; touching = true;
+  }, { passive: true });
+  board.addEventListener('touchend', function (e) {
+    if (!touching) return;
+    touching = false;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - touchX, dy = t.clientY - touchY;
+    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  var resizeRaf = 0;
+  window.addEventListener('resize', function () {
+    if (resizeRaf) return;
+    resizeRaf = window.requestAnimationFrame(function () {
+      resizeRaf = 0;
+      layout();
+    });
+  });
+
+  /* ------------------------------------------------------------------ 启动 */
+
+  chips = Array.prototype.slice.call(document.querySelectorAll('[data-tilt]')).map(function (el) {
+    return {
+      el: el,
+      k: parseFloat(el.getAttribute('data-tilt')) || 1,
+      z: parseFloat(el.getAttribute('data-z')) || 10
+    };
+  });
+
+  pointer.x = window.innerWidth * 0.5;
+  pointer.y = window.innerHeight * 0.5;
+
+  buildItems();
+  if (items.length) {
+    render(0, false);
+  } else {
+    empty.hidden = false;
+  }
+
+  scheduleTilt();
+})();
+</script>
+</body>
+</html>
