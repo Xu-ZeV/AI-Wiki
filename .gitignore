@@ -4,3 +4,6 @@ __pycache__/
 .pytest_cache/
 .coverage
 
+# Obsidian 工作区状态（每次开关笔记都会变化，不纳入版本管理）
+.obsidian/workspace.json
+
