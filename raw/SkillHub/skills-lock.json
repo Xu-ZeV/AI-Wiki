@@ -1,11 +1,53 @@
 {
   "version": 1,
   "skills": {
+    "agent-team-brainstorm": {
+      "source": "ai-wiki/agent-team",
+      "sourceType": "local",
+      "skillPath": "categories/multi-agent-orchestration/agent-team-brainstorm/SKILL.md",
+      "computedHash": "03d4d67e6d890062d4cae7b9e0d176baec2193c502309258fb1b4ba8333eadfd"
+    },
+    "agent-team-design-gate": {
+      "source": "ai-wiki/agent-team",
+      "sourceType": "local",
+      "skillPath": "categories/multi-agent-orchestration/agent-team-design-gate/SKILL.md",
+      "computedHash": "503d7f3713a70a1e172fd6ffa1f8b3ee03e932a7729b2cd94993fd05bb72f66c"
+    },
+    "agent-team-external-cli": {
+      "source": "ai-wiki/agent-team",
+      "sourceType": "local",
+      "skillPath": "categories/multi-agent-orchestration/agent-team-external-cli/SKILL.md",
+      "computedHash": "77e326157bfad38bf2cb22e5bb5546c2fac7dd108078161a52f5adf40c5f69c2"
+    },
     "guizang-ppt-skill": {
       "source": "op7418/guizang-ppt-skill",
       "sourceType": "github",
       "skillPath": "SKILL.md",
       "computedHash": "7e89aafbb0f7fbd33b4551fd77d0d0ed1ee856c44f5fadda0f3f9f2238587fc8"
+    },
+    "agent-team-handoff": {
+      "source": "ai-wiki/agent-team",
+      "sourceType": "local",
+      "skillPath": "categories/multi-agent-orchestration/agent-team-handoff/SKILL.md",
+      "computedHash": "dfa91a08443e2be6cfb64566402057eb49d6356f4c369c9d390bcea634c0d84b"
+    },
+    "agent-team-orchestration": {
+      "source": "ai-wiki/agent-team",
+      "sourceType": "local",
+      "skillPath": "categories/multi-agent-orchestration/agent-team-orchestration/SKILL.md",
+      "computedHash": "18ac92f21e77441b240513094a04e79d5c52b1af6fb0f65ff4ccee2a4411901d"
+    },
+    "agent-team-plan-gate": {
+      "source": "ai-wiki/agent-team",
+      "sourceType": "local",
+      "skillPath": "categories/multi-agent-orchestration/agent-team-plan-gate/SKILL.md",
+      "computedHash": "4bb201150e3f0505cfa2679cfe5d86d7269ac1cfa10b8dce189162d6243fc6fa"
+    },
+    "agent-team-visual-review": {
+      "source": "ai-wiki/agent-team",
+      "sourceType": "local",
+      "skillPath": "categories/multi-agent-orchestration/agent-team-visual-review/SKILL.md",
+      "computedHash": "653d6319fb423a62a52016809c9f6298858203d22a73e7283de45c714725a533"
     },
     "html-ppt": {
       "source": "lewislulu/html-ppt-skill",

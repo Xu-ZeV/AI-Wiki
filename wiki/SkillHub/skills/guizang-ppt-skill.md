@@ -3,7 +3,7 @@ title: 归藏网页 PPT 生成
 skill: guizang-ppt-skill
 category: 演示文稿与网页幻灯片
 category_slug: presentation-web-slides
-source: raw/SkillHub/.agents/skills/guizang-ppt-skill/SKILL.md
+source: raw/SkillHub/categories/presentation-web-slides/guizang-ppt-skill/SKILL.md
 tags:
   - SKILL
   - SKILL/presentation-web-slides
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`guizang-ppt-skill`  
 > 原始标题：Magazine Web Ppt  
 > 功能分类：演示文稿与网页幻灯片  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/.agents/skills/guizang-ppt-skill/SKILL.md)  
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/presentation-web-slides/guizang-ppt-skill/SKILL.md)  
 > 上游仓库：[op7418/guizang-ppt-skill](https://github.com/op7418/guizang-ppt-skill)  
 > 许可证：AGPL-3.0
 

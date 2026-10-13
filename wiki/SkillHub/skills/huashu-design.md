@@ -3,7 +3,7 @@ title: 花叔 HTML 原生设计生产线
 skill: huashu-design
 category: 高级前端 UI 设计与重构
 category_slug: frontend-ui-design
-source: raw/SkillHub/.agents/skills/huashu-design/SKILL.md
+source: raw/SkillHub/categories/frontend-ui-design/huashu-design/SKILL.md
 tags:
   - SKILL
   - SKILL/frontend-ui-design
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`huashu-design`  
 > 原始标题：花叔Design · Huashu-Design  
 > 功能分类：高级前端 UI 设计与重构  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/.agents/skills/huashu-design/SKILL.md)  
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/frontend-ui-design/huashu-design/SKILL.md)  
 > 上游仓库：[alchaincyf/huashu-design](https://github.com/alchaincyf/huashu-design)  
 > 许可证：MIT
 

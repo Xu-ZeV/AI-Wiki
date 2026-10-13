@@ -8,7 +8,7 @@ tags:
 
 本索引是 SkillHub 中文 wiki 的顶层入口，只链接功能分类页。具体 skill 入口在各分类页中，原始 SKILL.md 来源只保留在具体 skill 详情页。
 
-生成日期：2026-08-18
+生成日期：2026-10-09
 
 ## 维护准则
 
@@ -22,6 +22,10 @@ tags:
 - `wiki/SkillHub/skills/*.md` 不应反向链接 `wiki/SkillHub/categories/*`；分类归属保留为 frontmatter 字段或纯文本，例如 `category: 配置、自动化与多库管理`、`功能分类：配置、自动化与多库管理`。
 - 原始 skill 来源、原始路径、原始 `SKILL.md` 链接只应出现在具体 skill 详情页中。
 - `skills/*.md` 可以保留同级 skill 之间的“相关 Skill”横向链接；这属于 wiki 内部交叉引用，不违反分层规则。
+- 链接路径不得经过点开头的目录（如 `.agents`）：Obsidian 不索引点目录，指向它的 Markdown 链接无法跳转，只会产生死链。
+- 上游 `.agents/skills/` 安装布局在本仓库落盘为 `raw/SkillHub/categories/<分类>/<slug>/`，去掉点前缀并按功能分类归档，便于 Obsidian 索引与浏览。
+- 指向点开头目录的真实路径（例如 `.agents/skills/<slug>/SKILL.md` 这类可加载 skill 文件）一律写成代码文本，不写成链接。
+- 上游框架专有的 skill 若需留存中文，归档到 `raw/SkillHub/zh/<仓库名>/`：逐段全文对译存 `skills/<slug>/SKILL.md`，压缩归纳存 `<slug>.md`，两者职责分开，不互相替代。
 
 ### 标签准则
 
@@ -48,6 +52,7 @@ tags:
 - `categories/*.md` 的内部 skill wikilink 必须使用短链接 `[[skill-slug]]`，并且该短链接在当前 vault 中必须唯一解析到 `wiki/SkillHub/skills/skill-slug.md`。
 - `skills/*.md` 不应包含指向 `wiki/SkillHub/categories/*` 的 wikilink，避免产生 skill 到分类页的反向连接。
 - `skills/*.md` 中的原始来源链接必须指向实际存在的 `raw/SkillHub/**/SKILL.md`。
+- `skills/*.md` 中指向 raw 的链接路径层级里不得出现点开头的目录；无法写成链接的点目录路径改写为代码文本。
 - 所有 Obsidian wikilink 都应能解析到已存在的 wiki 页面，示例或占位符链接应写成代码文本，避免产生虚假图谱节点。
 
 ## 分类索引
@@ -80,6 +85,14 @@ tags:
 | [[wiki/SkillHub/categories/design-delivery-governance\|设计交付、系统化与输出约束]] | 2 | 生成设计系统交付文档，约束完整输出，减少占位符和半成品交付。 |
 | [[wiki/SkillHub/categories/presentation-web-slides\|演示文稿与网页幻灯片]] | 2 | 生成 HTML 原生演示文稿，提供主题模板、视觉风格系统、演讲者工具、浏览器交付和质量校验。 |
 
+### 多Agent团队协作
+
+围绕多智能体编排（Multi-Agent Orchestration）、自主研发全流程与对抗性质量审查门禁；编排框架的工程外壳已剥离，只保留可直接在 Codex 原生子代理上执行的多模型协作协议。
+
+| 分类 | 数量 | 功能范围 |
+| --- | ---: | --- |
+| [[wiki/SkillHub/categories/multi-agent-orchestration\|多Agent团队协作]] | 7 | AI-Wiki 自有套件，统一命名 `agent-team-*`：A 级 6 个核心协议（四阶段闭环、跨模型对抗评审、方案与设计门禁、头脑风暴桥接、零上下文交接）已产出中文 skill 文件；B 级 1 个独立工具（视觉复核）；C 级 7 个上游框架专有页面已移出 wiki，中文全译稿与英文原件存于 raw 原始资料层。 |
+
 ## 使用路径
 
 ### Wiki 与 Obsidian 知识库
@@ -97,3 +110,10 @@ tags:
 - 生成视觉参考图或品牌板：从 [[wiki/SkillHub/categories/visual-reference-generation|视觉参考图与品牌生成]] 开始。
 - 需要设计系统交付或完整输出约束：从 [[wiki/SkillHub/categories/design-delivery-governance|设计交付、系统化与输出约束]] 开始。
 - 制作单文件 HTML PPT 或带演讲者模式的网页幻灯片：从 [[wiki/SkillHub/categories/presentation-web-slides|演示文稿与网页幻灯片]] 开始。
+
+### 多Agent团队协作
+
+- 在 Codex 中用子代理做多模型协作：从 [[wiki/SkillHub/categories/multi-agent-orchestration|多Agent团队协作]] 的四阶段编排执行闭环与跨模型委托开始。
+- 方案或设计定稿前的独立对抗审查：使用方案对抗审查门禁与设计评审门禁，头脑风暴结论先经桥接扩展。
+- 上下文交接与前端视觉核验：使用零上下文交接与 Playwright 视觉审查。
+- metaswarm 专有的任务路由、环境探测、Issue/PR 监护页面（C 级 7 个）已移出 wiki，归纳稿存入 raw 原始资料层，仅作原始资料留存，不要按其流程执行。
