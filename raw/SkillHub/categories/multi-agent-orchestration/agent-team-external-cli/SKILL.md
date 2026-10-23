@@ -47,12 +47,13 @@ metadata:
 
 ### 本机可用模型
 
-| 模型（`spawn_agent` 的 `model` 取值） | 显示名 | 上下文 | 可用 `reasoning_effort` |
-|---|---|---|---|
-| `DeepSeek-V4.1-Flash` | DeepSeek-V4.1-Flash | 256K | `low` / `medium` / `high` / `xhigh` |
-| `ccs-glm-5-3-flash/GLM-5.3-Flash` | GLM-5.3-Flash | 1M | `low` / `high` / `max` |
+| 模型（`spawn_agent` 的 `model` 取值） | 显示名 | 上下文 | 可用 `reasoning_effort` | 职能定位 |
+|---|---|---|---|---|
+| `DeepSeek-V4.1-Flash` | DeepSeek-V4.1-Flash | 256K | `low` / `medium` / `high` / `xhigh` | 本地部署。主力代码实现、边界条件审查 |
+| `ccs-glm-5-3-flash/GLM-5.3-Flash` | GLM-5.3-Flash | 1M | `low` / `high` / `max` | 本地部署。大上下文工程实现、架构与安全推演（`max`） |
+| `ccs-gmini/gemini-3.8-flash` | gemini-3.8-flash | 1049K | `low` / `medium` / `high` | CC-Switch 代理。极速对抗审查、敏捷复核、真异构视角 |
 
-两个模型都不是可选项之外的兜底：本机只有这两条路由，因此异构度只有**二元**。同一模型只换 `reasoning_effort` 属于**降级方案**，不算异构评审，使用它时必须在结论里显式标注"本轮评审为同模型降级方案"。
+模型标识与 `reasoning_effort` 必须严格解耦传参。三个模型构建了真正的跨架构三方异构体系。只有当云端代理离线时，才降级为本地双模型多视角审查，并在结论中显式注明降级说明。
 
 ### 配置
 
@@ -61,7 +62,7 @@ metadata:
 ```yaml
 routing:
   default_implementer: "cheapest-available"      # 见"路由逻辑"
-  escalation_order: ["DeepSeek-V4.1-Flash", "ccs-glm-5-3-flash/GLM-5.3-Flash", "orchestrator"]
+  escalation_order: ["DeepSeek-V4.1-Flash", "ccs-gmini/gemini-3.8-flash", "ccs-glm-5-3-flash/GLM-5.3-Flash", "orchestrator"]
 budget:
   per_task_tokens: 400000        # 单任务累计 token 上限（熔断）
   per_session_tokens: 2000000    # 单会话累计 token 上限（熔断）
@@ -157,12 +158,13 @@ available_models = [m for m in models if m.health() == "ready"]
 
 外部委托的核心价值：写代码的人，永远由**另一个模型**来审。
 
-| 实现者 | 评审者 1 | 评审者 2（第二轮） |
+| 实现者 | 评审者 1 | 评审者 2（第二轮复审） |
 |---|---|---|
-| `DeepSeek-V4.1-Flash` | `ccs-glm-5-3-flash/GLM-5.3-Flash` | `DeepSeek-V4.1-Flash`（换 `reasoning_effort`） |
-| `ccs-glm-5-3-flash/GLM-5.3-Flash` | `DeepSeek-V4.1-Flash` | `ccs-glm-5-3-flash/GLM-5.3-Flash`（换 `reasoning_effort`） |
+| `DeepSeek-V4.1-Flash` | `ccs-gmini/gemini-3.8-flash` | `ccs-glm-5-3-flash/GLM-5.3-Flash` |
+| `ccs-glm-5-3-flash/GLM-5.3-Flash` | `DeepSeek-V4.1-Flash` | `ccs-gmini/gemini-3.8-flash` |
+| `ccs-gmini/gemini-3.8-flash` | `DeepSeek-V4.1-Flash` | `ccs-glm-5-3-flash/GLM-5.3-Flash` |
 
-第二轮换回实现者所属模型时，必须换一个 `reasoning_effort` 档位并使用全新上下文；这仍然属于**同模型降级方案**，只是补强，不能替代第一轮的异模型评审。
+在三模型架构下，第二轮复审直接轮换至第三个独立模型，彻底避免换回实现者模型的同模型降级局面。仅在双模型离线降级模式下，第二轮才换回原模型切换档位并标注降级。
 
 评审通过 `spawn_agent` 派发，评审者默认只读、不写文件。编排者阅读评审者的原始输出并独立评估——评审者可以给 PASS/FAIL 建议，但最终裁决权在编排者。
 

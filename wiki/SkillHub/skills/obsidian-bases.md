@@ -3,7 +3,7 @@ title: Obsidian Bases 数据视图
 skill: obsidian-bases
 category: Obsidian 基础能力与文件格式
 category_slug: obsidian-basic
-source: raw/SkillHub/obsidian-skills/skills/obsidian-bases/SKILL.md
+source: raw/SkillHub/categories/obsidian-basic/obsidian-bases/SKILL.md
 tags:
   - SKILL
   - SKILL/obsidian-basic
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`obsidian-bases`  
 > 原始标题：Obsidian Bases Skill  
 > 功能分类：Obsidian 基础能力与文件格式  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-skills/skills/obsidian-bases/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/obsidian-basic/obsidian-bases/SKILL.md)
 
 ## 用途
 

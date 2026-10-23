@@ -3,7 +3,7 @@ title: Defuddle 网页正文提取
 skill: defuddle
 category: 内容采集与导入
 category_slug: content-ingest
-source: raw/SkillHub/obsidian-skills/skills/defuddle/SKILL.md
+source: raw/SkillHub/categories/content-ingest/defuddle/SKILL.md
 tags:
   - SKILL
   - SKILL/content-ingest
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`defuddle`  
 > 原始标题：Defuddle  
 > 功能分类：内容采集与导入  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-skills/skills/defuddle/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/content-ingest/defuddle/SKILL.md)
 
 ## 用途
 

@@ -3,7 +3,7 @@ title: 知识图谱外部导出
 skill: wiki-export
 category: 可视化、仪表盘与导出
 category_slug: visualization-export
-source: raw/SkillHub/obsidian-wiki/skills/wiki-export/SKILL.md
+source: raw/SkillHub/categories/visualization-export/wiki-export/SKILL.md
 tags:
   - SKILL
   - SKILL/visualization-export
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-export`  
 > 原始标题：Wiki Export — Knowledge Graph Export  
 > 功能分类：可视化、仪表盘与导出  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-export/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/visualization-export/wiki-export/SKILL.md)
 
 ## 用途
 

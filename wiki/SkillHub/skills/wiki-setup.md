@@ -3,7 +3,7 @@ title: Obsidian Wiki 初始化
 skill: wiki-setup
 category: 配置、自动化与多库管理
 category_slug: setup-automation
-source: raw/SkillHub/obsidian-wiki/skills/wiki-setup/SKILL.md
+source: raw/SkillHub/categories/setup-automation/wiki-setup/SKILL.md
 tags:
   - SKILL
   - SKILL/setup-automation
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-setup`  
 > 原始标题：Obsidian Setup — Vault Initialization  
 > 功能分类：配置、自动化与多库管理  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-setup/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/setup-automation/wiki-setup/SKILL.md)
 
 ## 用途
 

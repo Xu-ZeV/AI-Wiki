@@ -3,7 +3,7 @@ title: 通用文本数据导入
 skill: data-ingest
 category: 内容采集与导入
 category_slug: content-ingest
-source: raw/SkillHub/obsidian-wiki/skills/data-ingest/SKILL.md
+source: raw/SkillHub/categories/content-ingest/data-ingest/SKILL.md
 tags:
   - SKILL
   - SKILL/content-ingest
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`data-ingest`  
 > 原始标题：Data Ingest — Universal Text Source Handler  
 > 功能分类：内容采集与导入  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/data-ingest/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/content-ingest/data-ingest/SKILL.md)
 
 ## 用途
 

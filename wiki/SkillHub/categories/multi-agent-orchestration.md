@@ -20,10 +20,11 @@ tags:
 
 ## 本机可用模型
 
-| 模型标识（`spawn_agent` 的 `model`） | 显示名 | 上下文 | 支持的 `reasoning_effort` |
-| --- | --- | --- | --- |
-| `DeepSeek-V4.1-Flash` | DeepSeek-V4.1-Flash | 256K | `low` / `medium` / `high` / `xhigh` |
-| `ccs-glm-5-3-flash/GLM-5.3-Flash` | GLM-5.3-Flash | 1M | `low` / `high` / `max` |
+| 模型标识（`spawn_agent` 的 `model`） | 显示名 | 上下文 | 支持的 `reasoning_effort` | 职能定位 |
+| --- | --- | --- | --- | --- |
+| `DeepSeek-V4.1-Flash` | DeepSeek-V4.1-Flash | 256K | `low` / `medium` / `high` / `xhigh` | 本地部署。主力代码实现、细粒度边界挑错、对抗审查、范围门禁（`xhigh`） |
+| `ccs-glm-5-3-flash/GLM-5.3-Flash` | GLM-5.3-Flash | 1M | `low` / `high` / `max` | 本地部署。宏观系统架构把控、安全设计深度推演（`max`）、全量需求完整性门禁（1M 窗口通读） |
+| `ccs-gmini/gemini-3.8-flash` | gemini-3.8-flash | 1049K | `low` / `medium` / `high` | CC-Switch 代理。技术可行性审查、快速异构复核、敏捷产品与交互设计审查、页面截屏与视觉核验 |
 
 ## 分层
 

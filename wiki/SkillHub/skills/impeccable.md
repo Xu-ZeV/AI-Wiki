@@ -3,7 +3,7 @@ title: Impeccable 前端设计工作流
 skill: impeccable
 category: 高级前端 UI 设计与重构
 category_slug: frontend-ui-design
-source: raw/SkillHub/impeccable/SKILL.md
+source: raw/SkillHub/categories/frontend-ui-design/impeccable/SKILL.md
 tags:
   - SKILL
   - SKILL/frontend-ui-design
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`impeccable`  
 > 原始标题：Impeccable  
 > 功能分类：高级前端 UI 设计与重构  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/impeccable/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/frontend-ui-design/impeccable/SKILL.md)
 
 ## 中文含义与用途
 

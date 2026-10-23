@@ -3,7 +3,7 @@ title: Wiki 归档、重建与恢复
 skill: wiki-rebuild
 category: 维护、治理与知识质量
 category_slug: maintenance-governance
-source: raw/SkillHub/obsidian-wiki/skills/wiki-rebuild/SKILL.md
+source: raw/SkillHub/categories/maintenance-governance/wiki-rebuild/SKILL.md
 tags:
   - SKILL
   - SKILL/maintenance-governance
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-rebuild`  
 > 原始标题：Wiki Rebuild — Archive, Rebuild, Restore  
 > 功能分类：维护、治理与知识质量  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-rebuild/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/maintenance-governance/wiki-rebuild/SKILL.md)
 
 ## 用途
 

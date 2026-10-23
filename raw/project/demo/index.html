@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Three.js Journey Quickstart Demo</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <!-- WebGL Canvas 渲染视口 -->
+    <canvas class="webgl"></canvas>
+
+    <!-- WebGL 环境异常/不可用优雅降级提示卡片 -->
+    <div id="webgl-fallback" class="webgl-fallback">
+      <div class="fallback-card">
+        <div class="fallback-icon">⚠️</div>
+        <h2 class="fallback-title">无法启用 WebGL 渲染环境</h2>
+        <p class="fallback-desc">
+          您的浏览器或显卡驱动暂不支持硬件加速的 WebGL / WebGL 2 上下文，或者该功能已被禁用。
+        </p>
+        <div class="fallback-tips">
+          <p>建议排查方案：</p>
+          <ul>
+            <li>在浏览器设置中启用“硬件加速”选项</li>
+            <li>检查显卡驱动程序是否正常更新</li>
+            <li>尝试使用最新版 Chrome、Firefox 或 Edge 浏览器访问</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 应用程序入口脚本 -->
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

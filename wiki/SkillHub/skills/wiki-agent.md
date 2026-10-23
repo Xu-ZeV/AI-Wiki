@@ -3,7 +3,7 @@ title: 跨 Agent 定向历史检索导入
 skill: wiki-agent
 category: AI 会话历史导入
 category_slug: agent-history
-source: raw/SkillHub/obsidian-wiki/skills/wiki-agent/SKILL.md
+source: raw/SkillHub/categories/agent-history/wiki-agent/SKILL.md
 tags:
   - SKILL
   - SKILL/agent-history
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-agent`  
 > 原始标题：Wiki Agent — Targeted Cross-Agent History Search + Ingest  
 > 功能分类：AI 会话历史导入  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-agent/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/agent-history/wiki-agent/SKILL.md)
 
 ## 用途
 

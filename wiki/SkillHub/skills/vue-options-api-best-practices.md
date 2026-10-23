@@ -3,7 +3,7 @@ title: Vue 3 Options API 最佳实践
 skill: vue-options-api-best-practices
 category: Vue 3 工程实践
 category_slug: vue-engineering
-source: raw/SkillHub/vuejs-ai-skills/skills/vue-options-api-best-practices/SKILL.md
+source: raw/SkillHub/categories/vue-engineering/vue-options-api-best-practices/SKILL.md
 tags:
   - SKILL
   - SKILL/vue-engineering
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`vue-options-api-best-practices`  
 > 原始标题：Vue.js Options API best practices, TypeScript integration, and common gotchas.  
 > 功能分类：Vue 3 工程实践  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/vuejs-ai-skills/skills/vue-options-api-best-practices/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/vue-engineering/vue-options-api-best-practices/SKILL.md)
 
 ## 中文含义与用途
 

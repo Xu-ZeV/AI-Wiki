@@ -45,25 +45,61 @@ metadata:
 | `close_agent` | 子代理完成后释放并发名额 |
 | `resume_agent` | 仅用于显式恢复有持久标识的子代理 |
 
-可用模型只有两个：
+可用模型（三方异构体系）：
 
-| 模型 | reasoning_effort |
-| --- | --- |
-| `DeepSeek-V4.1-Flash` | `low` / `medium` / `high` / `xhigh` |
-| `ccs-glm-5-3-flash/GLM-5.3-Flash` | `low` / `high` / `max` |
+| 模型 | 显示名 | 上下文 | 支持的 reasoning_effort | 推荐定位 |
+| --- | --- | --- | --- | --- |
+| `DeepSeek-V4.1-Flash` | DeepSeek-V4.1-Flash | 256K | `low` / `medium` / `high` / `xhigh` | 本地部署。主力代码实现、底层边界挑错、对抗审查 |
+| `ccs-glm-5-3-flash/GLM-5.3-Flash` | GLM-5.3-Flash | 1M | `low` / `high` / `max` | 本地部署。大上下文工程实现、宏观架构审查、安全推演（max） |
+| `ccs-gmini/gemini-3.8-flash` | gemini-3.8-flash | 1049K | `low` / `medium` / `high` | CC-Switch 代理。极速对抗审查、敏捷复核、跨厂商独立异构 |
 
-`ccs-glm-5-3-flash/GLM-5.3-Flash` 的显示名是 `GLM-5.3-Flash`，上下文为 1M；`DeepSeek-V4.1-Flash` 的上下文为 256K。子代理默认继承父代理模型；要形成真正的异构评审，必须在 `spawn_agent` 中显式传 `model`。仅给同一个模型换 `reasoning_effort` 只是降级方案，不算真正的异构。子代理默认不带父会话历史，因此每个 prompt 必须包含该工作单元所需的全部上下文。子代理完成后必须 `close_agent` 释放，避免占并发名额。
+子代理默认继承父代理模型；要形成真正的异构评审，必须在 `spawn_agent` 中显式传 `model`，并严格解耦 model slug 与 reasoning_effort 参数。子代理默认不带父会话历史，每个 prompt 必须包含该工作单元所需的全部自包含上下文。子代理完成后必须 `close_agent` 释放，避免占并发名额。
+
+若检测到云端代理不可用，系统自动平滑降级为本地双模型（DeepSeek + GLM）互评链。
 
 ### 调用顺序
 
 1. 为工作单元构造自包含 prompt，用 `spawn_agent` 启动实现子代理。
 2. 用 `wait_agent` 等待实现完成；实现子代理返回后立即 `close_agent`。
 3. 编排者本人运行类型检查、lint、测试、覆盖率和文件范围校验；不得把这些校验外包给实现子代理。
-4. 校验通过后，用 `spawn_agent` 启动一个全新评审子代理，并显式传另一个模型以形成异构评审。
-5. 评审 PASS 则提交；评审 FAIL 则修复、重新校验、再换一个全新评审实例复审。
+4. 校验通过后，用 `spawn_agent` 启动一个全新评审子代理，并显式传另一个独立模型以形成异构评审（推荐使用 Gemini 快速复审）。
+5. 评审 PASS 则提交；评审 FAIL 则修复、重新校验、再换第三个独立模型实例复审（如 DeepSeek 实现 -> Gemini 评审 FAIL -> 修复后换 GLM 复审）。
 6. 每个门禁最多重试 3 轮；超限后把完整失败历史升级给人类，不得跳过门禁。
 
-### 路由示例：实现用 DeepSeek，评审用 GLM
+### 路由示例 1（推荐高吞吐）：实现用 DeepSeek，评审用 Gemini
+
+```text
+spawn_agent(
+  message = "实现工作单元 WU-001。以下是自包含规格、DoD、文件范围和项目上下文：...",
+  model = "DeepSeek-V4.1-Flash",
+  reasoning_effort = "high",
+  fork_context = false
+)
+
+wait_agent(
+  targets = ["WU-001-implementation"],
+  timeout_ms = 600000
+)
+
+close_agent("WU-001-implementation")
+
+# 编排者本人执行校验后：
+spawn_agent(
+  message = "对工作单元 WU-001 做对抗性审查。以下是自包含规格、DoD 和 diff：...",
+  model = "ccs-gmini/gemini-3.8-flash",
+  reasoning_effort = "high",
+  fork_context = false
+)
+
+wait_agent(
+  targets = ["WU-001-review-1"],
+  timeout_ms = 600000
+)
+
+close_agent("WU-001-review-1")
+```
+
+### 路由示例 2：实现用 DeepSeek，评审用 GLM
 
 ```text
 spawn_agent(

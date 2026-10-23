@@ -3,7 +3,7 @@ title: Wiki 动态仪表盘
 skill: wiki-dashboard
 category: 可视化、仪表盘与导出
 category_slug: visualization-export
-source: raw/SkillHub/obsidian-wiki/skills/wiki-dashboard/SKILL.md
+source: raw/SkillHub/categories/visualization-export/wiki-dashboard/SKILL.md
 tags:
   - SKILL
   - SKILL/visualization-export
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-dashboard`  
 > 原始标题：Wiki Dashboard — Dynamic Vault Views  
 > 功能分类：可视化、仪表盘与导出  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-dashboard/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/visualization-export/wiki-dashboard/SKILL.md)
 
 ## 用途
 

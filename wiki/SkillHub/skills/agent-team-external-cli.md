@@ -31,12 +31,13 @@ tags:
 
 ### 可用模型与路由
 
-本机可用模型只有两个：
+本机支持三个可用模型：
 
-| 模型 | reasoning_effort 可选值 |
-| --- | --- |
-| `DeepSeek-V4.1-Flash`（256K 上下文） | low / medium / high / xhigh |
-| `ccs-glm-5-3-flash/GLM-5.3-Flash`（显示名 GLM-5.3-Flash，1M 上下文） | low / high / max |
+| 模型 | reasoning_effort 可选值 | 职能定位 |
+| --- | --- | --- |
+| `DeepSeek-V4.1-Flash`（256K 上下文） | low / medium / high / xhigh | 本地部署。主力代码实现、边界条件审查 |
+| `ccs-glm-5-3-flash/GLM-5.3-Flash`（显示名 GLM-5.3-Flash，1M 上下文） | low / high / max | 本地部署。大上下文工程实现、架构与安全推演（`max`） |
+| `ccs-gmini/gemini-3.8-flash`（显示名 gemini-3.8-flash，1049K 上下文） | low / medium / high | CC-Switch 代理。极速对抗审查、敏捷复核、真异构视角 |
 
 路由原则：实现者与评审员**必须**使用不同模型；当只有两个模型时，第二个评审员只能与实现者或第一位评审员共享模型、通过不同 reasoning_effort 区分，属于降级方案。
 
@@ -47,10 +48,11 @@ tags:
 3. **Phase 2 VALIDATE（永远由编排者执行）**：类型检查、Lint、全量测试、覆盖率检查（若项目存在覆盖率门禁则执行）、用 `git diff --name-only` 核对文件范围。**绝不通过实现者子 Agent 代跑。**
 4. **Phase 3 ADVERSARIAL REVIEW（跨模型）**：spawn 评审员子 Agent（模型 B，与实现者不同），只传 spec、DoD 与 diff，不传实现者的自我评估。写代码的模型，永远由**另一个模型**来审。
 
-| 实现者 | 评审员 1 | 评审员 2（降级） |
+| 实现者 | 评审员 1 | 评审员 2（第二轮复审） |
 | --- | --- | --- |
-| DeepSeek-V4.1-Flash | GLM-5.3-Flash | DeepSeek-V4.1-Flash（不同 reasoning_effort） |
-| GLM-5.3-Flash | DeepSeek-V4.1-Flash | GLM-5.3-Flash（不同 reasoning_effort） |
+| `DeepSeek-V4.1-Flash` | `ccs-gmini/gemini-3.8-flash` | `ccs-glm-5-3-flash/GLM-5.3-Flash` |
+| `ccs-glm-5-3-flash/GLM-5.3-Flash` | `DeepSeek-V4.1-Flash` | `ccs-gmini/gemini-3.8-flash` |
+| `ccs-gmini/gemini-3.8-flash` | `DeepSeek-V4.1-Flash` | `ccs-glm-5-3-flash/GLM-5.3-Flash` |
 
 5. **Phase 4 COMMIT**：记录会话供自省 → 在提交信息中写入 DoD 验证结果。
 
@@ -90,12 +92,13 @@ Codex 官方限制：除非用户或 `AGENTS.md`/skill 明确要求，否则不�
 
 ### 可用模型
 
-本机可用模型只有两个：
+本机支持三个可用模型：
 
-| 模型 | reasoning_effort 可选值 |
-| --- | --- |
-| `DeepSeek-V4.1-Flash`（256K 上下文） | low / medium / high / xhigh |
-| `ccs-glm-5-3-flash/GLM-5.3-Flash`（显示名 GLM-5.3-Flash，1M 上下文） | low / high / max |
+| 模型 | reasoning_effort 可选值 | 职能定位 |
+| --- | --- | --- |
+| `DeepSeek-V4.1-Flash`（256K 上下文） | low / medium / high / xhigh | 本地部署。主力代码实现、边界条件审查 |
+| `ccs-glm-5-3-flash/GLM-5.3-Flash`（显示名 GLM-5.3-Flash，1M 上下文） | low / high / max | 本地部署。大上下文工程实现、架构与安全推演（`max`） |
+| `ccs-gmini/gemini-3.8-flash`（显示名 gemini-3.8-flash，1049K 上下文） | low / medium / high | CC-Switch 代理。极速对抗审查、敏捷复核、真异构视角 |
 
 子代理默认继承父代理模型，必须显式传 `model` 才是异构。**同模型只换 reasoning_effort 属于降级方案，不算真正异构评审。**
 

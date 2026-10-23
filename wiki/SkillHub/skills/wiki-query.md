@@ -3,7 +3,7 @@ title: Wiki 知识检索问答
 skill: wiki-query
 category: 知识检索与上下文复用
 category_slug: retrieval-context
-source: raw/SkillHub/obsidian-wiki/skills/wiki-query/SKILL.md
+source: raw/SkillHub/categories/retrieval-context/wiki-query/SKILL.md
 tags:
   - SKILL
   - SKILL/retrieval-context
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-query`  
 > 原始标题：Wiki Query — Knowledge Retrieval  
 > 功能分类：知识检索与上下文复用  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-query/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/retrieval-context/wiki-query/SKILL.md)
 
 ## 用途
 

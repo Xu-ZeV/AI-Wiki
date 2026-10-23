@@ -3,7 +3,7 @@ title: Wiki 健康检查与修复
 skill: wiki-lint
 category: 维护、治理与知识质量
 category_slug: maintenance-governance
-source: raw/SkillHub/obsidian-wiki/skills/wiki-lint/SKILL.md
+source: raw/SkillHub/categories/maintenance-governance/wiki-lint/SKILL.md
 tags:
   - SKILL
   - SKILL/maintenance-governance
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-lint`  
 > 原始标题：Wiki Lint — Health Audit  
 > 功能分类：维护、治理与知识质量  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-lint/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/maintenance-governance/wiki-lint/SKILL.md)
 
 ## 用途
 

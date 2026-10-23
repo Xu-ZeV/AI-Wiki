@@ -3,7 +3,7 @@ title: 受控标签分类体系
 skill: tag-taxonomy
 category: 维护、治理与知识质量
 category_slug: maintenance-governance
-source: raw/SkillHub/obsidian-wiki/skills/tag-taxonomy/SKILL.md
+source: raw/SkillHub/categories/maintenance-governance/tag-taxonomy/SKILL.md
 tags:
   - SKILL
   - SKILL/maintenance-governance
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`tag-taxonomy`  
 > 原始标题：Tag Taxonomy — Controlled Vocabulary for Wiki Tags  
 > 功能分类：维护、治理与知识质量  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/tag-taxonomy/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/maintenance-governance/tag-taxonomy/SKILL.md)
 
 ## 用途
 

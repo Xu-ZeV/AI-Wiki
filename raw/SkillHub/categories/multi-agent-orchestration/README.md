@@ -11,12 +11,24 @@
 
 ## 本机可用模型
 
-| 模型标识（`spawn_agent` 的 `model`） | 显示名 | 上下文 | 支持的 `reasoning_effort` |
-| --- | --- | --- | --- |
-| `DeepSeek-V4.1-Flash` | DeepSeek-V4.1-Flash | 256K | `low` / `medium` / `high` / `xhigh` |
-| `ccs-glm-5-3-flash/GLM-5.3-Flash` | GLM-5.3-Flash | 1M | `low` / `high` / `max` |
+| 模型标识（`spawn_agent` 的 `model`） | 显示名 | 上下文 | 支持的 `reasoning_effort` | 职能定位 |
+| --- | --- | --- | --- | --- |
+| `DeepSeek-V4.1-Flash` | DeepSeek-V4.1-Flash | 256K | `low` / `medium` / `high` / `xhigh` | 本地部署。核心代码实现、细粒度边界排查、对抗性代码审查、范围与对齐门禁（`xhigh` 严防蔓延） |
+| `ccs-glm-5-3-flash/GLM-5.3-Flash` | GLM-5.3-Flash | 1M | `low` / `high` / `max` | 本地部署。宏观系统架构把控、安全设计深度推演（`max`）、全量需求完整性门禁（1M 窗口通读 PRD） |
+| `ccs-gmini/gemini-3.8-flash` | gemini-3.8-flash | 1049K | `low` / `medium` / `high` | CC-Switch 代理。技术可行性审查、快速异构代码复核、敏捷产品与交互设计审查、页面截屏与视觉核验 |
 
-异构评审靠的是在 `spawn_agent` 里显式传 `model`：实现者与评审者必须换模型。只给同一模型换 `reasoning_effort` 属于降级方案，不算异构。
+## 模型职能分工（黄金三角）
+
+套件根据模型各自的算力部署形态与架构特性，构建了职责明确的黄金三角协作矩阵：
+
+1. **核心实现与严密逻辑** $\rightarrow$ **`DeepSeek-V4.1-Flash`**：本地运行，在代码重构、复杂算法与精细边界挑错上处于顶尖梯队，担当主力实现者与范围裁决者。
+2. **全局架构与长文完整性** $\rightarrow$ **`ccs-glm-5-3-flash/GLM-5.3-Flash`**：本地运行，依托 1M 超长窗口与深刻的中文业务理解，负责全局一致性、全景需求覆盖与安全红线推演。
+3. **极速可行性与真异构对抗** $\rightarrow$ **`ccs-gmini/gemini-3.8-flash`**：云端高速代理，依托 1049K 上下文、高吞吐 Flash 响应与完全独立的外部模型权重，负责快速技术可行性筛查、页面多模态视觉核验与跨厂商异构代码复核。
+
+## 异构协作与优雅降级机制
+
+- **三方真异构（推荐默认）**：计划门禁（3 角色）与代码审查（实现+双评审）完全由三款不同模型承担，达成 100% 独立跨厂商真异构。
+- **离线/网络故障优雅降级（Offline Fallback）**：若检测到公网或云端代理不可用，系统自动平滑降级回本地双模型交错模式（DeepSeek + GLM），并在门禁报告中如实标注“已自动降级为本地双模型多视角审查”，确保离线环境下的工作流可用性。
 
 ## 文件结构
 

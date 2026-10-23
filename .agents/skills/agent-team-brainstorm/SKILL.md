@@ -134,7 +134,7 @@ skill 自带的元数据触发标记只是提示，运行时不一定会自动�
 | 安全设计 | APPROVED | 无高风险威胁，缓解措施到位 |
 | CTO | APPROVED | TDD 规格齐全，可进入实施 |
 
-异构度说明：本机仅有两个可用模型，存在同一模型被多个角色使用的情况，属于多视角而非完全异构。
+异构度说明：本轮评审跨 Gemini、GLM、DeepSeek 三个独立模型分布（PM/UX 使用 Gemini，架构/安全使用 GLM，CTO 使用 DeepSeek）。降级模式下如实标注本地双模型多视角说明。
 
 ### 后续步骤
 1. 为该特性创建实施任务
@@ -187,8 +187,8 @@ skill 自带的元数据触发标记只是提示，运行时不一定会自动�
 本 skill 自身通常不直接派发子代理，而是把控制权交给 `agent-team-design-gate`。若需要在此处直接派发，参数与 `agent-team-design-gate` 一致：
 
 - `message`：必须自包含（设计文档正文 + 用户原始请求 + 评审角色 + 输出格式）。
-- `model`：在 `DeepSeek-V4.1-Flash` 与 `ccs-glm-5-3-flash/GLM-5.3-Flash` 之间交错分配。
-- `reasoning_effort`：常规角色用 `high`；安全设计可用 GLM 的 `max`；CTO 可用 DeepSeek 的 `xhigh`。不要给 GLM 传 `xhigh`、不要给 DeepSeek 传 `max`。
+- `model`：在 `DeepSeek-V4.1-Flash`、`ccs-glm-5-3-flash/GLM-5.3-Flash` 与 `ccs-gmini/gemini-3.8-flash` 之间分配，严格解耦 model slug 与 reasoning_effort 参数。
+- `reasoning_effort`：安全设计用 GLM 的 `max`，CTO 用 DeepSeek 的 `xhigh`，设计师用 Gemini 的 `medium`，产品经理/架构师用 `high`。不要给 GLM 传 `xhigh`、不要给 DeepSeek 传 `max`、不要给 Gemini 传 `max`/`xhigh`。
 - `fork_context=false`：保证评审是干净起点，满足隔离规则。
 
 ### 编排顺序示例
@@ -199,9 +199,9 @@ design_doc = "docs/plans/<feature>-design.md"
 user_request = "<用户原始请求>"
 
 # 转交设计评审门禁，由它派发 5 个全新实例：
-pm   = spawn_agent(message=产品经理提示词, model="DeepSeek-V4.1-Flash", reasoning_effort="high", fork_context=false)
+pm   = spawn_agent(message=产品经理提示词, model="ccs-gmini/gemini-3.8-flash", reasoning_effort="high", fork_context=false)
 arch = spawn_agent(message=架构师提示词,   model="ccs-glm-5-3-flash/GLM-5.3-Flash", reasoning_effort="high", fork_context=false)
-ux   = spawn_agent(message=设计师提示词,   model="DeepSeek-V4.1-Flash", reasoning_effort="high", fork_context=false)
+ux   = spawn_agent(message=设计师提示词,   model="ccs-gmini/gemini-3.8-flash", reasoning_effort="medium", fork_context=false)
 sec  = spawn_agent(message=安全设计提示词, model="ccs-glm-5-3-flash/GLM-5.3-Flash", reasoning_effort="max", fork_context=false)
 cto  = spawn_agent(message=CTO 提示词,     model="DeepSeek-V4.1-Flash", reasoning_effort="xhigh", fork_context=false)
 results = wait_agent(targets=[pm, arch, ux, sec, cto], timeout_ms=900000)
@@ -219,7 +219,7 @@ close_agent(pm); close_agent(arch); close_agent(ux); close_agent(sec); close_age
 | 3 | **把评审发现传给下一轮** | 锚定偏差，破坏独立性 | 每轮派发全新 `spawn_agent` 实例，不带历史发现 |
 | 4 | **只重跑失败的评审** | 其他评审也可能在修订稿上失败 | 每轮对全部 5 位评审重新派发全新实例 |
 | 5 | **无限迭代** | 收益递减，3 轮后往往说明设计有根本问题 | 最多 3 轮，然后带上完整上下文升级给用户 |
-| 6 | **把多实例当多模型**——声称"五路异构评审" | 同一模型的多实例不是异构，只是多视角 | 如实标注异构度受限于本机只有两个模型 |
+| 6 | **把多实例当多模型**——声称"五路完全异构评审" | 同一模型的多实例不是异构，只是多视角 | 如实标注三模型分布与降级模式下的异构度边界 |
 | 7 | **绕开流水线直接实现**——跳过计划评审门禁 | 设计通过不等于计划可行 | 设计通过后仍要跑计划评审门禁（3 位对抗式评审） |
 
 ## 跳过条件

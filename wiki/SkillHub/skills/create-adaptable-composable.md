@@ -3,7 +3,7 @@ title: 可适配 Vue Composable 创建
 skill: create-adaptable-composable
 category: Vue 3 工程实践
 category_slug: vue-engineering
-source: raw/SkillHub/vuejs-ai-skills/skills/create-adaptable-composable/SKILL.md
+source: raw/SkillHub/categories/vue-engineering/create-adaptable-composable/SKILL.md
 tags:
   - SKILL
   - SKILL/vue-engineering
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`create-adaptable-composable`  
 > 原始标题：Create Adaptable Composable  
 > 功能分类：Vue 3 工程实践  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/vuejs-ai-skills/skills/create-adaptable-composable/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/vue-engineering/create-adaptable-composable/SKILL.md)
 
 ## 中文含义与用途
 

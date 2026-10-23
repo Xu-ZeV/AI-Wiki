@@ -3,7 +3,7 @@ title: 跨主题合成页发现
 skill: wiki-synthesize
 category: 维护、治理与知识质量
 category_slug: maintenance-governance
-source: raw/SkillHub/obsidian-wiki/skills/wiki-synthesize/SKILL.md
+source: raw/SkillHub/categories/maintenance-governance/wiki-synthesize/SKILL.md
 tags:
   - SKILL
   - SKILL/maintenance-governance
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-synthesize`  
 > 原始标题：Wiki Synthesize — First-Class Synthesis Discovery  
 > 功能分类：维护、治理与知识质量  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-synthesize/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/maintenance-governance/wiki-synthesize/SKILL.md)
 
 ## 用途
 

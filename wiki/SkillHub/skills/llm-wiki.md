@@ -3,7 +3,7 @@ title: LLM Wiki 知识蒸馏架构
 skill: llm-wiki
 category: 知识检索与上下文复用
 category_slug: retrieval-context
-source: raw/SkillHub/obsidian-wiki/skills/llm-wiki/SKILL.md
+source: raw/SkillHub/categories/retrieval-context/llm-wiki/SKILL.md
 tags:
   - SKILL
   - SKILL/retrieval-context
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`llm-wiki`  
 > 原始标题：LLM Wiki — Knowledge Distillation Pattern  
 > 功能分类：知识检索与上下文复用  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/llm-wiki/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/retrieval-context/llm-wiki/SKILL.md)
 
 ## 用途
 

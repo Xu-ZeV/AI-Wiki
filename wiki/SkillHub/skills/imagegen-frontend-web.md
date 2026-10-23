@@ -3,7 +3,7 @@ title: 网站分区视觉参考图生成
 skill: imagegen-frontend-web
 category: 视觉参考图与品牌生成
 category_slug: visual-reference-generation
-source: raw/SkillHub/taste-skills/skills/imagegen-frontend-web/SKILL.md
+source: raw/SkillHub/categories/visual-reference-generation/imagegen-frontend-web/SKILL.md
 tags:
   - SKILL
   - SKILL/visual-reference-generation
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`imagegen-frontend-web`  
 > 原始标题：Awwwards-Level Image Art Direction  
 > 功能分类：视觉参考图与品牌生成  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/taste-skills/skills/imagegen-frontend-web/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/visual-reference-generation/imagegen-frontend-web/SKILL.md)
 
 ## 中文含义与用途
 

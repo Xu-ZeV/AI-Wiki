@@ -101,14 +101,15 @@ Codex 官方限制：除非用户或 `AGENTS.md`/skill 明确要求，否则不�
 
 ### 可用模型
 
-本机可用模型只有两个：
+本机支持三个可用模型：
 
-| 模型 | reasoning_effort 可选值 |
-| --- | --- |
-| `DeepSeek-V4.1-Flash`（256K 上下文） | low / medium / high / xhigh |
-| `ccs-glm-5-3-flash/GLM-5.3-Flash`（显示名 GLM-5.3-Flash，1M 上下文） | low / high / max |
+| 模型 | reasoning_effort 可选值 | 职能定位 |
+| --- | --- | --- |
+| `DeepSeek-V4.1-Flash`（256K 上下文） | low / medium / high / xhigh | 本地部署。代码实现、边界条件、工程底线（`xhigh`） |
+| `ccs-glm-5-3-flash/GLM-5.3-Flash`（显示名 GLM-5.3-Flash，1M 上下文） | low / high / max | 本地部署。系统架构设计、安全推演（`max`）、需求完整性 |
+| `ccs-gmini/gemini-3.8-flash`（显示名 gemini-3.8-flash，1049K 上下文） | low / medium / high | CC-Switch 代理。敏捷需求、交互设计、可行性审查、快速复核 |
 
-子代理默认继承父代理模型，必须显式传 `model` 才是异构。**同模型只换 reasoning_effort 属于降级方案，不算真正异构评审。**
+子代理默认继承父代理模型，必须显式传 `model` 并严格解耦 `reasoning_effort`。三模型架构下达成跨厂商真异构协同；若云端代理不可用，自动平滑降级为本地双模型多视角模式并如实标注。
 
 子代理默认不带父会话历史（`fork_context=false`），每次 spawn 的 prompt 必须自包含。
 

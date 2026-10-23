@@ -105,37 +105,38 @@ Codex 官方限制：除非用户或 `AGENTS.md`/skill 明确要求，否则不�
 
 ### 可用模型
 
-本机可用模型只有两个：
+本机支持三个可用模型：
 
-| 模型 | reasoning_effort 可选值 |
-| --- | --- |
-| `DeepSeek-V4.1-Flash`（256K 上下文） | low / medium / high / xhigh |
-| `ccs-glm-5-3-flash/GLM-5.3-Flash`（显示名 GLM-5.3-Flash，1M 上下文） | low / high / max |
+| 模型 | reasoning_effort 可选值 | 职能专长 |
+| --- | --- | --- |
+| `DeepSeek-V4.1-Flash`（256K 上下文） | low / medium / high / xhigh | 本地部署。边界条件、代码底线（CTO 角色，`xhigh`） |
+| `ccs-glm-5-3-flash/GLM-5.3-Flash`（显示名 GLM-5.3-Flash，1M 上下文） | low / high / max | 本地部署。系统架构规范、深度安全推演（安全角色，`max`） |
+| `ccs-gmini/gemini-3.8-flash`（显示名 gemini-3.8-flash，1049K 上下文） | low / medium / high | CC-Switch 代理。敏捷需求（PM 角色）、视觉交互设计（设计师角色） |
 
-子代理默认继承父代理模型，必须显式传 `model` 才是异构。**同模型只换 reasoning_effort 属于降级方案，不算真正异构评审。**只有两个模型时，5 个角色中必然有多个角色共享同一模型、通过不同 reasoning_effort 区分，属于降级方案。
+子代理默认继承父代理模型，必须显式传 `model` 并严格解耦 `reasoning_effort`。三模型架构下五角色跨三个独立模型合理分布；若云端代理离线，自动平滑降级为本地双模型多视角模式并如实标注。
 
 子代理默认不带父会话历史（`fork_context=false`），每位评审员的 spawn prompt 必须自包含（设计文档正文 + 用户原始请求 + 评审角色说明）。
 
 #### 模型与角色分配
 
-| 评审角色 | `model` | `reasoning_effort` |
-| --- | --- | --- |
-| 产品经理 | `DeepSeek-V4.1-Flash` | `high` |
-| 架构师 | `ccs-glm-5-3-flash/GLM-5.3-Flash` | `high` |
-| 设计师 | `DeepSeek-V4.1-Flash` | `high` |
-| 安全设计 | `ccs-glm-5-3-flash/GLM-5.3-Flash` | `max` |
-| CTO | `DeepSeek-V4.1-Flash` | `xhigh` |
+| 评审角色 | `model` | `reasoning_effort` | 评审侧重 |
+| --- | --- | --- | --- |
+| 产品经理 | `ccs-gmini/gemini-3.8-flash` | `high` | 需求完整性、用户体验、用例闭环 |
+| 架构师 | `ccs-glm-5-3-flash/GLM-5.3-Flash` | `high` | 模块契约、技术规范契合度、可维护性 |
+| 设计师 | `ccs-gmini/gemini-3.8-flash` | `medium` | 交互流畅度、视觉与状态一致性 |
+| 安全设计 | `ccs-glm-5-3-flash/GLM-5.3-Flash` | `max` | OWASP 风险、认证授权、信任边界推演 |
+| CTO | `DeepSeek-V4.1-Flash` | `xhigh` | 整体工程可行性、技术选型底线、最终放行 |
 
 不要给 GLM 传 `xhigh`、不给 DeepSeek 传 `max`。
 
 ### spawn 参数示例
 
-产品经理（DeepSeek）：
+产品经理（Gemini）：
 
 ```text
 spawn_agent(
   message="你是设计评审团中的产品经理。阅读以下设计文档，从用户用例、可度量收益、MVP 边界与成功标准角度评审，输出结构化 ReviewResult（verdict: APPROVED 或 NEEDS_REVISION，含 blockers/suggestions/questions）。设计文档：<...>",
-  model="DeepSeek-V4.1-Flash",
+  model="ccs-gmini/gemini-3.8-flash",
   reasoning_effort="high"
 )
 ```

@@ -3,7 +3,7 @@ title: 周期知识摘要报告
 skill: wiki-digest
 category: 可视化、仪表盘与导出
 category_slug: visualization-export
-source: raw/SkillHub/obsidian-wiki/skills/wiki-digest/SKILL.md
+source: raw/SkillHub/categories/visualization-export/wiki-digest/SKILL.md
 tags:
   - SKILL
   - SKILL/visualization-export
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-digest`  
 > 原始标题：Wiki Digest — Knowledge Newsletter Generator  
 > 功能分类：可视化、仪表盘与导出  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-digest/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/visualization-export/wiki-digest/SKILL.md)
 
 ## 用途
 

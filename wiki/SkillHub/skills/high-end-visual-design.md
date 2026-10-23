@@ -3,7 +3,7 @@ title: 高端视觉设计与动效编排
 skill: high-end-visual-design
 category: 高级前端 UI 设计与重构
 category_slug: frontend-ui-design
-source: raw/SkillHub/taste-skills/skills/soft-skill/SKILL.md
+source: raw/SkillHub/categories/frontend-ui-design/soft-skill/SKILL.md
 tags:
   - SKILL
   - SKILL/frontend-ui-design
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`high-end-visual-design`  
 > 原始标题：Principal UI/UX Architect & Motion Choreographer  
 > 功能分类：高级前端 UI 设计与重构  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/taste-skills/skills/soft-skill/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/frontend-ui-design/soft-skill/SKILL.md)
 
 ## 中文含义与用途
 

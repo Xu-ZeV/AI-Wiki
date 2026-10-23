@@ -3,7 +3,7 @@ title: Pinia 状态管理最佳实践
 skill: vue-pinia-best-practices
 category: Vue 3 工程实践
 category_slug: vue-engineering
-source: raw/SkillHub/vuejs-ai-skills/skills/vue-pinia-best-practices/SKILL.md
+source: raw/SkillHub/categories/vue-engineering/vue-pinia-best-practices/SKILL.md
 tags:
   - SKILL
   - SKILL/vue-engineering
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`vue-pinia-best-practices`  
 > 原始标题：Pinia best practices, common gotchas, and state management patterns.  
 > 功能分类：Vue 3 工程实践  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/vuejs-ai-skills/skills/vue-pinia-best-practices/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/vue-engineering/vue-pinia-best-practices/SKILL.md)
 
 ## 中文含义与用途
 

@@ -3,7 +3,7 @@ title: Wiki 状态与增量审计
 skill: wiki-status
 category: 维护、治理与知识质量
 category_slug: maintenance-governance
-source: raw/SkillHub/obsidian-wiki/skills/wiki-status/SKILL.md
+source: raw/SkillHub/categories/maintenance-governance/wiki-status/SKILL.md
 tags:
   - SKILL
   - SKILL/maintenance-governance
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-status`  
 > 原始标题：Wiki Status — Audit & Delta  
 > 功能分类：维护、治理与知识质量  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-status/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/maintenance-governance/wiki-status/SKILL.md)
 
 ## 用途
 

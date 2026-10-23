@@ -3,7 +3,7 @@ title: 自动交叉链接补全
 skill: cross-linker
 category: 维护、治理与知识质量
 category_slug: maintenance-governance
-source: raw/SkillHub/obsidian-wiki/skills/cross-linker/SKILL.md
+source: raw/SkillHub/categories/maintenance-governance/cross-linker/SKILL.md
 tags:
   - SKILL
   - SKILL/maintenance-governance
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`cross-linker`  
 > 原始标题：Cross-Linker — Automated Wiki Cross-Referencing  
 > 功能分类：维护、治理与知识质量  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/cross-linker/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/maintenance-governance/cross-linker/SKILL.md)
 
 ## 用途
 

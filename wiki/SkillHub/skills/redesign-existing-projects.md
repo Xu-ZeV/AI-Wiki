@@ -3,7 +3,7 @@ title: 现有项目高级 UI 改造
 skill: redesign-existing-projects
 category: 高级前端 UI 设计与重构
 category_slug: frontend-ui-design
-source: raw/SkillHub/taste-skills/skills/redesign-skill/SKILL.md
+source: raw/SkillHub/categories/frontend-ui-design/redesign-skill/SKILL.md
 tags:
   - SKILL
   - SKILL/frontend-ui-design
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`redesign-existing-projects`  
 > 原始标题：Redesign Skill  
 > 功能分类：高级前端 UI 设计与重构  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/taste-skills/skills/redesign-skill/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/frontend-ui-design/redesign-skill/SKILL.md)
 
 ## 中文含义与用途
 

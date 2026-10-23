@@ -3,7 +3,7 @@ title: 实现结果质量验证
 skill: impl-validator
 category: Skill 开发与验证
 category_slug: skill-dev
-source: raw/SkillHub/obsidian-wiki/skills/impl-validator/SKILL.md
+source: raw/SkillHub/categories/skill-dev/impl-validator/SKILL.md
 tags:
   - SKILL
   - SKILL/skill-dev
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`impl-validator`  
 > 原始标题：Implementation Validator — Quality Subagent  
 > 功能分类：Skill 开发与验证  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/impl-validator/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/skill-dev/impl-validator/SKILL.md)
 
 ## 用途
 

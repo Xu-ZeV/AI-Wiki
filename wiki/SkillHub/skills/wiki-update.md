@@ -3,7 +3,7 @@ title: 项目知识同步到 Wiki
 skill: wiki-update
 category: 内容采集与导入
 category_slug: content-ingest
-source: raw/SkillHub/obsidian-wiki/skills/wiki-update/SKILL.md
+source: raw/SkillHub/categories/content-ingest/wiki-update/SKILL.md
 tags:
   - SKILL
   - SKILL/content-ingest
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-update`  
 > 原始标题：Wiki Update — Sync Any Project to Your Wiki  
 > 功能分类：内容采集与导入  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-update/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/content-ingest/wiki-update/SKILL.md)
 
 ## 用途
 

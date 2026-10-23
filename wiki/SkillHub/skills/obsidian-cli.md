@@ -3,7 +3,7 @@ title: Obsidian CLI 操作与插件调试
 skill: obsidian-cli
 category: Obsidian 基础能力与文件格式
 category_slug: obsidian-basic
-source: raw/SkillHub/obsidian-skills/skills/obsidian-cli/SKILL.md
+source: raw/SkillHub/categories/obsidian-basic/obsidian-cli/SKILL.md
 tags:
   - SKILL
   - SKILL/obsidian-basic
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`obsidian-cli`  
 > 原始标题：Obsidian CLI  
 > 功能分类：Obsidian 基础能力与文件格式  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-skills/skills/obsidian-cli/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/obsidian-basic/obsidian-cli/SKILL.md)
 
 ## 用途
 

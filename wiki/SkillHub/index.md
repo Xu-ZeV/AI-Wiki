@@ -93,6 +93,14 @@ tags:
 | --- | ---: | --- |
 | [[wiki/SkillHub/categories/multi-agent-orchestration\|多Agent团队协作]] | 7 | AI-Wiki 自有套件，统一命名 `agent-team-*`：A 级 6 个核心协议（四阶段闭环、跨模型对抗评审、方案与设计门禁、头脑风暴桥接、零上下文交接）已产出中文 skill 文件；B 级 1 个独立工具（视觉复核）；C 级 7 个上游框架专有页面已移出 wiki，中文全译稿与英文原件存于 raw 原始资料层。 |
 
+### 数据库与后端工程
+
+围绕数据库结构设计与后端工程约定，把上游 MySQL 设计规范改编为适配 PostgreSQL 的规范条目与迁移映射。
+
+| 分类 | 数量 | 功能范围 |
+| --- | ---: | --- |
+| [[wiki/SkillHub/categories/database-design\|数据库与后端工程]] | 1 | 以 PostgreSQL 14+ 为基线，覆盖库/schema/表/字段/索引/分区/字符集与 SQL 编写规范，并给出 MySQL→PostgreSQL 的逐条映射与条款冲突裁决。 |
+
 ## 使用路径
 
 ### Wiki 与 Obsidian 知识库
@@ -117,3 +125,7 @@ tags:
 - 方案或设计定稿前的独立对抗审查：使用方案对抗审查门禁与设计评审门禁，头脑风暴结论先经桥接扩展。
 - 上下文交接与前端视觉核验：使用零上下文交接与 Playwright 视觉审查。
 - metaswarm 专有的任务路由、环境探测、Issue/PR 监护页面（C 级 7 个）已移出 wiki，归纳稿存入 raw 原始资料层，仅作原始资料留存，不要按其流程执行。
+
+### 数据库与后端工程
+
+- 设计 PostgreSQL 表结构、索引、分区，或编写线上 SQL 前：从 [[wiki/SkillHub/categories/database-design|数据库与后端工程]] 开始。

@@ -3,7 +3,7 @@ title: 完整输出强制规则
 skill: full-output-enforcement
 category: 设计交付、系统化与输出约束
 category_slug: design-delivery-governance
-source: raw/SkillHub/taste-skills/skills/output-skill/SKILL.md
+source: raw/SkillHub/categories/design-delivery-governance/output-skill/SKILL.md
 tags:
   - SKILL
   - SKILL/design-delivery-governance
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`full-output-enforcement`  
 > 原始标题：Full-Output Enforcement  
 > 功能分类：设计交付、系统化与输出约束  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/taste-skills/skills/output-skill/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/design-delivery-governance/output-skill/SKILL.md)
 
 ## 中文含义与用途
 

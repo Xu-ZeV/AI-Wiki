@@ -3,7 +3,7 @@ title: 当前会话保存为 Wiki 笔记
 skill: wiki-capture
 category: 内容采集与导入
 category_slug: content-ingest
-source: raw/SkillHub/obsidian-wiki/skills/wiki-capture/SKILL.md
+source: raw/SkillHub/categories/content-ingest/wiki-capture/SKILL.md
 tags:
   - SKILL
   - SKILL/content-ingest
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-capture`  
 > 原始标题：Wiki Capture — Conversation to Wiki Note  
 > 功能分类：内容采集与导入  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-capture/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/content-ingest/wiki-capture/SKILL.md)
 
 ## 用途
 

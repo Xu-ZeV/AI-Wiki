@@ -3,7 +3,7 @@ title: Obsidian 图谱颜色分组
 skill: graph-colorize
 category: 可视化、仪表盘与导出
 category_slug: visualization-export
-source: raw/SkillHub/obsidian-wiki/skills/graph-colorize/SKILL.md
+source: raw/SkillHub/categories/visualization-export/graph-colorize/SKILL.md
 tags:
   - SKILL
   - SKILL/visualization-export
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`graph-colorize`  
 > 原始标题：Graph Colorize — Color-code the Obsidian Graph View  
 > 功能分类：可视化、仪表盘与导出  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/graph-colorize/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/visualization-export/graph-colorize/SKILL.md)
 
 ## 用途
 

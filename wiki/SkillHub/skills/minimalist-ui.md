@@ -3,7 +3,7 @@ title: 极简编辑式产品界面
 skill: minimalist-ui
 category: 高级前端 UI 设计与重构
 category_slug: frontend-ui-design
-source: raw/SkillHub/taste-skills/skills/minimalist-skill/SKILL.md
+source: raw/SkillHub/categories/frontend-ui-design/minimalist-skill/SKILL.md
 tags:
   - SKILL
   - SKILL/frontend-ui-design
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`minimalist-ui`  
 > 原始标题：Premium Utilitarian Minimalism UI Architect  
 > 功能分类：高级前端 UI 设计与重构  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/taste-skills/skills/minimalist-skill/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/frontend-ui-design/minimalist-skill/SKILL.md)
 
 ## 中文含义与用途
 

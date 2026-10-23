@@ -38,26 +38,31 @@ metadata:
 
 ## 模型与角色分配（Codex 语境）
 
-本机只有两个可用模型：
+本机支持三个可用模型：
 
-| 模型标识 | 显示名 | 规格 | 支持的 reasoning_effort |
-| --- | --- | --- | --- |
-| `DeepSeek-V4.1-Flash` | DeepSeek-V4.1-Flash | 256K | `low` / `medium` / `high` / `xhigh` |
-| `ccs-glm-5-3-flash/GLM-5.3-Flash` | GLM-5.3-Flash | 1M | `low` / `high` / `max` |
+| 模型标识 | 显示名 | 规格 | 支持的 reasoning_effort | 职能专长 |
+| --- | --- | --- | --- | --- |
+| `DeepSeek-V4.1-Flash` | DeepSeek-V4.1-Flash | 256K | `low` / `medium` / `high` / `xhigh` | 本地部署。代码实现、边界条件、工程底线（CTO 角色，`xhigh`） |
+| `ccs-glm-5-3-flash/GLM-5.3-Flash` | GLM-5.3-Flash | 1M | `low` / `high` / `max` | 本地部署。系统架构设计、深度安全推演（安全角色，`max`） |
+| `ccs-gmini/gemini-3.8-flash` | gemini-3.8-flash | 1049K | `low` / `medium` / `high` | CC-Switch 代理。敏捷产品需求（PM 角色）、交互视觉设计（设计师角色） |
 
-同一轮内，每个评审角色都必须是一个全新的子代理实例，模型在两个可用模型之间交错分配：
+### 五角色模型分配与复审轮换矩阵
 
-| 评审角色 | 第 1 轮模型 | reasoning_effort |
-| --- | --- | --- |
-| 产品经理 | `DeepSeek-V4.1-Flash` | `high` |
-| 架构师 | `ccs-glm-5-3-flash/GLM-5.3-Flash` | `high` |
-| 设计师 | `DeepSeek-V4.1-Flash` | `high` |
-| 安全设计 | `ccs-glm-5-3-flash/GLM-5.3-Flash` | `max` |
-| CTO | `DeepSeek-V4.1-Flash` | `xhigh` |
+同一轮内，每个评审角色都必须是一个全新的子代理实例，模型跨三个可用模型合理分布：
 
-进入下一轮复审时，把角色的模型分配**对调**（尽量让每个角色在相邻轮次由不同模型评审），以扩大跨模型的覆盖。
+| 评审角色 | 第 1 轮模型 | 第 2 轮模型（复审） | reasoning_effort | 评审侧重 |
+| --- | --- | --- | --- | --- |
+| **产品经理** | `ccs-gmini/gemini-3.8-flash` | `ccs-glm-5-3-flash/GLM-5.3-Flash` | `high` | 需求完整性、用户体验、用例闭环 |
+| **架构师** | `ccs-glm-5-3-flash/GLM-5.3-Flash` | `DeepSeek-V4.1-Flash` | `high` / `xhigh` | 模块契约、技术规范契合度、可维护性 |
+| **设计师** | `ccs-gmini/gemini-3.8-flash` | `DeepSeek-V4.1-Flash` | `medium` | 交互流畅度、视觉与状态一致性 |
+| **安全设计** | `ccs-glm-5-3-flash/GLM-5.3-Flash` | `DeepSeek-V4.1-Flash` | `max` / `xhigh` | OWASP 风险、认证授权、信任边界推演 |
+| **CTO** | `DeepSeek-V4.1-Flash` | `ccs-gmini/gemini-3.8-flash` | `xhigh` / `high` | 整体工程可行性、技术选型底线、最终放行 |
 
-**必须写明的局限**：同一模型跑多个实例**不算异构**，只能算同一模型的多个视角。异构度受限于本机只有两个模型；五评审阵容中必然有三个角色落在同一模型上。这个局限要在门禁汇总里如实标注，不能把"多实例"包装成"多模型"。
+### 优雅降级机制（离线/代理不可用兜底）
+
+若云端代理 `ccs-gmini/gemini-3.8-flash` 离线或不可用，系统自动平滑降级为**本地双模型模式**：
+- 产品经理（`DeepSeek-V4.1-Flash` high）、架构师（`GLM` high）、设计师（`DeepSeek-V4.1-Flash` high）、安全设计（`GLM` max）、CTO（`DeepSeek-V4.1-Flash` xhigh）。
+- 门禁报告中如实标注：“*已降级为本地双模型多视角审查，非完全异构*”。
 
 ## 激活触发条件
 
@@ -74,9 +79,9 @@ metadata:
 用同一条消息里的五个 `spawn_agent` 调用实现并行；`fork_context=false` 保证每个评审都是干净起点。
 
 ```text
-spawn_agent(message=<产品经理评审提示词>, model="DeepSeek-V4.1-Flash", reasoning_effort="high", fork_context=false)
+spawn_agent(message=<产品经理评审提示词>, model="ccs-gmini/gemini-3.8-flash", reasoning_effort="high", fork_context=false)
 spawn_agent(message=<架构师评审提示词>, model="ccs-glm-5-3-flash/GLM-5.3-Flash", reasoning_effort="high", fork_context=false)
-spawn_agent(message=<设计师评审提示词>, model="DeepSeek-V4.1-Flash", reasoning_effort="high", fork_context=false)
+spawn_agent(message=<设计师评审提示词>, model="ccs-gmini/gemini-3.8-flash", reasoning_effort="medium", fork_context=false)
 spawn_agent(message=<安全设计评审提示词>, model="ccs-glm-5-3-flash/GLM-5.3-Flash", reasoning_effort="max", fork_context=false)
 spawn_agent(message=<CTO 评审提示词>, model="DeepSeek-V4.1-Flash", reasoning_effort="xhigh", fork_context=false)
 ```
@@ -421,17 +426,17 @@ ELSE:
 ### `spawn_agent` 参数要点
 
 - `message`：必须**自包含**。包含完整设计文档正文、用户原始请求、所属评审角色与输出格式要求。
-- `model`：在两个可用模型之间交错分配，见上文"模型与角色分配"。
-- `reasoning_effort`：安全设计用 GLM 的 `max`，CTO 用 DeepSeek 的 `xhigh`，其余用 `high`。不要给 GLM 传 `xhigh`、不要给 DeepSeek 传 `max`。
+- `model`：在三个可用模型之间交错分配，见上文"模型与角色分配"。严格解耦 model slug 与 reasoning_effort 参数。
+- `reasoning_effort`：安全设计用 GLM 的 `max`，CTO 用 DeepSeek 的 `xhigh`，设计师用 Gemini 的 `medium`，产品经理/架构师用 `high`。不要给 GLM 传 `xhigh`、不要给 DeepSeek 传 `max`、不要给 Gemini 传 `max`/`xhigh`。
 - `fork_context`：设计评审门禁固定为 `false`。
 
 ### 编排顺序示例
 
 ```text
 # 第 1 轮
-pm   = spawn_agent(message=产品经理提示词, model="DeepSeek-V4.1-Flash", reasoning_effort="high", fork_context=false)
+pm   = spawn_agent(message=产品经理提示词, model="ccs-gmini/gemini-3.8-flash", reasoning_effort="high", fork_context=false)
 arch = spawn_agent(message=架构师提示词,   model="ccs-glm-5-3-flash/GLM-5.3-Flash", reasoning_effort="high", fork_context=false)
-ux   = spawn_agent(message=设计师提示词,   model="DeepSeek-V4.1-Flash", reasoning_effort="high", fork_context=false)
+ux   = spawn_agent(message=设计师提示词,   model="ccs-gmini/gemini-3.8-flash", reasoning_effort="medium", fork_context=false)
 sec  = spawn_agent(message=安全设计提示词, model="ccs-glm-5-3-flash/GLM-5.3-Flash", reasoning_effort="max", fork_context=false)
 cto  = spawn_agent(message=CTO 提示词,     model="DeepSeek-V4.1-Flash", reasoning_effort="xhigh", fork_context=false)
 results = wait_agent(targets=[pm, arch, ux, sec, cto], timeout_ms=900000)
@@ -478,7 +483,7 @@ const [pmResult, architectResult, designerResult, securityResult, ctoResult] = r
 | 安全设计 | APPROVED | 0 | 2 |
 | CTO | APPROVED | 0 | 3 |
 
-异构度说明：本机仅有两个可用模型，本轮存在同一模型被多个角色使用的情况，属于多视角而非完全异构。
+异构度说明：本轮评审跨 Gemini、GLM、DeepSeek 三个独立模型分布（PM/UX 使用 Gemini，架构/安全使用 GLM，CTO 使用 DeepSeek）。降级模式下如实标注本地双模型多视角说明。
 
 ### 威胁模型摘要（安全设计角色）
 
@@ -563,7 +568,7 @@ const [pmResult, architectResult, designerResult, securityResult, ctoResult] = r
 | 5 | **设计者自评**——写设计的 agent 自己评审自己 | 确认偏差；设计者会批准自己的产出 | 评审必须是独立于设计者的全新子代理实例 |
 | 6 | **无限迭代**——"一直评到过为止" | 收益递减；3 轮之后往往说明设计本身有根本问题 | 最多 3 轮，然后带上完整上下文升级给用户 |
 | 7 | **部分复审**——只重跑失败的那位评审 | 其他评审也可能在修订稿上失败 | 每一轮都对全部 5 位评审重新派发全新实例 |
-| 8 | **把多实例当多模型**——声称"五路异构评审" | 同一模型的多实例不是异构，只是多视角 | 如实标注异构度受限于本机只有两个模型 |
+| 8 | **把多实例当多模型**——声称"五路完全异构评审" | 同一模型的多实例不是异构，只是多视角 | 如实标注三模型分布与降级模式下的异构度边界 |
 
 ## 成功标准
 

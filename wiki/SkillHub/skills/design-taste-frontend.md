@@ -3,7 +3,7 @@ title: 高级前端设计品味
 skill: design-taste-frontend
 category: 高级前端 UI 设计与重构
 category_slug: frontend-ui-design
-source: raw/SkillHub/taste-skills/skills/taste-skill/SKILL.md
+source: raw/SkillHub/categories/frontend-ui-design/taste-skill/SKILL.md
 tags:
   - SKILL
   - SKILL/frontend-ui-design
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`design-taste-frontend`  
 > 原始标题：High-Agency Frontend Skill  
 > 功能分类：高级前端 UI 设计与重构  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/taste-skills/skills/taste-skill/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/frontend-ui-design/taste-skill/SKILL.md)
 
 ## 中文含义与用途
 

@@ -240,10 +240,11 @@ spawn_agent(
 
 用 `wait_agent` 等待截图和结论；必要时用 `send_input` 补充目标 URL、视口或修复说明；结束后用 `close_agent` 关闭。
 
-可用模型只有两个：
+可用模型：
 
-- `DeepSeek-V4.1-Flash`，支持 `low`、`medium`、`high`、`xhigh`。
-- `ccs-glm-5-3-flash/GLM-5.3-Flash`，显示名 `GLM-5.3-Flash`，上下文窗口 1M，支持 `low`、`high`、`max`。
+- `DeepSeek-V4.1-Flash`：支持 `low`、`medium`、`high`、`xhigh`。本地运行，适合分析复杂布局与代码级实现。
+- `ccs-glm-5-3-flash/GLM-5.3-Flash`：显示名 `GLM-5.3-Flash`，上下文窗口 1M，支持 `low`、`high`、`max`。
+- `ccs-gmini/gemini-3.8-flash`：显示名 `gemini-3.8-flash`，上下文窗口 1049K，支持 `low`、`medium`、`high`。原生支持图文多模态输入与高并发极速响应，推荐作为视觉截图与响应式核验的首选。
 
 子代理默认只负责截图、检查和报告，不修改仓库源文件。若确需由子代理修复源文件，必须在任务说明中限定文件范围，并在结果中说明改动与验证方式。
 

@@ -3,7 +3,7 @@ title: GitHub Copilot 会话历史导入
 skill: copilot-history-ingest
 category: AI 会话历史导入
 category_slug: agent-history
-source: raw/SkillHub/obsidian-wiki/skills/copilot-history-ingest/SKILL.md
+source: raw/SkillHub/categories/agent-history/copilot-history-ingest/SKILL.md
 tags:
   - SKILL
   - SKILL/agent-history
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`copilot-history-ingest`  
 > 原始标题：Copilot History Ingest — Conversation Mining  
 > 功能分类：AI 会话历史导入  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/copilot-history-ingest/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/agent-history/copilot-history-ingest/SKILL.md)
 
 ## 用途
 

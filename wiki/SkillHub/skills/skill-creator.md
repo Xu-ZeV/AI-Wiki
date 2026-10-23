@@ -3,7 +3,7 @@ title: Skill 创建、优化与评估
 skill: skill-creator
 category: Skill 开发与验证
 category_slug: skill-dev
-source: raw/SkillHub/obsidian-wiki/skills/skill-creator/SKILL.md
+source: raw/SkillHub/categories/skill-dev/skill-creator/SKILL.md
 tags:
   - SKILL
   - SKILL/skill-dev
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`skill-creator`  
 > 原始标题：Skill Creator  
 > 功能分类：Skill 开发与验证  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/skill-creator/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/skill-dev/skill-creator/SKILL.md)
 
 ## 用途
 

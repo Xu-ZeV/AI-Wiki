@@ -9,3 +9,4 @@ tags:
 - [[wiki/synthesis/langchain-ecosystem-map|LangChain 生态边界图谱]]：梳理 LangChain、LangGraph、LangSmith 和 Deep Agents 的职责边界。
 - [[wiki/synthesis/langchain-v1-learning-path|LangChain v1 自学路径]]：从环境、模型、工具、RAG、结构化输出推进到可观测综合项目的 10 阶段教学路径。
 - [[wiki/synthesis/langchain-v1-vs-classic|LangChain v1 与 langchain-classic 学习取舍]]：说明新学习路径为何优先 v1，并记录旧版 classic 的迁移边界。
+- [[wiki/synthesis/threejs-journey-learning-path|Three.js Journey 每日 2 小时自学路径]]：针对每天 2 小时学习节奏的 30 天 Web 3D 循序渐进通关教学路径与实战指引。

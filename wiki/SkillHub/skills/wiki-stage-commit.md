@@ -3,7 +3,7 @@ title: Staged Wiki 写入审核提交
 skill: wiki-stage-commit
 category: 配置、自动化与多库管理
 category_slug: setup-automation
-source: raw/SkillHub/obsidian-wiki/skills/wiki-stage-commit/SKILL.md
+source: raw/SkillHub/categories/setup-automation/wiki-stage-commit/SKILL.md
 tags:
   - SKILL
   - SKILL/setup-automation
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-stage-commit`  
 > 原始标题：Wiki Stage Commit — Staged Write Promotion  
 > 功能分类：配置、自动化与多库管理  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-stage-commit/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/setup-automation/wiki-stage-commit/SKILL.md)
 
 ## 用途
 

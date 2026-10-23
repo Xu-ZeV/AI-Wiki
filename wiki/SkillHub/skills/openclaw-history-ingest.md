@@ -3,7 +3,7 @@ title: OpenClaw 会话与记忆导入
 skill: openclaw-history-ingest
 category: AI 会话历史导入
 category_slug: agent-history
-source: raw/SkillHub/obsidian-wiki/skills/openclaw-history-ingest/SKILL.md
+source: raw/SkillHub/categories/agent-history/openclaw-history-ingest/SKILL.md
 tags:
   - SKILL
   - SKILL/agent-history
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`openclaw-history-ingest`  
 > 原始标题：OpenClaw History Ingest — Session & Memory Mining  
 > 功能分类：AI 会话历史导入  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/openclaw-history-ingest/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/agent-history/openclaw-history-ingest/SKILL.md)
 
 ## 用途
 

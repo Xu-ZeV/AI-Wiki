@@ -3,7 +3,7 @@ title: Wiki 页面级去重与身份解析
 skill: wiki-dedup
 category: 维护、治理与知识质量
 category_slug: maintenance-governance
-source: raw/SkillHub/obsidian-wiki/skills/wiki-dedup/SKILL.md
+source: raw/SkillHub/categories/maintenance-governance/wiki-dedup/SKILL.md
 tags:
   - SKILL
   - SKILL/maintenance-governance
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-dedup`  
 > 原始标题：Wiki Dedup — Identity Resolution and Page-Level Deduplication  
 > 功能分类：维护、治理与知识质量  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-dedup/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/maintenance-governance/wiki-dedup/SKILL.md)
 
 ## 用途
 

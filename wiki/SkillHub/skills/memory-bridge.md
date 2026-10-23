@@ -3,7 +3,7 @@ title: 跨工具记忆浏览与差异比较
 skill: memory-bridge
 category: 知识检索与上下文复用
 category_slug: retrieval-context
-source: raw/SkillHub/obsidian-wiki/skills/memory-bridge/SKILL.md
+source: raw/SkillHub/categories/retrieval-context/memory-bridge/SKILL.md
 tags:
   - SKILL
   - SKILL/retrieval-context
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`memory-bridge`  
 > 原始标题：Memory Bridge — Cross-Tool Knowledge Browser  
 > 功能分类：知识检索与上下文复用  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/memory-bridge/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/retrieval-context/memory-bridge/SKILL.md)
 
 ## 用途
 

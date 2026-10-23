@@ -3,7 +3,7 @@ title: 多轮网页研究入库
 skill: wiki-research
 category: 内容采集与导入
 category_slug: content-ingest
-source: raw/SkillHub/obsidian-wiki/skills/wiki-research/SKILL.md
+source: raw/SkillHub/categories/content-ingest/wiki-research/SKILL.md
 tags:
   - SKILL
   - SKILL/content-ingest
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-research`  
 > 原始标题：Wiki Research — Autonomous Multi-Round Research  
 > 功能分类：内容采集与导入  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-research/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/content-ingest/wiki-research/SKILL.md)
 
 ## 用途
 

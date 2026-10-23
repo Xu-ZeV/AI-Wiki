@@ -3,7 +3,7 @@ title: Vue 3 调试指南
 skill: vue-debug-guides
 category: Vue 3 工程实践
 category_slug: vue-engineering
-source: raw/SkillHub/vuejs-ai-skills/skills/vue-debug-guides/SKILL.md
+source: raw/SkillHub/categories/vue-engineering/vue-debug-guides/SKILL.md
 tags:
   - SKILL
   - SKILL/vue-engineering
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`vue-debug-guides`  
 > 原始标题：Vue 3 debugging and error handling for runtime issues, warnings, async failures, and hydration bugs.  
 > 功能分类：Vue 3 工程实践  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/vuejs-ai-skills/skills/vue-debug-guides/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/vue-engineering/vue-debug-guides/SKILL.md)
 
 ## 中文含义与用途
 

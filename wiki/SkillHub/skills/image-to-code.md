@@ -3,7 +3,7 @@ title: 图片优先的网站设计到代码
 skill: image-to-code
 category: 高级前端 UI 设计与重构
 category_slug: frontend-ui-design
-source: raw/SkillHub/taste-skills/skills/image-to-code-skill/SKILL.md
+source: raw/SkillHub/categories/frontend-ui-design/image-to-code-skill/SKILL.md
 tags:
   - SKILL
   - SKILL/frontend-ui-design
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`image-to-code`  
 > 原始标题：CORE DIRECTIVE: IMAGE-FIRST WEBSITE DESIGN TO CODE  
 > 功能分类：高级前端 UI 设计与重构  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/taste-skills/skills/image-to-code-skill/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/frontend-ui-design/image-to-code-skill/SKILL.md)
 
 ## 中文含义与用途
 

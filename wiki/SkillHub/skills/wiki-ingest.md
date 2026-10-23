@@ -3,7 +3,7 @@ title: 文档知识蒸馏入库
 skill: wiki-ingest
 category: 内容采集与导入
 category_slug: content-ingest
-source: raw/SkillHub/obsidian-wiki/skills/wiki-ingest/SKILL.md
+source: raw/SkillHub/categories/content-ingest/wiki-ingest/SKILL.md
 tags:
   - SKILL
   - SKILL/content-ingest
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-ingest`  
 > 原始标题：Obsidian Ingest — Document Distillation  
 > 功能分类：内容采集与导入  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-ingest/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/content-ingest/wiki-ingest/SKILL.md)
 
 ## 用途
 

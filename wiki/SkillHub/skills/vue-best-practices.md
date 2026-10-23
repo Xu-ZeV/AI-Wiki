@@ -3,7 +3,7 @@ title: Vue 3 最佳实践工作流
 skill: vue-best-practices
 category: Vue 3 工程实践
 category_slug: vue-engineering
-source: raw/SkillHub/vuejs-ai-skills/skills/vue-best-practices/SKILL.md
+source: raw/SkillHub/categories/vue-engineering/vue-best-practices/SKILL.md
 tags:
   - SKILL
   - SKILL/vue-engineering
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`vue-best-practices`  
 > 原始标题：Vue Best Practices Workflow  
 > 功能分类：Vue 3 工程实践  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/vuejs-ai-skills/skills/vue-best-practices/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/vue-engineering/vue-best-practices/SKILL.md)
 
 ## 中文含义与用途
 

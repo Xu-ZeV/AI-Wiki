@@ -3,7 +3,7 @@ title: Stitch 高级设计系统规则
 skill: stitch-design-taste
 category: 设计交付、系统化与输出约束
 category_slug: design-delivery-governance
-source: raw/SkillHub/taste-skills/skills/stitch-skill/SKILL.md
+source: raw/SkillHub/categories/design-delivery-governance/stitch-skill/SKILL.md
 tags:
   - SKILL
   - SKILL/design-delivery-governance
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`stitch-design-taste`  
 > 原始标题：Stitch Design Taste - Semantic Design System Skill  
 > 功能分类：设计交付、系统化与输出约束  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/taste-skills/skills/stitch-skill/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/design-delivery-governance/stitch-skill/SKILL.md)
 
 ## 中文含义与用途
 

@@ -3,7 +3,7 @@ title: 每日 Wiki 维护循环
 skill: daily-update
 category: 维护、治理与知识质量
 category_slug: maintenance-governance
-source: raw/SkillHub/obsidian-wiki/skills/daily-update/SKILL.md
+source: raw/SkillHub/categories/maintenance-governance/daily-update/SKILL.md
 tags:
   - SKILL
   - SKILL/maintenance-governance
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`daily-update`  
 > 原始标题：Daily Update — Wiki Maintenance Cycle  
 > 功能分类：维护、治理与知识质量  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/daily-update/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/maintenance-governance/daily-update/SKILL.md)
 
 ## 用途
 

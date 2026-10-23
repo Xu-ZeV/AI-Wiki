@@ -5,19 +5,19 @@
       "source": "ai-wiki/agent-team",
       "sourceType": "local",
       "skillPath": "categories/multi-agent-orchestration/agent-team-brainstorm/SKILL.md",
-      "computedHash": "03d4d67e6d890062d4cae7b9e0d176baec2193c502309258fb1b4ba8333eadfd"
+      "computedHash": "3883b07683cb34f2ef54db6996529c9f6861a2c320c98d2172cc04eba723509a"
     },
     "agent-team-design-gate": {
       "source": "ai-wiki/agent-team",
       "sourceType": "local",
       "skillPath": "categories/multi-agent-orchestration/agent-team-design-gate/SKILL.md",
-      "computedHash": "503d7f3713a70a1e172fd6ffa1f8b3ee03e932a7729b2cd94993fd05bb72f66c"
+      "computedHash": "871836870ef55dbe070ccec8d51358b348557c93f5c63e3c631183c047b85239"
     },
     "agent-team-external-cli": {
       "source": "ai-wiki/agent-team",
       "sourceType": "local",
       "skillPath": "categories/multi-agent-orchestration/agent-team-external-cli/SKILL.md",
-      "computedHash": "77e326157bfad38bf2cb22e5bb5546c2fac7dd108078161a52f5adf40c5f69c2"
+      "computedHash": "725cc099fa7118aea92c39fa887af43300d36b1b4684941170659f83c290d336"
     },
     "guizang-ppt-skill": {
       "source": "op7418/guizang-ppt-skill",
@@ -29,25 +29,25 @@
       "source": "ai-wiki/agent-team",
       "sourceType": "local",
       "skillPath": "categories/multi-agent-orchestration/agent-team-handoff/SKILL.md",
-      "computedHash": "dfa91a08443e2be6cfb64566402057eb49d6356f4c369c9d390bcea634c0d84b"
+      "computedHash": "5ba65036344e37dab36bd0bf2b5917fc46ab3d1c6be177026c773d0d772f9336"
     },
     "agent-team-orchestration": {
       "source": "ai-wiki/agent-team",
       "sourceType": "local",
       "skillPath": "categories/multi-agent-orchestration/agent-team-orchestration/SKILL.md",
-      "computedHash": "18ac92f21e77441b240513094a04e79d5c52b1af6fb0f65ff4ccee2a4411901d"
+      "computedHash": "50f22c79659d347726b618a92f2b34c9f9d148a22f9203da3f858927f7352039"
     },
     "agent-team-plan-gate": {
       "source": "ai-wiki/agent-team",
       "sourceType": "local",
       "skillPath": "categories/multi-agent-orchestration/agent-team-plan-gate/SKILL.md",
-      "computedHash": "4bb201150e3f0505cfa2679cfe5d86d7269ac1cfa10b8dce189162d6243fc6fa"
+      "computedHash": "35050134f7309860f564c4fa5044e4a90a4d0e341ce1642aeab2c804ae6546c6"
     },
     "agent-team-visual-review": {
       "source": "ai-wiki/agent-team",
       "sourceType": "local",
       "skillPath": "categories/multi-agent-orchestration/agent-team-visual-review/SKILL.md",
-      "computedHash": "653d6319fb423a62a52016809c9f6298858203d22a73e7283de45c714725a533"
+      "computedHash": "47f3dfc171b69215839e6adf8518ce192c1d730a9f464817edb1c11d88dca6cb"
     },
     "html-ppt": {
       "source": "lewislulu/html-ppt-skill",
@@ -60,6 +60,12 @@
       "sourceType": "github",
       "skillPath": "SKILL.md",
       "computedHash": "b4f4674ceb440cb4e33f82f9a193375ba5877e87b4380c41ef514109ba15b955"
+    },
+    "postgresql-design-specification": {
+      "source": "ai-wiki/adapted-spec",
+      "sourceType": "local",
+      "skillPath": "categories/database-design/postgresql-design-specification/SKILL.md",
+      "computedHash": "f87e3d4799aeb7f7d84221d8631f837c253722d3f0069691b602bd47a685fa4c"
     }
   }
 }

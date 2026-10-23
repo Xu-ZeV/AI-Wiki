@@ -3,7 +3,7 @@ title: Token 受限上下文包
 skill: wiki-context-pack
 category: 知识检索与上下文复用
 category_slug: retrieval-context
-source: raw/SkillHub/obsidian-wiki/skills/wiki-context-pack/SKILL.md
+source: raw/SkillHub/categories/retrieval-context/wiki-context-pack/SKILL.md
 tags:
   - SKILL
   - SKILL/retrieval-context
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-context-pack`  
 > 原始标题：Wiki Context Pack — Bounded Token Retrieval  
 > 功能分类：知识检索与上下文复用  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-context-pack/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/retrieval-context/wiki-context-pack/SKILL.md)
 
 ## 用途
 

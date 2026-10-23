@@ -3,7 +3,7 @@ title: 统一会话历史导入路由
 skill: wiki-history-ingest
 category: AI 会话历史导入
 category_slug: agent-history
-source: raw/SkillHub/obsidian-wiki/skills/wiki-history-ingest/SKILL.md
+source: raw/SkillHub/categories/agent-history/wiki-history-ingest/SKILL.md
 tags:
   - SKILL
   - SKILL/agent-history
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`wiki-history-ingest`  
 > 原始标题：Unified History Ingest Router  
 > 功能分类：AI 会话历史导入  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/obsidian-wiki/skills/wiki-history-ingest/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/agent-history/wiki-history-ingest/SKILL.md)
 
 ## 用途
 

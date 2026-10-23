@@ -184,10 +184,11 @@ Expected: <what green looks like>.
    ```
 
 2. 用 `wait_agent` 等待复核结果；若复核者缺少必要上下文，用 `send_input` 补充；复核结束后用 `close_agent` 关闭。
-3. 可用模型只有两个：
+3. 可用模型支持三个：
 
-   - `DeepSeek-V4.1-Flash`，支持 `low`、`medium`、`high`、`xhigh`。
-   - `ccs-glm-5-3-flash/GLM-5.3-Flash`，显示名 `GLM-5.3-Flash`，上下文窗口 1M，支持 `low`、`high`、`max`。
+   - `DeepSeek-V4.1-Flash`：支持 `low`、`medium`、`high`、`xhigh`。
+   - `ccs-glm-5-3-flash/GLM-5.3-Flash`：显示名 `GLM-5.3-Flash`，上下文窗口 1M，支持 `low`、`high`、`max`。
+   - `ccs-gmini/gemini-3.8-flash`：显示名 `gemini-3.8-flash`，上下文窗口 1049K，支持 `low`、`medium`、`high`。响应极快，适合用于快速只读校验交接文档的完整性与自包含性。
 
 4. 只读复核代理不应改写仓库文件。它的职责是确认交接文档是否能独立驱动下一步，并把缺口报回编排者。
 

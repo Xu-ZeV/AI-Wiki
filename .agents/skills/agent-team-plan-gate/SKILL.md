@@ -33,24 +33,29 @@ metadata:
 
 ## 模型与角色分配（Codex 语境）
 
-本机只有两个可用模型：
+本机支持三个可用模型（两地一云）：
 
-| 模型标识 | 显示名 | 规格 | 支持的 reasoning_effort |
-| --- | --- | --- | --- |
-| `DeepSeek-V4.1-Flash` | DeepSeek-V4.1-Flash | 256K | `low` / `medium` / `high` / `xhigh` |
-| `ccs-glm-5-3-flash/GLM-5.3-Flash` | GLM-5.3-Flash | 1M | `low` / `high` / `max` |
+| 模型标识 | 显示名 | 规格 | 支持的 reasoning_effort | 职能专长 |
+| --- | --- | --- | --- | --- |
+| `DeepSeek-V4.1-Flash` | DeepSeek-V4.1-Flash | 256K | `low` / `medium` / `high` / `xhigh` | 本地部署。代码逻辑、精细边界、范围防蔓延（`xhigh`） |
+| `ccs-glm-5-3-flash/GLM-5.3-Flash` | GLM-5.3-Flash | 1M | `low` / `high` / `max` | 本地部署。全局架构把控、长需求完整性（1M 窗口通读 PRD） |
+| `ccs-gmini/gemini-3.8-flash` | gemini-3.8-flash | 1049K | `low` / `medium` / `high` | CC-Switch 代理。技术可行性筛查、独立跨模型视角、高吞吐 |
 
-同一轮内，每个评审角色都必须是一个全新的子代理实例，模型在两个可用模型之间交错分配：
+### 三角色分配与多轮轮转矩阵（Rotation Matrix）
 
-| 评审角色 | 第 1 轮模型 | reasoning_effort |
-| --- | --- | --- |
-| 可行性 Reviewer | `DeepSeek-V4.1-Flash` | `high` |
-| 完整性 Reviewer | `ccs-glm-5-3-flash/GLM-5.3-Flash` | `high` |
-| 范围与对齐 Reviewer | `DeepSeek-V4.1-Flash` | `xhigh` |
+同一轮内，每个评审角色都必须是一个全新的子代理实例，三个角色交错分配至三个完全独立的模型，达成 **100% 独立三方真异构审查**：
 
-进入下一轮复审时，把角色的模型分配**对调**（例如可行性与完整性互换模型），让每个角色在不同轮次被不同模型审查，尽量扩大跨模型的覆盖。
+| 评审角色 | 第 1 轮模型 | 第 2 轮模型（复审） | 第 3 轮模型（复审） | 推荐 reasoning_effort |
+| --- | --- | --- | --- | --- |
+| **可行性 Reviewer** | `ccs-gmini/gemini-3.8-flash` | `DeepSeek-V4.1-Flash` | `ccs-glm-5-3-flash/GLM-5.3-Flash` | `high` |
+| **完整性 Reviewer** | `ccs-glm-5-3-flash/GLM-5.3-Flash` | `ccs-gmini/gemini-3.8-flash` | `DeepSeek-V4.1-Flash` | `high` / `xhigh` |
+| **范围与对齐 Reviewer** | `DeepSeek-V4.1-Flash` | `ccs-glm-5-3-flash/GLM-5.3-Flash` | `ccs-gmini/gemini-3.8-flash` | `xhigh` / `max` / `high` |
 
-**必须写明的局限**：同一模型跑多个实例**不算异构**，只能算同一模型的多个视角。异构度受限于本机只有两个模型，因此三评审阵容中必然存在一个模型被使用两次的情况。这个局限要在门禁汇总里如实标注，不能把"多实例"包装成"多模型"。
+### 优雅降级机制（离线/代理不可用兜底）
+
+若云端代理 `ccs-gmini/gemini-3.8-flash` 因断网、代理未启动或超时不可用，系统自动平滑降级为**本地双模型交错模式**：
+- 第 1 轮降级：可行性 (`DeepSeek-V4.1-Flash high`) + 完整性 (`GLM-5.3-Flash high`) + 范围与对齐 (`DeepSeek-V4.1-Flash xhigh`)。
+- 门禁报告中必须如实标注：`【降级警告】云端代理不可用，已自动降级为本地双模型多视角审查，非完全异构。`
 
 ## 三位对抗式评审
 
@@ -126,7 +131,7 @@ metadata:
 ```text
 spawn_agent(
   message=<可行性评审提示词 + 计划正文 + 用户原始请求>,
-  model="DeepSeek-V4.1-Flash",
+  model="ccs-gmini/gemini-3.8-flash",
   reasoning_effort="high",
   fork_context=false)
 
@@ -224,15 +229,15 @@ ELSE:
 ### `spawn_agent` 参数要点
 
 - `message`：必须**自包含**。子代理默认不带父会话历史，提示词里要包含完整计划正文、用户原始请求，以及"你正在独立评审"的说明。
-- `model`：在两个可用模型之间交错分配，见上文"模型与角色分配"。
-- `reasoning_effort`：可行性/完整性用 `high`，范围与对齐用 `xhigh`；GLM 侧若要更强推理可用 `max`。注意各模型支持的档位不同，不要给 GLM 传 `xhigh`、不要给 DeepSeek 传 `max`。
+- `model`：在三个可用模型之间交错分配，见上文"模型与角色分配"。严格解耦 model slug 与 reasoning_effort 参数。
+- `reasoning_effort`：按各模型支持的档位分配：Gemini 支持 `low`/`medium`/`high`；GLM 支持 `low`/`high`/`max`；DeepSeek 支持 `low`/`medium`/`high`/`xhigh`。不要给 GLM 传 `xhigh`、不要给 DeepSeek 传 `max`、不要给 Gemini 传 `max`/`xhigh`。
 - `fork_context`：计划评审门禁固定为 `false`，这是隔离规则 1、2、4 的落地方式。
 
 ### 编排顺序示例
 
 ```text
-# 第 1 轮
-t1 = spawn_agent(message=可行性提示词, model="DeepSeek-V4.1-Flash", reasoning_effort="high", fork_context=false)
+# 第 1 轮（三方真异构）
+t1 = spawn_agent(message=可行性提示词, model="ccs-gmini/gemini-3.8-flash", reasoning_effort="high", fork_context=false)
 t2 = spawn_agent(message=完整性提示词, model="ccs-glm-5-3-flash/GLM-5.3-Flash", reasoning_effort="high", fork_context=false)
 t3 = spawn_agent(message=范围与对齐提示词, model="DeepSeek-V4.1-Flash", reasoning_effort="xhigh", fork_context=false)
 results = wait_agent(targets=[t1, t2, t3], timeout_ms=600000)
@@ -376,11 +381,11 @@ close_agent(t1); close_agent(t2); close_agent(t3)
 
 | 评审角色 | 裁决 | 关键发现 | 本轮模型 |
 |----------|------|----------|----------|
-| 可行性 | PASS | 全部文件路径已核实，依赖顺序正确 | DeepSeek-V4.1-Flash |
+| 可行性 | PASS | 全部文件路径已核实，依赖顺序正确 | gemini-3.8-flash |
 | 完整性 | PASS | 全部 N 条需求已映射到计划条目 | GLM-5.3-Flash |
 | 范围与对齐 | PASS | 计划契合用户请求，无范围蔓延 | DeepSeek-V4.1-Flash |
 
-异构度说明：本机仅有两个可用模型，本轮存在同一模型被两个角色使用的情况，属于多视角而非完全异构。
+异构度说明：三角色分别采用 Gemini、GLM、DeepSeek 三款独立模型，达成 100% 独立三方真异构评审。（若降级模式则如实标注“已降级为本地双模型多视角审查”）。
 
 计划已可提交用户评审。
 ```
@@ -422,7 +427,7 @@ close_agent(t1); close_agent(t2); close_agent(t3)
 | 5 | **规划者自评**——写计划的 agent 自己评审自己 | 确认偏差；规划者会批准自己的产出 | 评审必须是独立于规划者的全新子代理实例 |
 | 6 | **无限迭代**——"一直评到过为止" | 收益递减；3 轮之后往往说明是计划本身有根本问题 | 最多 3 轮，然后带上完整上下文升级给用户 |
 | 7 | **部分复审**——只重跑失败的那位评审 | 其他评审也可能在修订稿上失败 | 每一轮都对全部 3 位评审重新派发全新实例 |
-| 8 | **把多实例当多模型**——声称"三路异构评审" | 同一模型的多实例不是异构，只是多视角 | 如实标注异构度受限于本机只有两个模型 |
+| 8 | **把多实例当多模型**——在双模型降级时声称"三路异构评审" | 同一模型的多实例不是异构，只是多视角 | 三模型在线时达成真异构；降级模式下如实标注异构度受限 |
 
 ## 集成点
 

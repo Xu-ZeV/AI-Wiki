@@ -3,7 +3,7 @@ title: 品牌视觉系统板生成
 skill: brandkit
 category: 视觉参考图与品牌生成
 category_slug: visual-reference-generation
-source: raw/SkillHub/taste-skills/skills/brandkit/SKILL.md
+source: raw/SkillHub/categories/visual-reference-generation/brandkit/SKILL.md
 tags:
   - SKILL
   - SKILL/visual-reference-generation
@@ -14,7 +14,7 @@ tags:
 > 原始名称：`brandkit`  
 > 原始标题：BRANDKIT IMAGE GENERATION SKILL  
 > 功能分类：视觉参考图与品牌生成  
-> 原始文件：[SKILL.md](../../../raw/SkillHub/taste-skills/skills/brandkit/SKILL.md)
+> 原始文件：[SKILL.md](../../../raw/SkillHub/categories/visual-reference-generation/brandkit/SKILL.md)
 
 ## 中文含义与用途
 
