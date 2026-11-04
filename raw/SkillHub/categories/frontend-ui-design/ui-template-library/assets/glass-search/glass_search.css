@@ -1,0 +1,270 @@
+/* 公共磨砂流光搜索框：结构、尺寸与中性色令牌。业务模块只覆盖 --gs-* 变量。 */
+.glass-search-container {
+    --gs-accent: #475569;
+    --gs-beam-core: #94a3b8;
+    --gs-beam-edge: rgba(148, 163, 184, 0.42);
+    --gs-glow-strong: rgba(100, 116, 139, 0.18);
+    --gs-glow-mid: rgba(148, 163, 184, 0.10);
+    --gs-glow-tail: rgba(148, 163, 184, 0.03);
+    --gs-border: rgba(148, 163, 184, 0.36);
+    --gs-border-hover: rgba(100, 116, 139, 0.42);
+    --gs-border-focus: rgba(71, 85, 105, 0.34);
+    --gs-surface: rgba(255, 255, 255, 0.82);
+    --gs-surface-hover: rgba(255, 255, 255, 0.92);
+    --gs-surface-focus: rgba(255, 255, 255, 0.98);
+    --gs-surface-floating: rgba(255, 255, 255, 0.90);
+    --gs-text: #0f172a;
+    --gs-placeholder: rgba(100, 116, 139, 0.85);
+    --gs-placeholder-focus: rgba(100, 116, 139, 0.50);
+    --gs-clear-bg: rgba(71, 85, 105, 0.12);
+    --gs-clear-hover-bg: rgba(71, 85, 105, 0.20);
+    --gs-clear-text: #475569;
+    --gs-clear-hover-text: #334155;
+    --gs-focus-shadow: 0 0 0 3px rgba(100, 116, 139, 0.12);
+    --gs-search-shadow: 0 2px 10px -2px rgba(15, 23, 42, 0.07);
+    --gs-search-shadow-hover: 0 4px 16px -2px rgba(15, 23, 42, 0.08);
+    --gs-search-shadow-focus: 0 6px 20px -2px rgba(100, 116, 139, 0.16);
+    --gs-search-shadow-floating: 0 8px 30px -4px rgba(15, 23, 42, 0.16),
+        0 2px 8px rgba(15, 23, 42, 0.06);
+    --gs-duration: 0.2s;
+
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 16px 0 20px;
+}
+
+.glass-search-container [hidden] {
+    display: none !important;
+}
+
+.glass-search-bar {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 680px;
+    height: 44px;
+    min-height: 44px;
+    box-sizing: border-box;
+    overflow: hidden;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--gs-surface);
+    box-shadow: inset 0 0 0 1px var(--gs-border), var(--gs-search-shadow);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition:
+        background-color var(--gs-duration) ease,
+        box-shadow var(--gs-duration) ease;
+}
+
+.glass-search-bar:hover {
+    background: var(--gs-surface-hover);
+    box-shadow: inset 0 0 0 1px var(--gs-border-hover), var(--gs-search-shadow-hover);
+}
+
+.glass-search-bar:focus-within {
+    background: var(--gs-surface-focus);
+    box-shadow: inset 0 0 0 1px var(--gs-border-focus),
+        var(--gs-focus-shadow),
+        var(--gs-search-shadow-focus);
+}
+
+/* 底边连续流光：两段径向渐变共用一组颜色令牌。常态即有优雅微光扫动，悬停与聚焦时进一步增强。 */
+.glass-search-bar::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    z-index: 2;
+    width: 280px;
+    height: 24px;
+    background:
+        radial-gradient(
+            ellipse 110px 4px at 50% 100%,
+            var(--gs-beam-core) 0%,
+            var(--gs-beam-edge) 45%,
+            transparent 100%
+        ),
+        radial-gradient(
+            ellipse 140px 24px at 50% 100%,
+            var(--gs-glow-strong) 0%,
+            var(--gs-glow-mid) 40%,
+            var(--gs-glow-tail) 75%,
+            transparent 100%
+        );
+    filter: blur(1.5px);
+    opacity: 0.65;
+    pointer-events: none;
+    transform: translateX(-50%);
+    animation: glass-search-peak-sweep 3.6s ease-in-out infinite alternate;
+    transition:
+        opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+        animation-duration 0.32s ease;
+}
+
+.glass-search-bar::after {
+    content: none;
+    display: none;
+}
+
+.glass-search-bar:hover::before {
+    opacity: 0.90;
+    animation-duration: 2.6s;
+}
+
+.glass-search-bar:focus-within::before {
+    opacity: 1;
+    animation-duration: 2.0s;
+}
+
+@keyframes glass-search-peak-sweep {
+    0% {
+        transform: translateX(calc(-50% - 100px)) scaleX(0.92);
+    }
+    50% {
+        transform: translateX(-50%) scaleX(1.08);
+    }
+    100% {
+        transform: translateX(calc(-50% + 100px)) scaleX(0.92);
+    }
+}
+
+.glass-search-bar .search-icon-wrapper {
+    position: relative;
+    z-index: 4;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin: 0 10px 0 14px;
+    color: var(--gs-accent);
+    pointer-events: none;
+}
+
+.glass-search-bar .search-icon-wrapper svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+    stroke-width: 2.2;
+}
+
+.glass-search-bar .glass-search-input,
+.glass-search-bar .glass-search-input:hover,
+.glass-search-bar .glass-search-input:focus,
+.glass-search-bar .glass-search-input:active,
+.glass-search-bar .glass-search-input:focus-visible {
+    z-index: 4;
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    box-shadow: none;
+    color: var(--gs-text);
+    font: inherit;
+    font-size: 14px;
+    line-height: 44px;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.glass-search-bar .glass-search-input::-webkit-search-decoration,
+.glass-search-bar .glass-search-input::-webkit-search-cancel-button,
+.glass-search-bar .glass-search-input::-webkit-search-results-button,
+.glass-search-bar .glass-search-input::-webkit-search-results-decoration {
+    display: none;
+    -webkit-appearance: none;
+}
+
+.glass-search-bar .glass-search-input::placeholder {
+    color: var(--gs-placeholder);
+}
+
+.glass-search-bar .glass-search-input:focus::placeholder {
+    color: var(--gs-placeholder-focus);
+}
+
+.glass-search-bar .search-clear-btn {
+    position: relative;
+    z-index: 4;
+    display: inline-flex;
+    flex: 0 0 44px;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--gs-clear-text);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.glass-search-bar .search-clear-btn__face {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--gs-clear-bg);
+    color: var(--gs-clear-text);
+    transition:
+        background-color var(--gs-duration) ease,
+        color var(--gs-duration) ease,
+        transform var(--gs-duration) ease;
+}
+
+.glass-search-bar .search-clear-btn:hover .search-clear-btn__face {
+    background: var(--gs-clear-hover-bg);
+    color: var(--gs-clear-hover-text);
+    transform: scale(1.04);
+}
+
+.glass-search-bar .search-clear-btn:focus-visible {
+    outline: 0;
+    box-shadow: var(--gs-focus-shadow);
+}
+
+.glass-search-bar .search-clear-btn svg {
+    width: 12px;
+    height: 12px;
+    stroke-width: 2.5;
+}
+
+@media (max-width: 640px) {
+    .glass-search-container {
+        margin: 12px 0 16px;
+    }
+
+    .glass-search-bar::before {
+        width: min(280px, 88%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .glass-search-bar,
+    .glass-search-bar .search-clear-btn__face {
+        transition: none !important;
+    }
+
+    .glass-search-bar::before,
+    .glass-search-bar:hover::before,
+    .glass-search-bar:focus-within::before {
+        animation-duration: 8s !important;
+    }
+}

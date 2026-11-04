@@ -9,6 +9,7 @@ tags:
 sources:
   - "[[wiki/synthesis/index|综合分析索引]]"
   - "[配套教学 Demo](../../raw/project/demo/README.md)"
+  - "[[wiki/references/threejs-realistic-render-pipeline|Three.js 写实级渲染管线与高端物理材质配置手册]]"
 summary: 仿照 Three.js Journey 经典课程体系，面向每日 2 小时业余学习节奏制定的 30 天（60 小时）Web 3D 循序渐进通关学习路径与实战指引。
 lifecycle: draft
 tier: core
@@ -438,6 +439,8 @@ updated: 2026-10-13T20:55:00+08:00
 
 ### Day 22：写实级渲染管线配置（Realistic Render Pipeline）
 
+> 📖 **配套技术手册**：本关卡深度理论与全参数实战请精读专项手册 [[wiki/references/threejs-realistic-render-pipeline|Three.js 写实级渲染管线与高端物理材质配置手册]]。
+
 - **关卡名称**：HDR 环境贴图、色调映射与物理精度校准
 - **核心知识点拆解**：
   - 渲染器色彩空间：`renderer.outputColorSpace = THREE.SRGBColorSpace`。
@@ -640,3 +643,4 @@ updated: 2026-10-13T20:55:00+08:00
 1. **进入 React Three Fiber（R3F）与 Drei 生态**：如果主要技术栈为 React，在掌握 Three.js 原生底层逻辑后，学习声明式 3D 开发将事半功倍。
 2. **深入图形学与着色器（Shadertoy & WebGPU）**：进阶研读《The Book of Shaders》，关注下一代标准 WebGPU 与 TSL（Three.js Shading Language）。
 3. **商业项目实战落地**：尝试开发 3D 电商商品展示器、数字孪生智慧园区看板或交互式 3D 品牌叙事官网。
+

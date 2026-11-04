@@ -21,7 +21,8 @@ tags:
 | [[minimalist-ui]] | 极简编辑式产品界面 | `minimalist-ui` | 生成类似 Notion、Linear 风格的克制产品 UI，强调暖色单色系、文字层级和平面结构。 |
 | [[industrial-brutalist-ui]] | 工业野兽派数据界面 | `industrial-brutalist-ui` | 生成机械、瑞士平面、军用终端感的高密度界面，适合仪表盘、作品集和实验性编辑页。 |
 | [[huashu-design]] | 花叔 HTML 原生设计生产线 | `huashu-design` | 用 HTML 统一完成高保真原型、幻灯片、动画、信息图和专家评审，并导出 PDF、PPTX、MP4 或 GIF。 |
-| [[glass-tilt-board]] | 玻璃倾斜画板 | `glass-tilt-board` | 制作整块玻璃面板阵列跟随鼠标倾斜的单文件画板；把倾斜约束成纯 transform、拒绝 backdrop-filter，并用 headless Chrome + CDP 逐项断言验证。 |
+| [[ui-template-library]] | UI 模板库 | `ui-template-library` | 高保真高性能前端 UI 控件与交互模板库：收录控件一玻璃倾斜画板、控件二南瓜助手胶囊导航栏/按钮、控件三磨砂流光搜索框、控件四列表卡片悬停跟随阴影与氛围光晕（Damped Lerp 物理滑行与微视差追踪）。 |
+| [[ui-styling]] | UI 样式与 shadcn/ui 组件系统 | ckm:ui-styling | 整合 shadcn/ui 组件库、Tailwind CSS 工具类与 Canvas 视觉设计系统的高质感 UI 构建能力。 |
 
 ## 使用建议
 
@@ -30,4 +31,5 @@ tags:
 - 已有项目不要重写，优先用 redesign-existing-projects 做审计和渐进式改造；需要命令化审计、检测脚本或浏览器实时迭代时使用 impeccable。
 - 已明确视觉方向时再叠加 high-end-visual-design、minimalist-ui 或 industrial-brutalist-ui。
 - 需要从三方向初稿、品牌资产和浏览器验证一路交付到幻灯片、视频或可编辑 PPTX 时，使用 huashu-design。
-- 需要「几十块玻璃面板跟随鼠标倾斜、点击空白切图」的交互画板，或任何几十个元素同时做鼠标驱动 transform 且不能掉帧的页面时，使用 glass-tilt-board。
+- 需要引入高质感交互控件（如鼠标驱动 3D 视差玻璃画板、南瓜助手弹性磁吸胶囊导航栏/按钮、磨砂流光搜索框、或列表卡片悬停跟随阴影与氛围光晕）时，使用 ui-template-library。
+- 需要结合 shadcn/ui 组件库（Radix UI 原语）、Tailwind CSS 工具类与无障碍标准（a11y）构建高质量 React/Vue 界面或定制设计系统时，使用 ui-styling。

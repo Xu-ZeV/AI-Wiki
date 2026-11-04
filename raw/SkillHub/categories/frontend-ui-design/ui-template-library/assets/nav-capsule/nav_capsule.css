@@ -1,0 +1,475 @@
+/**
+ * ============================================================================
+ * 公共胶囊导航按钮与导航栏样式规范 (odoo-common-plugin: nav_capsule)
+ * 遵循 ui-ux-pro-max 与 ui-component-performance-guide 规范：
+ * 1. 【整体居中】：图标与文字作为一个整体在 108px 胶囊中绝对对称居中
+ * 2. 【中心展开】：transform-origin: center, 从中心向两侧对称平滑舒展
+ * 3. 【图标旋转】：展开触发 360° 微弹性微交互旋转，收起平滑复位
+ * 4. 【性能优先】：基于 transform / opacity / 硬件加速，杜绝布局抖动 (zero jitter)
+ * ============================================================================
+ */
+
+:root {
+    --nav-capsule-primary: #ea580c;
+    --nav-capsule-bg-hover: #fff7ed;
+    --nav-capsule-bg-active: rgba(251, 146, 60, 0.22);
+    --nav-capsule-border-active: rgba(251, 146, 60, 0.4);
+    --nav-capsule-border-hover: rgba(251, 146, 60, 0.32);
+    --nav-capsule-shadow-active: 0 1px 3px rgba(234, 88, 12, 0.16);
+    --nav-capsule-shadow-hover: 0 2px 10px -2px rgba(234, 88, 12, 0.2);
+    --nav-capsule-text-color: #475569;
+    --nav-capsule-text-hover: #ea580c;
+    --nav-capsule-ease: cubic-bezier(0.25, 1, 0.3, 1);
+    --nav-capsule-spring: cubic-bezier(0.34, 1.25, 0.64, 1);
+}
+
+/* 导航栏容器 */
+.app-nav.common-nav-capsule-bar,
+.app-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* ==========================================================================
+   滑动磁性底色胶囊指示器 (Nav Capsule Glider)
+   实现底色从原菜单项“有延迟感/惯性”地移动到目标菜单项
+   ========================================================================== */
+.nav-capsule-glider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 38px;
+    border-radius: 9999px;
+    background: var(--nav-capsule-bg-active);
+    border: 1px solid var(--nav-capsule-border-active);
+    box-shadow: var(--nav-capsule-shadow-active);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    transform-origin: center center;
+    /* 带物理惯性质感的平滑缓动阻尼曲线 (延迟感) */
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.3, 1),
+                width 0.38s cubic-bezier(0.25, 1, 0.3, 1),
+                opacity 0.22s ease,
+                background-color 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+    will-change: transform, width, opacity;
+}
+
+/* 胶囊按钮基础样式 (常态与吸顶态基准) */
+.common-nav-capsule,
+.nav-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    min-height: 38px;
+    padding: 6px 14px;
+    border-radius: 9999px !important;
+    border: 1px solid transparent;
+    color: var(--nav-capsule-text-color);
+    background-color: transparent;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    position: relative;
+    z-index: 1; /* 浮在 Glider 上层 */
+    overflow: hidden;
+    box-sizing: border-box;
+    cursor: pointer;
+    transform-origin: center center;
+    transition: width 0.62s var(--nav-capsule-ease),
+                min-width 0.62s var(--nav-capsule-ease),
+                max-width 0.62s var(--nav-capsule-ease),
+                padding 0.62s var(--nav-capsule-ease),
+                background-color 0.4s ease,
+                border-color 0.4s ease,
+                box-shadow 0.4s ease,
+                color 0.25s ease,
+                transform 0.15s ease;
+}
+
+/* 核心内层包裹器：强制保证图标与文字合并后在胶囊横向内部居中对齐 */
+.common-nav-capsule .nav-capsule-inner,
+.nav-item .nav-capsule-inner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    margin: 0 auto;
+    position: relative;
+    pointer-events: none;
+    transform-origin: center center;
+    transition: transform 0.6s var(--nav-capsule-ease);
+}
+
+/* 图标容器与旋转动效 (650ms 优雅顺时针 360° 旋转，清晰可辨) */
+.common-nav-capsule .nav-capsule-icon,
+.common-nav-capsule svg,
+.nav-item svg {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    stroke-width: 2;
+    flex-shrink: 0;
+    transform-origin: center center;
+    transition: transform 0.65s var(--nav-capsule-spring),
+                color 0.25s ease;
+}
+
+/* 按钮文字：支持平滑伸展与折叠隐藏 (580ms 缓慢向右舒展展开) */
+.common-nav-capsule .nav-capsule-text,
+.nav-item .nav-text {
+    display: inline-block;
+    max-width: 260px;
+    opacity: 1;
+    margin-left: 6px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    transform-origin: left center;
+    transition: max-width 0.58s var(--nav-capsule-ease),
+                opacity 0.42s ease 0.1s,
+                margin-left 0.58s var(--nav-capsule-ease);
+}
+
+/* 当有滑动指示器存在时，按钮自身保持透明，底色由 Glider 统一丝滑呈现，彻底杜绝双背景并存 */
+.app-header:not(.is-scrolled) .app-nav:has(.nav-capsule-glider) .common-nav-capsule,
+.app-header:not(.is-scrolled) .app-nav:has(.nav-capsule-glider) .nav-item,
+.app-header:not(.is-scrolled) .app-nav.has-glider .common-nav-capsule,
+.app-header:not(.is-scrolled) .app-nav.has-glider .nav-item {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* 导航栏展开状态下：鼠标悬浮仅文字与图标微高亮，绝不触发底色位移与图标旋转 (只有点击其他菜单才有动画) */
+.app-header:not(.is-scrolled) .common-nav-capsule:hover,
+.app-header:not(.is-scrolled) .nav-item:hover {
+    color: var(--nav-capsule-primary);
+}
+
+/* 导航栏展开状态下：只有当前激活或点击瞬态时，图标旋转 360° */
+.app-header:not(.is-scrolled) .common-nav-capsule.active .nav-capsule-icon,
+.app-header:not(.is-scrolled) .common-nav-capsule.active svg,
+.app-header:not(.is-scrolled) .nav-item.active svg,
+.app-header:not(.is-scrolled) .common-nav-capsule:active .nav-capsule-icon,
+.app-header:not(.is-scrolled) .common-nav-capsule:active svg,
+.app-header:not(.is-scrolled) .nav-item:active svg {
+    transform: rotate(360deg);
+    color: var(--nav-capsule-primary);
+}
+
+/* 点击微弹性挤压微交互 */
+.common-nav-capsule:active,
+.nav-item:active {
+    transform: scale(0.95);
+}
+
+/* 常态 Active 激活效果 */
+.app-header:not(.is-scrolled) .common-nav-capsule.active,
+.app-header:not(.is-scrolled) .nav-item.active {
+    color: var(--nav-capsule-primary);
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   吸顶折叠模式 (.app-header.is-scrolled) 动效与居中规范
+   ========================================================================== */
+
+/* 0. 吸顶折叠模式下隐藏全局滑动底色 Glider (收缩态各按钮各自居中展开，绝不使用底色大块拖拽) */
+.app-header.is-scrolled .nav-capsule-glider {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+.app-header.is-scrolled .common-nav-capsule,
+.app-header.is-scrolled .nav-item {
+    transition: width 0.62s var(--nav-capsule-ease),
+                min-width 0.62s var(--nav-capsule-ease),
+                max-width 0.62s var(--nav-capsule-ease),
+                padding 0.62s var(--nav-capsule-ease),
+                background-color 0.4s ease,
+                border-color 0.4s ease,
+                box-shadow 0.4s ease,
+                color 0.25s ease !important;
+}
+
+.app-header.is-scrolled .common-nav-capsule:not(.active),
+.app-header.is-scrolled .nav-item:not(.active) {
+    width: 38px !important;
+    min-width: 38px !important;
+    max-width: 38px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    border-color: transparent !important;
+    background-color: transparent;
+    box-shadow: none !important;
+}
+
+.app-header.is-scrolled .common-nav-capsule:not(.active),
+.app-header.is-scrolled .nav-item:not(.active) {
+    overflow: hidden !important;
+}
+
+.app-header.is-scrolled .common-nav-capsule:not(.active) .nav-capsule-inner,
+.app-header.is-scrolled .nav-item:not(.active) .nav-capsule-inner {
+    overflow: hidden !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    justify-content: center !important;
+}
+
+.app-header.is-scrolled .common-nav-capsule:not(.active) .nav-capsule-text,
+.app-header.is-scrolled .nav-item:not(.active) .nav-text {
+    display: none !important;
+    max-width: 0 !important;
+    width: 0 !important;
+    opacity: 0 !important;
+    margin-left: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+.app-header.is-scrolled .common-nav-capsule:not(.active) .nav-capsule-icon,
+.app-header.is-scrolled .common-nav-capsule:not(.active) svg,
+.app-header.is-scrolled .nav-item:not(.active) svg {
+    transform: rotate(0deg);
+}
+
+/* 2. 当前界面激活项：在吸顶时默认保持展开胶囊态 (统一108px定宽，内容绝对居中) */
+.app-header.is-scrolled .common-nav-capsule.active,
+.app-header.is-scrolled .nav-item.active {
+    width: 108px !important;
+    min-width: 108px !important;
+    max-width: 108px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    background-color: var(--nav-capsule-bg-active) !important;
+    border: 1px solid var(--nav-capsule-border-active) !important;
+    color: var(--nav-capsule-primary) !important;
+    box-shadow: var(--nav-capsule-shadow-active) !important;
+}
+
+.app-header.is-scrolled .common-nav-capsule.active .nav-capsule-icon,
+.app-header.is-scrolled .common-nav-capsule.active svg,
+.app-header.is-scrolled .nav-item.active svg {
+    transform: rotate(360deg);
+    color: var(--nav-capsule-primary);
+}
+
+.app-header.is-scrolled .common-nav-capsule.active .nav-capsule-text,
+.app-header.is-scrolled .nav-item.active .nav-text {
+    max-width: 64px !important;
+    opacity: 1 !important;
+    margin-left: 6px !important;
+    font-weight: 600;
+    pointer-events: auto;
+}
+
+/* 激活项被悬浮时增强高亮光泽 */
+.app-header.is-scrolled .common-nav-capsule.active:hover,
+.app-header.is-scrolled .nav-item.active:hover {
+    background-color: rgba(251, 146, 60, 0.3) !important;
+    border-color: rgba(251, 146, 60, 0.55) !important;
+    box-shadow: 0 2px 10px -1px rgba(234, 88, 12, 0.26) !important;
+}
+
+/* 3. 悬浮非激活项：从中心向两端缓慢展开 + 图标360°弹性旋转 + 整体居中 */
+@media (hover: hover) and (pointer: fine) {
+    .app-header.is-scrolled .common-nav-capsule:not(.active):hover,
+    .app-header.is-scrolled .nav-item:not(.active):hover {
+        width: 108px !important;
+        min-width: 108px !important;
+        max-width: 108px !important;
+        height: 38px !important;
+        padding: 0 !important;
+        justify-content: center !important;
+        background-color: var(--nav-capsule-bg-hover) !important;
+        color: var(--nav-capsule-primary) !important;
+        border: 1px solid var(--nav-capsule-border-hover) !important;
+        box-shadow: var(--nav-capsule-shadow-hover) !important;
+    }
+
+    .app-header.is-scrolled .common-nav-capsule:not(.active):hover .nav-capsule-icon,
+    .app-header.is-scrolled .common-nav-capsule:not(.active):hover svg,
+    .app-header.is-scrolled .nav-item:not(.active):hover svg {
+        transform: rotate(360deg);
+        color: var(--nav-capsule-primary);
+    }
+
+    .app-header.is-scrolled .common-nav-capsule:not(.active):hover .nav-capsule-text,
+    .app-header.is-scrolled .nav-item:not(.active):hover .nav-text {
+        max-width: 64px !important;
+        opacity: 1 !important;
+        margin-left: 6px !important;
+        color: var(--nav-capsule-primary);
+        pointer-events: auto;
+    }
+}
+
+/* 键盘 Tab 键焦点与 JS 状态机展开 */
+.app-header.is-scrolled .common-nav-capsule:not(.active):focus-visible,
+.app-header.is-scrolled .common-nav-capsule.is-hover-expanded,
+.app-header.is-scrolled .nav-item:not(.active):focus-visible,
+.app-header.is-scrolled .nav-item.is-hover-expanded {
+    width: 108px !important;
+    min-width: 108px !important;
+    max-width: 108px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    background-color: var(--nav-capsule-bg-hover) !important;
+    color: var(--nav-capsule-primary) !important;
+    border: 1px solid var(--nav-capsule-border-hover) !important;
+    box-shadow: var(--nav-capsule-shadow-hover) !important;
+}
+
+.app-header.is-scrolled .common-nav-capsule:not(.active):focus-visible .nav-capsule-icon,
+.app-header.is-scrolled .common-nav-capsule:not(.active):focus-visible svg,
+.app-header.is-scrolled .common-nav-capsule.is-hover-expanded .nav-capsule-icon,
+.app-header.is-scrolled .common-nav-capsule.is-hover-expanded svg,
+.app-header.is-scrolled .nav-item:not(.active):focus-visible svg,
+.app-header.is-scrolled .nav-item.is-hover-expanded svg {
+    transform: rotate(360deg);
+    color: var(--nav-capsule-primary);
+}
+
+.app-header.is-scrolled .common-nav-capsule:not(.active):focus-visible .nav-capsule-text,
+.app-header.is-scrolled .common-nav-capsule.is-hover-expanded .nav-capsule-text,
+.app-header.is-scrolled .nav-item:not(.active):focus-visible .nav-text,
+.app-header.is-scrolled .nav-item.is-hover-expanded .nav-text {
+    max-width: 64px !important;
+    opacity: 1 !important;
+    margin-left: 6px !important;
+    color: var(--nav-capsule-primary);
+    pointer-events: auto;
+}
+
+/* 4. 互斥让位：当鼠标悬浮非激活项时，原激活项收缩为 38px 正圆圈圈 */
+@media (hover: hover) and (pointer: fine) {
+    .app-header.is-scrolled .app-nav:has(.nav-item:not(.active):hover) .nav-item.active,
+    .app-header.is-scrolled .app-nav:has(.common-nav-capsule:not(.active):hover) .common-nav-capsule.active {
+        width: 38px !important;
+        min-width: 38px !important;
+        max-width: 38px !important;
+        padding: 0 !important;
+        justify-content: center !important;
+        box-shadow: 0 1px 3px rgba(234, 88, 12, 0.16) !important;
+    }
+
+    .app-header.is-scrolled .app-nav:has(.nav-item:not(.active):hover) .nav-item.active .nav-capsule-icon,
+    .app-header.is-scrolled .app-nav:has(.nav-item:not(.active):hover) .nav-item.active svg,
+    .app-header.is-scrolled .app-nav:has(.common-nav-capsule:not(.active):hover) .common-nav-capsule.active .nav-capsule-icon,
+    .app-header.is-scrolled .app-nav:has(.common-nav-capsule:not(.active):hover) .common-nav-capsule.active svg {
+        transform: rotate(0deg) !important;
+    }
+
+    .app-header.is-scrolled .app-nav:has(.nav-item:not(.active):hover) .nav-item.active .nav-text,
+    .app-header.is-scrolled .app-nav:has(.common-nav-capsule:not(.active):hover) .common-nav-capsule.active .nav-capsule-text {
+        max-width: 0 !important;
+        opacity: 0 !important;
+        margin-left: 0 !important;
+        pointer-events: none;
+    }
+}
+
+.app-header.is-scrolled .app-nav:has(.nav-item:not(.active):focus-visible) .nav-item.active,
+.app-header.is-scrolled .app-nav.has-inactive-hover .nav-item.active,
+.app-header.is-scrolled .app-nav:has(.common-nav-capsule:not(.active):focus-visible) .common-nav-capsule.active,
+.app-header.is-scrolled .app-nav.has-inactive-hover .common-nav-capsule.active {
+    width: 38px !important;
+    min-width: 38px !important;
+    max-width: 38px !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    box-shadow: 0 1px 3px rgba(234, 88, 12, 0.16) !important;
+}
+
+.app-header.is-scrolled .app-nav:has(.nav-item:not(.active):focus-visible) .nav-item.active svg,
+.app-header.is-scrolled .app-nav.has-inactive-hover .nav-item.active svg,
+.app-header.is-scrolled .app-nav:has(.common-nav-capsule:not(.active):focus-visible) .common-nav-capsule.active svg,
+.app-header.is-scrolled .app-nav.has-inactive-hover .common-nav-capsule.active svg {
+    transform: rotate(0deg) !important;
+}
+
+.app-header.is-scrolled .app-nav:has(.nav-item:not(.active):focus-visible) .nav-item.active .nav-text,
+.app-header.is-scrolled .app-nav.has-inactive-hover .nav-item.active .nav-text,
+.app-header.is-scrolled .app-nav:has(.common-nav-capsule:not(.active):focus-visible) .common-nav-capsule.active .nav-capsule-text,
+.app-header.is-scrolled .app-nav.has-inactive-hover .common-nav-capsule.active .nav-capsule-text {
+    max-width: 0 !important;
+    opacity: 0 !important;
+    margin-left: 0 !important;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   移动端响应式规范 (Mobile Adaptations <= 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .common-nav-capsule,
+    .nav-item {
+        height: 34px !important;
+        min-height: 34px !important;
+        font-size: 12px !important;
+        padding: 4px 10px !important;
+    }
+
+    .nav-capsule-glider {
+        height: 34px !important;
+    }
+
+    .app-header.is-scrolled .common-nav-capsule:not(.active),
+    .app-header.is-scrolled .nav-item:not(.active) {
+        width: 34px !important;
+        min-width: 34px !important;
+        max-width: 34px !important;
+        height: 34px !important;
+        min-height: 34px !important;
+    }
+
+    .app-header.is-scrolled .common-nav-capsule.active,
+    .app-header.is-scrolled .nav-item.active {
+        width: 98px !important;
+        min-width: 98px !important;
+        max-width: 98px !important;
+        height: 34px !important;
+        min-height: 34px !important;
+    }
+
+    .app-header.is-scrolled .collapsed-back-btn {
+        width: 34px !important;
+        min-width: 34px !important;
+        height: 34px !important;
+    }
+}
+
+/* 尊重用户系统降低动效偏好 (WCAG 2.1 / ui-ux-pro-max 规范) */
+@media (prefers-reduced-motion: reduce) {
+    .common-nav-capsule,
+    .common-nav-capsule .nav-capsule-inner,
+    .common-nav-capsule .nav-capsule-icon,
+    .common-nav-capsule .nav-capsule-text,
+    .nav-item,
+    .nav-item svg,
+    .nav-item .nav-text {
+        transition-duration: 0.01ms !important;
+        transition-delay: 0ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}

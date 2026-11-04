@@ -384,6 +384,40 @@ function updateShadowMapAlgorithm(algoName: ShadowMapAlgorithm): void {
 
 /**
  * ============================================================================
+ * Day 17: 光线投射拾取系统（Raycaster & Mouse Interaction）
+ * ============================================================================
+ */
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2(-1000, -1000); // 初始值置于视口外部，防止刷新时误触发
+
+// 记录当前悬停的目标网格
+let currentIntersectMesh: THREE.Mesh | null = null;
+
+// 监听鼠标在画布上的移动
+window.addEventListener('mousemove', (event: MouseEvent): void => {
+  // 精确计算 NDC 坐标
+  mouse.x = (event.clientX / sizes.width) * 2 - 1;
+  mouse.y = -(event.clientY / sizes.height) * 2 + 1;
+});
+
+// 鼠标点击拾取
+window.addEventListener('click', (): void => {
+  if (currentIntersectMesh) {
+    console.log('[Raycaster] 成功点击击中目标:', currentIntersectMesh);
+
+    // 如果击中的是中心圆环结，让它来一次快速颜色跃迁
+    if (currentIntersectMesh === cube) {
+      cubeMaterial.color.set(Math.random() * 0xffffff);
+    } else {
+      // 如果击中的是甜甜圈，给它一个沿 Y 轴向上跳跃的初速度
+      currentIntersectMesh.position.y += 0.8;
+      currentIntersectMesh.rotation.x += Math.PI * 0.5;
+    }
+  }
+});
+
+/**
+ * ============================================================================
  * 9. 轨道控制器（OrbitControls）与全屏手势交互
  * ============================================================================
  */
@@ -658,6 +692,40 @@ const tick = (): void => {
   if (debugParams.showShadowCamera && debugParams.activeLightType === 'DirectionalLight') {
     shadowCameraHelper.update();
   }
+
+  // ==================== Day 17: 鼠标光线投射求交 ====================
+  // 1. 每帧根据鼠标的最新 NDC 坐标与相机矩阵更新射线
+  raycaster.setFromCamera(mouse, camera);
+
+  // 2. 检测射线是否穿透甜甜圈群或中央主立方体
+  const interactTargets = [...donuts, cube];
+  const intersects = raycaster.intersectObjects(interactTargets);
+
+  if (intersects.length > 0) {
+    // 取得最靠近相机的一个物体
+    const hitMesh = intersects[0].object as THREE.Mesh;
+
+    if (currentIntersectMesh !== hitMesh) {
+      // 鼠标刚刚移入新物体 (mouseenter)
+      if (currentIntersectMesh) {
+        // 恢复上一个物体的尺寸
+        currentIntersectMesh.scale.multiplyScalar(1 / 1.3);
+      }
+      currentIntersectMesh = hitMesh;
+      // 高亮放大反馈
+      currentIntersectMesh.scale.multiplyScalar(1.3);
+      document.body.style.cursor = 'pointer';
+    }
+  } else {
+    // 射线未击中任何目标 (mouseleave)
+    if (currentIntersectMesh) {
+      currentIntersectMesh.scale.multiplyScalar(1 / 1.3);
+      currentIntersectMesh = null;
+      document.body.style.cursor = 'default';
+    }
+  }
+
+
 
   // 12.5 更新轨道控制器阻尼
   controls.update();

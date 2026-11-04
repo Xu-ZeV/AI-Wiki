@@ -30,7 +30,7 @@
 | `categories/frontend-ui-design/` | 高级前端 UI 设计与重构（13 个 skill）。 |
 | `categories/vue-engineering/` | Vue 3 工程实践（8 个 skill）。 |
 | `categories/visual-reference-generation/` | 视觉参考图与品牌生成（5 个 skill）。 |
-| `categories/design-delivery-governance/` | 设计交付、系统化与输出约束（3 个 skill）。 |
+| `categories/design-delivery-governance/` | 设计交付、系统化与输出约束（4 个 skill）。 |
 | `categories/presentation-web-slides/` | 演示文稿与网页幻灯片（3 个 skill）。 |
 | `categories/obsidian-basic/` | Obsidian 基础能力与文件格式（5 个 skill）。 |
 | `categories/content-ingest/` | 内容采集与导入（9 个 skill）。 |
@@ -59,7 +59,7 @@
 
 ## 上游溯源
 
-6 个上游包已全部解除 submodule 并拆散迁入 `categories/`，不再保留整包快照目录；此外还有 1 个直接改编的单文件文档来源（非 submodule 包，见下表最后一行）：
+6 个上游包已全部解除 submodule 并拆散迁入 `categories/`，不再保留整包快照目录；此外还有 2 个直接改编/引入的独立来源（非 submodule 包，见下表最后两行）：
 
 | 上游来源 | 记录到的 commit | 迁入情况 |
 | --- | --- | --- |
@@ -70,6 +70,7 @@
 | [vuejs-ai/skills](https://github.com/vuejs-ai/skills)（原上游包目录 `vuejs-ai-skills/`） | 本仓库未记录 commit | 非 submodule 普通目录，8 个 skill 迁入 `categories/vue-engineering/`。 |
 | `impeccable`（原上游包目录 `impeccable/`） | 本仓库未记录上游仓库地址与 commit | 包根本身即 skill，整包迁入 `categories/frontend-ui-design/impeccable/`；包内脚本引用其产品站点 `https://impeccable.style`，仅作旁证。 |
 | [Highflyer/MySQL-Design-Specification](https://github.com/Highflyer/MySQL-Design-Specification) | `14f78853e8b601b78ce2abfc0120b4cf55e06e37` | 非 submodule、也非上游包：仓库仅 1 个 `README.md`（MySQL 设计规范 109 条），改编为 `categories/database-design/postgresql-design-specification/`，上游原文留存 `references/upstream-mysql-design-spec.md`。 |
+| [RobMitt/grill-me-skill](https://github.com/RobMitt/grill-me-skill) | `31d61d68fc406f8cc2a944b4b10e6f23877720f1` | 非 submodule，单 skill 引入并深度适配 Codex 交互机制，迁入 `categories/design-delivery-governance/grill-me/`。 |
 
 上游来源仅作溯源记录，日常使用与 Obsidian 索引一律以 `categories/<分类>/<slug>/` 为准。
 
@@ -86,3 +87,5 @@
 - 不再指向 `raw/SkillHub/agents/`；历史安装布局已按功能迁入 `categories/`。
 - 6 个上游包已全部解除 submodule 并拆散迁入 `categories/`：`.gitmodules` 与本地 `submodule.*` 配置节、包内嵌套 `.git` 均已移除，内容直接纳入主仓库版本管理；上游更新时不能再用 `git submodule update` 拉取，需手动比对覆盖。除这 6 个上游包外，还有 1 个直接改编的单文件文档来源（`Highflyer/MySQL-Design-Specification`）：它从来不是 submodule，没有 `.gitmodules` 记录，同样需要手动比对上游覆盖。
 - 同一 skill 出现多个上游版本时，只保留一份 canonical 放在 `categories/<分类>/<slug>/`，其余按来源收进 `<slug>/versions/<variant>/`，不要另建同名 slug 目录。
+
+

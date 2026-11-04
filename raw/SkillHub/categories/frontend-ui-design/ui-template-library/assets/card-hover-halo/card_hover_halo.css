@@ -1,0 +1,90 @@
+/* ==========================================================================
+   列表卡片悬停跟随阴影与氛围光晕 (Card Hover Follower Halo)
+   特性：
+   1. 边缘无边界模糊化（高斯弥散 filter: blur(18px)，完全去除生硬边界）
+   2. 配合 JS Damped Lerp 物理引擎实现焦点切换滞后追随与流畅步进
+   ========================================================================== */
+
+/* 列表容器基准 */
+.card-list-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 核心跟随光晕节点（容器内单实例共享，位于卡片底层） */
+.card-hover-halo,
+.nangua-card-hover-halo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    border: none !important;
+    outline: none !important;
+    /* 高斯弥散无界化：彻底羽化边缘，杜绝任何生硬边界 */
+    filter: blur(18px);
+    -webkit-filter: blur(18px);
+    /* 核心材质：径向渐变温和消隐 + 暖橙与柔光氛围弥散 */
+    background: radial-gradient(
+        ellipse at center,
+        rgba(234, 88, 12, 0.35) 0%,
+        rgba(251, 146, 60, 0.22) 50%,
+        rgba(254, 215, 170, 0.12) 80%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    box-shadow: 0 16px 38px 2px rgba(234, 88, 12, 0.18),
+                0 6px 20px -2px rgba(15, 23, 42, 0.08);
+    will-change: transform, width, height, opacity;
+    transform-origin: center center;
+}
+
+/* 紧凑子卡片专用的更小光晕模糊弥散微调 */
+.compact-card-list > .card-hover-halo,
+.compact-card-list > .nangua-card-hover-halo {
+    filter: blur(10px);
+    -webkit-filter: blur(10px);
+    background: radial-gradient(
+        ellipse at center,
+        rgba(234, 88, 12, 0.28) 0%,
+        rgba(254, 215, 170, 0.14) 70%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    box-shadow: 0 6px 16px -2px rgba(234, 88, 12, 0.12);
+}
+
+/* 列表卡片本体：置于光晕上层，具备基础悬浮抬升与边框过渡 */
+.list-card,
+.meeting-card,
+.summary-card,
+.card {
+    position: relative;
+    z-index: 2;
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.85);
+    border-radius: 16px;
+    padding: 18px 20px;
+    box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.list-card:hover,
+.meeting-card:hover,
+.summary-card:hover,
+.card:hover {
+    border-color: rgba(203, 213, 225, 1);
+    box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+}
+
+/* 无指针触控设备降级 */
+@media (hover: none) {
+    .card-hover-halo,
+    .nangua-card-hover-halo {
+        display: none !important;
+    }
+}

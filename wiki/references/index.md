@@ -13,3 +13,4 @@ tags:
 - [[wiki/references/ragflow-official-documentation|RAGFlow 官方文档]]：RAGFlow v0.26.0 的 Docker 部署、模型配置、数据集、文档解析、检索测试、聊天搜索和 API 接入摘要。
 - [[wiki/references/tavily-official-documentation|Tavily 官方文档]]：Tavily Search、Extract、Crawl、Map、Research API 与 SDK 接入文档来源摘要。
 - [[wiki/references/threejs-asset-reuse-and-gpu-memory|Three.js 几何体与材质显存复用模式与性能开销白皮书]]：面向海量 3D 资产渲染的 GPU 显存分配、共享单例模式、销毁机制与性能开销指南。
+- [[wiki/references/threejs-realistic-render-pipeline|Three.js 写实级渲染管线与高端物理材质配置手册]]：面向追求电影级真实感渲染的色彩空间校准、ACES 色调映射、HDR IBL 环境光、MeshPhysicalMaterial 高级参数与微瑕疵贴图全流程指南。

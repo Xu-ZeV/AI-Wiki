@@ -79,10 +79,10 @@ tags:
 
 | 分类 | 数量 | 功能范围 |
 | --- | ---: | --- |
-| [[wiki/SkillHub/categories/frontend-ui-design\|高级前端 UI 设计与重构]] | 10 | 生成或改造高质量网站、产品界面、落地页和实验性前端视觉风格。 |
+| [[wiki/SkillHub/categories/frontend-ui-design\|高级前端 UI 设计与重构]] | 11 | 生成或改造高质量网站、产品界面、落地页和实验性前端视觉风格。 |
 | [[wiki/SkillHub/categories/vue-engineering\|Vue 3 工程实践]] | 8 | 面向 Vue 3、Composition API、Options API、Router、Pinia、测试、JSX、调试和 composable 的工程实践。 |
 | [[wiki/SkillHub/categories/visual-reference-generation\|视觉参考图与品牌生成]] | 3 | 生成网站分区参考图、移动端多屏流程图和品牌视觉系统板。 |
-| [[wiki/SkillHub/categories/design-delivery-governance\|设计交付、系统化与输出约束]] | 2 | 生成设计系统交付文档，约束完整输出，减少占位符和半成品交付。 |
+| [[wiki/SkillHub/categories/design-delivery-governance\|设计交付、系统化与输出约束]] | 3 | 生成设计系统交付文档，约束完整输出，减少占位符和半成品交付。 |
 | [[wiki/SkillHub/categories/presentation-web-slides\|演示文稿与网页幻灯片]] | 2 | 生成 HTML 原生演示文稿，提供主题模板、视觉风格系统、演讲者工具、浏览器交付和质量校验。 |
 
 ### 多Agent团队协作
@@ -116,7 +116,7 @@ tags:
 - 生成或改造前端界面，或用 HTML 统一交付原型、幻灯片与动画：从 [[wiki/SkillHub/categories/frontend-ui-design|高级前端 UI 设计与重构]] 开始。
 - 处理 Vue 3 工程实现、状态、路由、测试或调试：从 [[wiki/SkillHub/categories/vue-engineering|Vue 3 工程实践]] 开始。
 - 生成视觉参考图或品牌板：从 [[wiki/SkillHub/categories/visual-reference-generation|视觉参考图与品牌生成]] 开始。
-- 需要设计系统交付或完整输出约束：从 [[wiki/SkillHub/categories/design-delivery-governance|设计交付、系统化与输出约束]] 开始。
+- 需要设计系统交付、方案压力盘问或完整输出约束：从 [[wiki/SkillHub/categories/design-delivery-governance|设计交付、系统化与输出约束]] 开始。
 - 制作单文件 HTML PPT 或带演讲者模式的网页幻灯片：从 [[wiki/SkillHub/categories/presentation-web-slides|演示文稿与网页幻灯片]] 开始。
 
 ### 多Agent团队协作
@@ -129,3 +129,4 @@ tags:
 ### 数据库与后端工程
 
 - 设计 PostgreSQL 表结构、索引、分区，或编写线上 SQL 前：从 [[wiki/SkillHub/categories/database-design|数据库与后端工程]] 开始。
+

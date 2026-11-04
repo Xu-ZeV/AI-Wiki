@@ -66,6 +66,18 @@
       "sourceType": "local",
       "skillPath": "categories/database-design/postgresql-design-specification/SKILL.md",
       "computedHash": "f87e3d4799aeb7f7d84221d8631f837c253722d3f0069691b602bd47a685fa4c"
+    },
+    "grill-me": {
+      "source": "RobMitt/grill-me-skill",
+      "sourceType": "adapted",
+      "skillPath": "categories/design-delivery-governance/grill-me/SKILL.md",
+      "computedHash": "4649157ca17320f1a7a68c18d641a547c13c49093ab38467188c95e48bb87050"
+    },
+    "ui-styling": {
+      "source": "claudekit/ui-styling",
+      "sourceType": "github",
+      "skillPath": "categories/frontend-ui-design/ui-styling/SKILL.md",
+      "computedHash": "96f5bd5332f959e71219019eeb78005cb17254ddc4e4a79f0548fd9f8c9a0b0a"
     }
   }
 }
