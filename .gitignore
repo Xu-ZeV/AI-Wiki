@@ -7,3 +7,5 @@ __pycache__/
 # Obsidian 工作区状态（每次开关笔记都会变化，不纳入版本管理）
 .obsidian/workspace.json
 
+# 本地教学与实战演示工程（独立本地运行，不纳入知识库版本管理）
+raw/project/demo/
