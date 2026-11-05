@@ -5,6 +5,7 @@ tags:
 ---
 # 来源摘要索引
 
+- [[wiki/references/highway-toll-lane-device-interface-spec|高速公路联网收费系统车道设备接口规范（附件3 V1.97）]]：交通运输部路网中心收费站标准化试点车道外设通信协议、21类设备接口、控制上报帧格式与状态机规范全景摘要。
 - [[wiki/references/karpathy-llm-wiki-gist|Karpathy LLM Wiki Gist]]：Karpathy 关于 LLM Wiki 模式的原始 idea file 摘要。
 - [[wiki/references/langchain-official-documentation|LangChain 官方文档]]：LangChain v1 的 `create_agent`、模型、消息、工具、RAG、结构化输出和迁移文档摘要。
 - [[wiki/references/langgraph-official-documentation|LangGraph 官方文档]]：LangGraph 状态图运行时、持久化、streaming 和 human-in-the-loop 文档摘要。

@@ -5,6 +5,7 @@ tags:
 ---
 # 综合分析索引
 
+- [[wiki/synthesis/highway-toll-station-standardization-architecture|收费站标准化试点车道物联网与协同架构全景]]：基于交通部车道外设标准化规范，解构车道级物联拓扑、多源数据动静态联合稽核矩阵与云收费站演进。
 - [[wiki/synthesis/karpathy-wiki-layering-for-ai-wiki|Karpathy Wiki 分层在 AI-Wiki 中的落地]]：把 Karpathy 的三层架构映射到本仓库目录与维护规则。
 - [[wiki/synthesis/langchain-ecosystem-map|LangChain 生态边界图谱]]：梳理 LangChain、LangGraph、LangSmith 和 Deep Agents 的职责边界。
 - [[wiki/synthesis/langchain-v1-learning-path|LangChain v1 自学路径]]：从环境、模型、工具、RAG、结构化输出推进到可观测综合项目的 10 阶段教学路径。
