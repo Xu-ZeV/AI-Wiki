@@ -1,0 +1,210 @@
+/**
+ * 公共胶囊导航按钮与导航栏样式规范 (nav_capsule)
+ * 遵循 ui-template-library 规范：
+ * 1. 【整体居中】：图标与文字作为一个整体在胶囊中绝对对称居中
+ * 2. 【弹性磁吸滑块】：Glider 带有物理阻尼平滑位移
+ * 3. 【图标旋转】：激活/展开时触发 360° 微弹性顺时针旋转，keyframes 驱动杜绝倒转
+ * 4. 【吸顶折叠与悬停互斥】：滚动后收缩为 38px 正圆，悬停互斥让位展开
+ */
+
+:root {
+  --nav-capsule-primary: #ea580c;
+  --nav-capsule-bg-hover: rgba(234, 88, 12, 0.08);
+  --nav-capsule-bg-active: rgba(234, 88, 12, 0.18);
+  --nav-capsule-border-active: rgba(234, 88, 12, 0.38);
+  --nav-capsule-border-hover: rgba(234, 88, 12, 0.25);
+  --nav-capsule-shadow-active: 0 2px 8px rgba(234, 88, 12, 0.2);
+  --nav-capsule-text-color: #cbd5e1;
+  --nav-capsule-text-hover: #ffffff;
+  --nav-capsule-text-active: #fb923c;
+  --nav-capsule-ease: cubic-bezier(0.25, 1, 0.3, 1);
+  --nav-capsule-spring: cubic-bezier(0.34, 1.25, 0.64, 1);
+}
+
+/* 导航外壳容器 */
+.common-nav-capsule-bar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  background: rgba(15, 23, 42, 0.7);
+  padding: 6px 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Glider 磁性底色滑块 */
+.nav-capsule-glider {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  height: 38px;
+  border-radius: 9999px;
+  background: var(--nav-capsule-bg-active);
+  border: 1px solid var(--nav-capsule-border-active);
+  box-shadow: var(--nav-capsule-shadow-active);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transform-origin: center center;
+}
+
+/* 单个胶囊按钮 */
+.common-nav-capsule {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 9999px;
+  cursor: pointer;
+  color: var(--nav-capsule-text-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: transparent;
+  border: 1px solid transparent;
+  outline: none;
+  transition: width 0.3s var(--nav-capsule-ease),
+              padding 0.3s var(--nav-capsule-ease),
+              color 0.2s ease,
+              background-color 0.25s ease,
+              border-color 0.25s ease;
+  white-space: nowrap;
+}
+
+.common-nav-capsule:hover {
+  color: var(--nav-capsule-text-hover);
+}
+
+.common-nav-capsule.active {
+  color: var(--nav-capsule-text-active);
+}
+
+/* 图标 + 文字绝对居中容器 */
+.nav-capsule-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  pointer-events: none;
+  transition: gap 0.25s var(--nav-capsule-ease);
+}
+
+/* 图标与 360° 微弹性顺时针旋转（使用 Keyframes 单向触发，绝不倒转） */
+.nav-capsule-icon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+@keyframes nav-capsule-rotate-360 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.nav-capsule-icon.rotate-spring {
+  animation: nav-capsule-rotate-360 0.65s var(--nav-capsule-spring) forwards;
+}
+
+.nav-capsule-text {
+  margin-left: 8px;
+  transition: opacity 0.25s ease, max-width 0.3s var(--nav-capsule-ease), margin-left 0.25s var(--nav-capsule-ease);
+  overflow: hidden;
+  max-width: 100px;
+}
+
+/* =========================================================================
+   吸顶折叠模式与悬停互斥让位 (.is-scrolled)
+   ========================================================================= */
+.is-scrolled .common-nav-capsule {
+  width: 38px;
+  min-width: 38px;
+  padding: 0;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+/* 折叠态完全清除 margin-left 与排版占用，确保 18px 图标在 38px 正圆中严格几何绝对居中 */
+.is-scrolled .common-nav-capsule .nav-capsule-text {
+  max-width: 0;
+  margin-left: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.is-scrolled .common-nav-capsule .nav-capsule-inner {
+  gap: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 吸顶模式下的激活项保持展开 */
+.is-scrolled .common-nav-capsule.active {
+  width: auto;
+  min-width: unset;
+  padding: 0 16px;
+  border-radius: 9999px;
+  background: var(--nav-capsule-bg-active);
+  border-color: var(--nav-capsule-border-active);
+}
+
+.is-scrolled .common-nav-capsule.active .nav-capsule-text {
+  max-width: 100px;
+  margin-left: 8px;
+  opacity: 1;
+}
+
+/* 吸顶模式下，当鼠标悬浮非激活项时：展开悬浮项，让位收缩原激活项 (互斥机制) */
+.is-scrolled:has(.common-nav-capsule:not(.active):hover) .common-nav-capsule.active {
+  width: 38px;
+  min-width: 38px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.is-scrolled:has(.common-nav-capsule:not(.active):hover) .common-nav-capsule.active .nav-capsule-text {
+  max-width: 0;
+  margin-left: 0;
+  opacity: 0;
+}
+
+.is-scrolled .common-nav-capsule:not(.active):hover {
+  width: auto;
+  min-width: unset;
+  padding: 0 16px;
+  border-radius: 9999px;
+  background: var(--nav-capsule-bg-hover);
+  border-color: var(--nav-capsule-border-hover);
+}
+
+.is-scrolled .common-nav-capsule:not(.active):hover .nav-capsule-text {
+  max-width: 100px;
+  margin-left: 8px;
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .common-nav-capsule {
+    height: 34px;
+    padding: 0 12px;
+    font-size: 0.82rem;
+  }
+  .nav-capsule-glider {
+    height: 34px;
+  }
+}

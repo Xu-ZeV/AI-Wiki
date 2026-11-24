@@ -101,6 +101,14 @@ tags:
 | --- | ---: | --- |
 | [[wiki/SkillHub/categories/database-design\|数据库与后端工程]] | 1 | 以 PostgreSQL 14+ 为基线，覆盖库/schema/表/字段/索引/分区/字符集与 SQL 编写规范，并给出 MySQL→PostgreSQL 的逐条映射与条款冲突裁决。 |
 
+### 硬件与网络工程
+
+围绕物联网硬件、串口设备、以太网客显与车载读写器的跨网段透传与中继桥接能力。
+
+| 分类 | 数量 | 功能范围 |
+| --- | ---: | --- |
+| [[wiki/SkillHub/categories/hardware-network\|硬件与网络工程]] | 1 | 覆盖物理串口（COM/TTY）TCP网络透传与虚拟串口桥接、物理网线UDP组播（224.1.1.1）双向中继代理、多网卡回环死锁规避与全自动客户端IP学习。 |
+
 ## 使用路径
 
 ### Wiki 与 Obsidian 知识库
@@ -129,4 +137,8 @@ tags:
 ### 数据库与后端工程
 
 - 设计 PostgreSQL 表结构、索引、分区，或编写线上 SQL 前：从 [[wiki/SkillHub/categories/database-design|数据库与后端工程]] 开始。
+
+### 硬件与网络工程
+
+- 宿主机物理串口（扫码枪、POS）或物理网线以太网设备（读写器、客显）需跨网段连接虚拟机：从 [[wiki/SkillHub/categories/hardware-network|硬件与网络工程]] 开始。
 

@@ -1,0 +1,202 @@
+/**
+ * 南瓜助手磨砂流光搜索框样式规范 (glass-search)
+ * 遵循 ui-template-library 规范：
+ * 1. 【胶囊外框】：44px 高度，9999px 圆角，半透明磨砂与内嵌描边
+ * 2. 【底边流光】：::before 双层径向渐变流光呼吸扫动
+ * 3. 【清空按钮】：44px 触控区 + 22px 内层面
+ * 4. 【设计令牌】：--gs-* 色彩解耦
+ */
+
+:root {
+  --gs-accent: #ea580c;
+  --gs-beam-core: #ffedd5;
+  --gs-beam-edge: #ea580c;
+  --gs-glow-strong: rgba(234, 88, 12, 0.55);
+  --gs-glow-mid: rgba(234, 88, 12, 0.28);
+  --gs-glow-tail: rgba(234, 88, 12, 0.1);
+  --gs-surface: rgba(15, 23, 42, 0.65);
+  --gs-surface-hover: rgba(15, 23, 42, 0.82);
+  --gs-surface-focus: rgba(15, 23, 42, 0.95);
+  --gs-border: rgba(255, 255, 255, 0.12);
+  --gs-border-hover: rgba(255, 255, 255, 0.22);
+  --gs-border-focus: rgba(234, 88, 12, 0.65);
+  --gs-text: #f8fafc;
+  --gs-placeholder: #64748b;
+  --gs-clear-btn-bg: rgba(255, 255, 255, 0.08);
+  --gs-clear-btn-hover: rgba(255, 255, 255, 0.16);
+  --gs-duration: 0.25s;
+}
+
+/* 搜索框容器 */
+.glass-search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* 核心胶囊外框与双层底边流光 */
+.glass-search-bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 44px;
+  min-height: 44px;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 0;
+  border-radius: 9999px;
+  background: var(--gs-surface);
+  box-shadow: inset 0 0 0 1px var(--gs-border), 0 4px 16px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: background-color var(--gs-duration) ease,
+              box-shadow var(--gs-duration) ease;
+}
+
+.glass-search-bar:hover {
+  background: var(--gs-surface-hover);
+  box-shadow: inset 0 0 0 1px var(--gs-border-hover), 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+.glass-search-bar:focus-within {
+  background: var(--gs-surface-focus);
+  box-shadow: inset 0 0 0 1px var(--gs-border-focus),
+              0 0 20px rgba(234, 88, 12, 0.25),
+              0 6px 24px rgba(0, 0, 0, 0.45);
+}
+
+/* 底边双层径向渐变流光呼吸扫动 (Ambient Beam) */
+.glass-search-bar::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: 2;
+  width: 280px;
+  height: 24px;
+  background:
+    radial-gradient(
+      ellipse 110px 4px at 50% 100%,
+      var(--gs-beam-core) 0%,
+      var(--gs-beam-edge) 45%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 140px 24px at 50% 100%,
+      var(--gs-glow-strong) 0%,
+      var(--gs-glow-mid) 40%,
+      var(--gs-glow-tail) 75%,
+      transparent 100%
+    );
+  filter: blur(1.5px);
+  opacity: 0.65;
+  pointer-events: none;
+  transform: translateX(-50%);
+  animation: glass-search-peak-sweep 3.6s ease-in-out infinite alternate;
+  transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              animation-duration 0.32s ease;
+}
+
+.glass-search-bar:hover::before {
+  opacity: 0.90;
+  animation-duration: 2.6s;
+}
+
+.glass-search-bar:focus-within::before {
+  opacity: 1;
+  animation-duration: 2.0s;
+}
+
+@keyframes glass-search-peak-sweep {
+  0% {
+    transform: translateX(calc(-50% - 100px)) scaleX(0.92);
+  }
+  50% {
+    transform: translateX(-50%) scaleX(1.08);
+  }
+  100% {
+    transform: translateX(calc(-50% + 100px)) scaleX(0.92);
+  }
+}
+
+/* 左侧放大镜图标 */
+.search-icon-box {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gs-accent);
+  flex-shrink: 0;
+}
+
+/* 搜索输入框核心 */
+.search-input {
+  flex: 1;
+  height: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--gs-text);
+  font-size: 0.95rem;
+  font-family: inherit;
+  padding: 0 4px;
+}
+
+.search-input::placeholder {
+  color: var(--gs-placeholder);
+}
+
+/* 44px 黄金触控清空按钮与 22px 内层面 */
+.search-clear-btn {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.85);
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.25, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+
+.search-clear-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.search-clear-btn__face {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--gs-clear-btn-bg);
+  color: var(--gs-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.search-clear-btn:hover .search-clear-btn__face {
+  background: var(--gs-clear-btn-hover);
+  transform: scale(1.08);
+  color: #fff;
+}
+
+/* 减弱动效降级 */
+@media (prefers-reduced-motion: reduce) {
+  .glass-search-bar::before {
+    animation: none !important;
+  }
+}

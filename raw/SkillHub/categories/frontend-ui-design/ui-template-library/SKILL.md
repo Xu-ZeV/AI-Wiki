@@ -1,6 +1,6 @@
 ---
 name: ui-template-library
-description: UI 模板库（UI Template Library）——收纳经过生产实战检验的高性能、高质感前端 UI 控件与交互模板库。包含：① 玻璃倾斜画板（鼠标驱动 3D 视差与切片拼图倾斜，单文件零依赖）；② 南瓜助手胶囊导航栏与导航按钮（磁吸底色滑块 Glider、图标 360° 微动效旋转、常态完整展开与吸顶折叠让位互斥动效）；③ 南瓜助手磨砂流光搜索框（双层径向渐变底边呼吸扫光、解耦主题令牌 --gs-*、清空按钮联动与输入防抖）；④ 列表卡片悬停跟随阴影与氛围光晕（高斯弥散无界光晕、Damped Lerp 物理滞后滑行追随、卡片内鼠标微视差追踪）。当需要引入高质感交互控件、复制生产级模板代码、或使用中文提示词生成/重构前端控件时使用。
+description: UI 模板库（UI Template Library）——收纳经过生产实战检验的高性能、高质感前端 UI 控件与交互模板库。包含：① 玻璃倾斜画板（鼠标驱动 3D 视差与切片拼图倾斜，单文件零依赖）；② 南瓜助手胶囊导航栏与导航按钮（磁吸底色滑块 Glider、图标 360° 微动效旋转、常态完整展开与吸顶折叠让位互斥动效）；③ 南瓜助手磨砂流光搜索框（双层径向渐变底边呼吸扫光、解耦主题令牌 --gs-*、清空按钮联动与输入防抖）；④ 列表卡片悬停跟随阴影与氛围光晕（高斯弥散无界光晕、Damped Lerp 物理滞后滑行追随、卡片内鼠标微视差追踪）；⑤ CSS 3D 透视与容器裁剪互斥避坑指南（W3C 规范展平机理、过度拦截反模式与双透视架构）。当需要引入高质感交互控件、复制生产级模板代码、或使用中文提示词生成/重构前端控件时使用。
 ---
 
 # UI 模板库 (UI Template Library)
@@ -117,6 +117,81 @@ const s  = 1 + 0.006 * amt;                            // 轻微呼吸放大系�
     will-change: transform;
 }
 ```
+
+### 6. CSS 3D 透视与容器裁剪互斥避坑指南（重大踩坑与排查手册）
+
+在 3D 视差倾斜控件（如玻璃画板、3D 卡片阵列）的工程化实现与重构中，极易踩中 CSS 3D 渲染规范底层的“隐形陷阱”，导致动效看似编写完备，实际运行却完全静止、失去深度或暗部黑屏。以下为生产级排查与避坑准则：
+
+#### 6.1 W3C 规范底层机理：3D 渲染上下文展平 (Flattening)
+
+依据 **W3C CSS Transforms Module Level 2** 规范（Accumulating 3D Transformations and Flattening）：
+- 只要父容器或祖先元素声明了任何**非 `visible` 的 `overflow` 属性**（包括 `overflow: hidden`、`overflow: scroll`、`overflow: auto`、`overflow: clip`），或者应用了非空的 `clip-path`、`contain: paint` 等属性，浏览器渲染引擎就会强制该元素建立 **2D 平面裁剪上下文**，并强行将其内部所有后代元素的 **3D 渲染上下文完全展平（Flatten）**。
+- **展平后的致命表现**：
+  1. 祖先元素配置的 `perspective`（透视距离）**无法穿透传递**给子孙元素；
+  2. 子元素的 `transform-style: preserve-3d` **彻底失效**；
+  3. 子元素在三维空间中的 Z 轴位移（`translate3d(0, 0, Zpx)` / `translateZ`）**完全丧失纵深视差**（深度投影为零，卡片前后景深消失）；
+  4. 3D 倾斜旋转（`rotateX` / `rotateY`）在无透视投影下，直接退化为**2D 正交几何压扁**（仅存在 `cos(θ)` 极其微弱的平面缩放，肉眼几乎无法感知任何倾斜）。
+
+#### 6.2 四大生产级高频踩坑反模式 (Anti-Patterns)
+
+1. **反模式一：在 3D 外壳或舞台容器上习惯性声明 `overflow: hidden`（杀死透视链）**
+   - *错误做法*：为了让画板圆角不穿帮或遮挡溢出阴影，在 `.board-shell` 或 `.board-stage` 容器上添加 `border-radius: 24px; overflow: hidden;`。
+   - *破坏后果*：直接将内部整块 3D 拼图切片阵列打成 2D 扁平死图，切片丧失立体落差。
+   - *正解*：3D 变换传播路径上的所有容器，必须保持 `overflow: visible`，并显式配置 `transform-style: preserve-3d`。若需要圆角防溢出，裁剪属性只能下沉到叶子节点，或提升到与 3D 舞台平级的兄弟静态外壳上。
+
+2. **反模式二：`prefers-reduced-motion` 过度拦截（将交互动效当成眩晕 Bug 扼杀）**
+   - *错误做法*：在 `@media (prefers-reduced-motion: reduce)` 中粗暴声明 `.tile-cell { transform: none !important; }`，或在 JS 的 `handlePointerMove` 开头直接 `if (prefersReducedMotion()) return;`。
+   - *破坏后果*：在 Windows Server、Windows 远程桌面（RDP）或许多将系统“动画效果”关闭以提速的开发者机器上，Chromium 会将 `prefers-reduced-motion: reduce` 判定为 `true`。此时上述代码会无差别杀死用户**主动移动鼠标**时的物理跟随交互，导致用户在任何平台误判“动效彻底失效无法移动”。
+   - *正解*：区分**“自动非预期动画”**与**“用户主动交互动效”**。减弱动效仅用于关闭静止时的“自动正弦波呼吸浮动”，以及缩减切图时的离散过渡时间；在用户主动移动鼠标时，内联 3D 矩阵必须正常生效，绝不可使用 `!important` 强行置空。
+
+3. **反模式三：60fps rAF 逐帧更新与 CSS `transition: transform` 竞争打断**
+   - *错误做法*：在需要高频物理插值（Lerp）或跟随鼠标高频变换的 `.tile-cell` 上保留 `transition: transform 0.1s linear;`。
+   - *破坏后果*：每秒 60 次的 requestAnimationFrame 内联样式重写，会不断打断并重启 CSS 的线性过渡动画，导致运动严重掉帧、滞后甚至抖动卡滞。
+   - *正解*：持续跟随鼠标的运动层**严禁声明 `transition: transform`**，完全交给 JS 内的 `lerp` 算法逐帧平滑缓动；只有离散触发的动效（如点击切图翻转 `.flipping`）才允许挂载 CSS transition。
+
+4. **反模式四：切片拼图叠加 `mix-blend-mode: screen` 导致深色渐变滤黑变透明**
+   - *错误做法*：在切片内部贴图层使用 `mix-blend-mode: screen` 伪造玻璃叠加感。
+   - *破坏后果*：Screen（滤色）模式会把深色和黑色背景像素当作透明色过滤掉。若画卷或背景图片本身为暗色或深色渐变（如星空、深海），切片贴图会大面积透明隐形，误以为贴图加载失败。
+   - *正解*：切片贴图保持正常渲染（`opacity: 0.95`），玻璃质感纯靠表面独立的高光反射层（`.tile-specular` 结合渐变与 inset 阴影）叠加伪造。
+
+#### 6.3 标准破局架构：分层解耦与双透视注入 (Dual Perspective Model)
+
+```html
+<!-- 最外层视口容器：注入全局空间透视 -->
+<div class="glass-board-container" style="perspective: 1200px;">
+
+  <!-- 3D 外壳层：承载卡片自身俯仰 (rotateX/Y) 与动态深阴影，绝不设 overflow: hidden -->
+  <div class="board-shell" style="transform-style: preserve-3d; transform: perspective(1200px) rotateX(...) rotateY(...);">
+    
+    <!-- 3D 舞台层：重新注入局部透视，打通切片 Z 轴空间坐标系 -->
+    <div class="board-stage" style="perspective: 1000px; transform-style: preserve-3d;">
+      
+      <!-- 网格切片单元：承载棋盘格景深与局部差分倾斜 -->
+      <div class="tile-cell" style="transform: translate3d(0, 0, Zpx) rotateX(...) rotateY(...);">
+        
+        <!-- 内部拼图：下沉裁剪与像素级对齐，移除 mix-blend-mode -->
+        <div class="tile-image-slice" style="width: var(--sw); height: var(--sh); background-position: 0 0; transform: translate3d(-offsetLeft, -offsetTop, 0);"></div>
+        
+        <!-- 表面高光反射层：微视差跟随反光 -->
+        <div class="tile-specular" style="transform: translate3d(sheenX, sheenY, 0);"></div>
+      </div>
+    </div>
+
+    <!-- 侧边栏：反向微立体视差，独立分层 -->
+    <aside class="board-sidebar" style="transform: translate3d(0, 0, 16px) rotateX(...) rotateY(...);"></aside>
+  </div>
+</div>
+```
+
+#### 6.4 3D 控件排查核验清单 (Checklist for 3D UI)
+
+- [ ] **透视链畅通**：从视口容器到切片舞台，所有中间父容器均无 `overflow: hidden`、`overflow: auto` 或 `clip-path`。
+- [ ] **3D 上下文传递**：所有参与 3D 运动的父子层级均显式声明了 `transform-style: preserve-3d;`。
+- [ ] **双透视防御**：外壳有全局 `perspective`，内层舞台具备局部 `perspective`，保证嵌套 3D 矩阵计算稳定。
+- [ ] **帧率竞争防护**：跟随鼠标的高频变换层无 CSS `transition: transform`，纯靠 rAF / Lerp 平滑计算。
+- [ ] **无障碍兼容无毒化**：`@media (prefers-reduced-motion: reduce)` 仅关闭无交互时的自动呼吸漂移，严禁用 `transform: none !important` 粗暴杀死用户主动交互。
+- [ ] **切片精确对齐**：使用响应式尺寸变量（`--sw`, `--sh`）配合 `background-position: 0 0` 与 `-offsetLeft, -offsetTop` 抵消，严禁依赖受动画污染的 DOM 包围盒。
+
 
 ---
 

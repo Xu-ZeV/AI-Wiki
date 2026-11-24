@@ -9,3 +9,6 @@ __pycache__/
 
 # 本地教学与实战演示工程（独立本地运行，不纳入知识库版本管理）
 raw/project/demo/
+raw/project/ui-template-gallery/node_modules/
+raw/project/ui-template-gallery/dist/
+

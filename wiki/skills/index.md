@@ -23,3 +23,4 @@ updated: 2026-06-16T13:25:35+08:00
 - [[wiki/skills/litellm-interview-questions|LiteLLM 面试问题]]：围绕基础概念、配置实践、生产治理和故障排查整理的问答。
 - [[wiki/skills/ragflow-basic|RAGFlow 基础使用]]：RAGFlow 的 Docker 部署、模型配置、数据集、文档解析、检索测试、AI Chat/Search 和 API 接入。
 - [[wiki/skills/tavily-basic|Tavily 基础使用]]：Tavily 的 API Key、Python/JavaScript SDK、网页搜索、内容抽取、站点抓取和研究任务入门。
+- [[hardware-network-bridge|硬件设备跨网段网络透传与桥接]]：物理串口（COM/TTY）TCP透传与PTY虚拟串口桥接、物理以太网UDP组播（224.1.1.1）双向中继代理与多网卡回环死锁规避。

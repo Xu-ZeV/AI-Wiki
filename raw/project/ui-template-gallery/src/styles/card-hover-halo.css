@@ -1,0 +1,83 @@
+/**
+ * 南瓜助手列表卡片悬停跟随阴影与氛围光晕样式规范 (card-hover-halo)
+ * 遵循 ui-template-library 规范：
+ * 1. 【高斯弥散无界化】：filter: blur(18px) + radial-gradient，消隐生硬边缘
+ * 2. 【Damped Lerp 物理滞后滑行】：0.11 阻尼系数，单实例容器共享节点
+ * 3. 【微视差追踪】：卡片内微幅 offset 带来空间立体悬浮感
+ * 4. 【初态与衰减】：初次淡入防穿帮，移出容器透明度平滑归零
+ */
+
+.card-list-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+/* 核心跟随光晕节点（容器内单实例共享，位于底层 z-index: 1） */
+.card-hover-halo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  border: none !important;
+  outline: none !important;
+  /* 核心特性：高斯弥散无界化，彻底羽化边缘 */
+  filter: blur(18px);
+  -webkit-filter: blur(18px);
+  /* 核心材质：径向渐变温和消隐 + 暖橙与柔光氛围弥散 */
+  background: radial-gradient(
+    ellipse at center,
+    rgba(234, 88, 12, 0.38) 0%,
+    rgba(251, 146, 60, 0.24) 50%,
+    rgba(254, 215, 170, 0.12) 80%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  box-shadow: 0 16px 38px 2px rgba(234, 88, 12, 0.22),
+              0 6px 20px -2px rgba(15, 23, 42, 0.08);
+  will-change: transform, width, height, opacity;
+  transform-origin: center center;
+}
+
+/* 列表卡片本体：置于光晕上层 z-index: 2 */
+.halo-card {
+  position: relative;
+  z-index: 2;
+  background: #ffffff;
+  color: #1e293b;
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.06),
+              0 1px 2px -1px rgba(15, 23, 42, 0.04);
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.halo-card:hover {
+  border-color: rgba(251, 146, 60, 0.6);
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.07),
+              0 2px 4px -2px rgba(15, 23, 42, 0.05);
+}
+
+/* 无指针触控设备降级：安全隐藏跟随光晕，呈现优雅静态微投影 */
+@media (hover: none) {
+  .card-hover-halo {
+    display: none !important;
+  }
+  .halo-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* 减弱动效降级 */
+@media (prefers-reduced-motion: reduce) {
+  .card-hover-halo {
+    display: none !important;
+  }
+}
